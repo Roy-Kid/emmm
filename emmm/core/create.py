@@ -14,7 +14,7 @@ class Create:
         return atom
     
     @staticmethod
-    def create_full_atom(atomLabel, molLabel, type, q, x, y, z, neighbor=None):
+    def create_full_atom(atomLabel, molLabel, type, q, x, y, z):
 
         atomLabel = str(atomLabel)
         molLabel = str(molLabel)
@@ -28,8 +28,9 @@ class Create:
                                     parent = molLabel,\
                                     type = type,\
                                     q = q,\
-                                    coords = np.array([x,y,z]),
-                                    neighbor = neighbor)
+                                    x = x,
+                                    y = y,
+                                    z = z)
 
     @staticmethod
     def create_atoms(atom_style, atoms, topo=None, returnType='list'):
@@ -47,7 +48,7 @@ class Create:
                             x = atom[4],
                             y = atom[5],
                             z = atom[6],
-                            neighbor=None   
+  
                     ))
             return atoms_list
 
@@ -63,7 +64,7 @@ class Create:
                         x = atom[4],
                         y = atom[5],
                         z = atom[6],
-                        neighbor=None   
+ 
                 )
 
             return atoms_dict

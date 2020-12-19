@@ -1,4 +1,7 @@
 ### Python ###
+
+docs/_build/
+
 vis
 # Byte-compiled / optimized / DLL files
 __pycache__

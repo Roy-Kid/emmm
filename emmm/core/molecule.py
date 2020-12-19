@@ -11,32 +11,75 @@ class Molecule(Item):
     id = 0
 
     def __init__(self, label=None, type=None, parent=None, path=None, isAdhere=False):
-        super().__init__(label=label, type=type, parent=parent, path=path)
 
-        self.isAdhere = isAdhere
-        self.id = Molecule.id
+        self.container = list()
+
+        self._id = Molecule.id
         Molecule.id += 1
 
     def __repr__(self) -> str:
         return f'< molecule: {self.label} in {self.parent}>'
 
+    __str__ = __repr__ 
+
+    @property
+    def label(self):
+        return self._label
+
+    @label.setter
+    def label(self, v):
+        self._label = v
+
+    @property
+    def type(self):
+        return self._type
+
+    @type.setter
+    def type(self, v):
+        self._type = v
+
+    @property
+    def parent(self):
+        return self._parent
+
+    @parent.setter
+    def parent(self, v):
+        self._parent = v
+
+    @property
+    def path(self):
+        return self._path
+
+    @path.setter
+    def path(self, v):
+        self._path = v
+
+    @property
+    def isAdhere(self):
+        return self._isAdhere
+
+    @isAdhere.setter
+    def isAdhere(self, v):
+        self._isAdhere = v
+
     def get_items(self):
         return self
 
     def add_items(self, *items):
-        """ add a set of item to the molecule. NOTE: if you want to pass a list or tuple you should use *listOfItem to unpack it. 
+        """ 向molecule中添加item
         """
         for item in items:
             if isinstance(item, Atom):
                 item.parent = self.label
                 # Item has append method to add item to self.container
-                self.append(item)
+                self.container.append(item)
                 self.coords.append(item.position)
 
             elif isinstance(item, Molecule):
                 item.parent = self.label
-                self._coords.append(*item.coords)
-                self.append(item)
+                for i in item.coords:
+                    self.coords.append(i)
+                self.container.append(item)
 
     def __getitem__(self, label):
 
@@ -46,9 +89,7 @@ class Molecule(Item):
                     return item
 
         elif isinstance(label, slice):
-            raise TypeError('Not support slice yet')
-
-   # def rm_item(self, label):
+            raise TypeError(_('暂不支持切片调用'))
 
     def flatten(self, dir=None, isSelf=False):
 
@@ -68,6 +109,7 @@ class Molecule(Item):
             elif isinstance(item, Molecule) and isSelf:
                 atoms.append(item)
                 atoms.append(item.flatten(dir))
+
             elif isinstance(item, Molecule) and not isSelf:
                 atoms.extend(item.flatten(dir))
 
@@ -78,7 +120,7 @@ class Molecule(Item):
         atoms = self.flatten()
         vec = np.array([0, 0, 0], dtype=float)
         for atom in atoms:
-            vec += atom.coords
+            vec += atom.position
 
         centroid = vec/len(atoms)
         setattr(self, 'position', centroid)
