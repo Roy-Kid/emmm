@@ -10,7 +10,7 @@ class InputBase:
         
         self.world = world
 
-    def group_by(self, label:str, atoms:list, reference:str='molLabel'):
+    def group_by(self, label:str, atoms:list, reference:str='parent'):
         """ Util method to group atoms by a certain reference. For example, you can group them by the molLable, which means those atoms in a same molecule. 
 
         Args:
@@ -28,10 +28,9 @@ class InputBase:
             atom.parent = ref
             grouped_atoms[ref].append(atom)
         ## above test passed
-
-        molecules = Molecule(label)
+        molecules = list()
         for ref, gatom in grouped_atoms.items():
             mol = Molecule(ref)
             mol.add_items(*gatom)
-            molecules.add_items(mol)
+            molecules.append(mol)
         return molecules

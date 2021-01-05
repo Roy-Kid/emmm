@@ -1,15 +1,27 @@
 #author: Roy Kid
 
-from emmm.core.create import Create
+from collections import defaultdict
+from emmm.core.create import CreateAtom
 from . import InputBase
+import sys
 
+class LmpData:
+
+    def __init__(self) -> None:
+        self.filename = str()
+
+
+    def __str__(self):
+        print(f'< MutureData of {self.filename} >')
 
 
 class INlmpdat(InputBase):
 
     def __init__(self, world):
         super().__init__(world)
-        self.temp_system = dict()
+        self.rawData = dict()
+        self.mutureData = LmpData()
+        
 
     def _read_title(self, line):
         self.comment = line
@@ -34,7 +46,7 @@ class INlmpdat(InputBase):
     def read_data(self, file, atom_style='full'):
 
         self.file_name = file
-
+        print(sys.path)
         self.file = open(self.file_name)
 
         line = self._readline()
@@ -63,61 +75,13 @@ class INlmpdat(InputBase):
 
             i+=1
 
-        # while parse is complete
-        return self.input_completed()
-        
 
-    def input_completed(self):
-        """to convert self.temp_system to System class; to convert raw atoms to molecules tree and atoms graph
-        """
-
-        self.file.close()
-        if len(self.temp_system['Atoms'][0]) == 7:
-            self.temp_system['atom_style'] = 'full'
-
-
-        elif 'atom_style' not in self.temp_system:
-            self.temp_system['atom_style'] = input('> enter atom style')
-
-        else:
-            raise KeyError('atom style undefined')
-
-        ## convert temp_system to System
-
-        temp2sys = {
-            'xlo':'xlo',
-            'ylo':'ylo',
-            'zlo':'zlo',
-            'xhi':'xhi',
-            'yhi':'yhi',
-            'zhi':'zhi',
-            'Masses': 'masses',
-            'atom_style':'atomStyle',
-            'Atoms':'atoms',
-            'atoms':'atomNum',
-            'atom types':'atomTypeNum',
-            'Bonds':'bonds',
-            'bonds':'bondNum',
-            'bond types':'bondTypeNum',
-            'Angles':'angles',
-            'angles':'angleNum',
-            'angle types':'angleTypeNum',
-            'Dihedrals':'dihedral',
-            'dihedrals':'dihedralNum',
-            'dihedral types':'dihedralTypeNum',
-            'Imrpopers':'impropers',
-            'impropers':'improperNum',
-            'improper types':'improperTypeNum',
-        }
-
-        for k,v in self.temp_system.items():
-            self.world[temp2sys[k]] = v
-
-
-        atoms = Create.create_atoms(self.temp_system['atom_style'], self.temp_system['Atoms'], returnType='list')
+        create = CreateAtom.genericAtoms(atom_style)
+        atoms = create(self.rawData['Atoms'])
+        self.mutureData.atoms = atoms
 
         # add topo
-        for b in self.temp_system['Bonds']:
+        for b in self.rawData['Bonds']:
             # b[0] id
             # b[1] type
             clabel = b[2] # center atom id
@@ -131,15 +95,13 @@ class INlmpdat(InputBase):
                     patom = atom
             
             if catom is None or patom is None:
-                raise ValueError('')
+                raise ValueError(_('拓扑结构没有匹配到相应的Atom'))
             catom.add_neighbors(patom)
         
-        mol = self.group_by('lmpdat', atoms, reference='parent')
+        self.mutureData.molecules = self.group_by('lmpdat', atoms, reference='parent')
         # print(mol, mol.values())
         # defaultdict(<class 'emmm.core.molecule.Molecule'>, {'1': < molecule: 1 in None>, '2': < molecule: 2 in None>, '3': < molecule: 3 in None>}) dict_values([< molecule: 1 in None>, < molecule: 2 in None>, < molecule: 3 in None>])
-        self.world.items.add_items(mol)
-
-        return mol
+        return self.mutureData
 
     def _read_atoms(self, line):
         line = self._skipblankline(line)        
@@ -151,7 +113,7 @@ class INlmpdat(InputBase):
                 Atoms.append(line)
                 line = self._readline()
 
-            self.temp_system['Atoms'] = Atoms
+            self.rawData['Atoms'] = Atoms
 
         return line 
 
@@ -165,7 +127,7 @@ class INlmpdat(InputBase):
             while line != '\n' and line != '':
                 Bonds.append(self._deal_with_comment(line.split()))
                 line = self._readline()
-            self.temp_system['Bonds'] = Bonds
+            self.rawData['Bonds'] = Bonds
 
         return line
 
@@ -179,7 +141,7 @@ class INlmpdat(InputBase):
                 self.Angles.append(self._deal_with_comment(line.split()))
                 line = self._readline()
 
-            self.temp_system['Angles'] = self.Angles
+            self.rawData['Angles'] = self.Angles
 
         return line
 
@@ -193,7 +155,7 @@ class INlmpdat(InputBase):
                 self.Dihedrals.append(self._deal_with_comment(line.split()))
                 line = self._readline()
 
-            self.temp_system['Dihedrals'] = self.Dihedrals
+            self.rawData['Dihedrals'] = self.Dihedrals
 
         return line
 
@@ -207,7 +169,7 @@ class INlmpdat(InputBase):
                 self.Impropers.append(self._deal_with_comment(line.split()))
                 line = self._readline()
 
-            self.temp_system['Impropers'] = self.Impropers
+            self.rawData['Impropers'] = self.Impropers
 
         return line
 
@@ -223,7 +185,7 @@ class INlmpdat(InputBase):
                 self.velocities.append(line)
                 line = self._readline()
 
-            self.temp_system['velocities'] = self.velocities
+            self.rawData['velocities'] = self.velocities
         return line
 
     def _read_improper_coeffs(self, line):
@@ -237,7 +199,7 @@ class INlmpdat(InputBase):
                 self.improper_coeff.append(line)
                 line = self._readline()
 
-            self.temp_system['improper_coeff'] = self.improper_coeff
+            self.rawData['improper_coeff'] = self.improper_coeff
         return line
 
     def _read_dihedral_coeffs(self, line):
@@ -251,7 +213,7 @@ class INlmpdat(InputBase):
                 self.dihedral_coeffs.append(line)
                 line = self._readline()
 
-            self.temp_system['dihedral_coeffs'] = self.dihedral_coeffs
+            self.rawData['dihedral_coeffs'] = self.dihedral_coeffs
         return line
 
     def _read_angle_coeffs(self, line):
@@ -264,7 +226,7 @@ class INlmpdat(InputBase):
                 line = self._deal_with_comment(line.split())
                 self.angle_coeffs.append(line)
                 line = self._readline()
-            self.temp_system['angle_coeffs'] = self.angle_coeffs
+            self.rawData['angle_coeffs'] = self.angle_coeffs
         return line
 
     def _read_bond_coeffs(self, line):
@@ -277,7 +239,7 @@ class INlmpdat(InputBase):
                 line = self._deal_with_comment(line.split())
                 self.bond_coeffs.append(line)
                 line = self._readline()    
-            self.temp_system['bond_coeffs'] = self.bond_coeffs
+            self.rawData['bond_coeffs'] = self.bond_coeffs
         return line    
 
     def _read_pair_coeffs(self, line):
@@ -290,7 +252,7 @@ class INlmpdat(InputBase):
                 line = self._deal_with_comment(line.split())
                 self.pair_coeffs.append(line)
                 line = self._readline()
-            self.temp_system['pair_coeffs'] = self.pair_coeffs
+            self.rawData['pair_coeffs'] = self.pair_coeffs
         return line
 
     def _read_masses(self, line):
@@ -304,7 +266,7 @@ class INlmpdat(InputBase):
                 line = self._deal_with_comment(line.split())
                 self.masses.append(line)
                 line = self._readline()
-            self.temp_system['Masses'] = self.masses
+            self.rawData['Masses'] = self.masses
             
         return line
 
@@ -324,7 +286,7 @@ class INlmpdat(InputBase):
 
             line = self._deal_with_comment(line.split())
 
-            self.temp_system[KEYWORD] = line[0]
+            self.rawData[KEYWORD] = line[0]
 
             line = self._readline()
             KEYWORD = _check_system(line)
@@ -347,8 +309,8 @@ class INlmpdat(InputBase):
         KEYWORD = _check_system(line)
         while KEYWORD:
             line = self._deal_with_comment(line.split())
-            self.temp_system[KEYWORD] = line[0]
-            self.temp_system[line[-1]] = line[1]
+            self.rawData[KEYWORD] = line[0]
+            self.rawData[line[-1]] = line[1]
             
             line = self._readline()
             KEYWORD = _check_system(line)

@@ -107,17 +107,53 @@ class Item:
     def z(self, z):
         self._z = z
 
-
-    
-
     def move(self, x, y, z):
         pass
 
     def randmove(self, length):
         pass
 
-    def rotate(self, theta, x, y, z, x0=0, y0=0, z0=0):
+    def rotate(self, theta, x, y, z, xo=0, yo=0, zo=0):
         pass
+
+    def _quaternion2rotmatrix(self, theta, x, y, z):
+
+        # rotation axis
+        x = float(x)
+        y = float(y)
+        z = float(z)
+
+        if x==0 and y==0 and z==0:
+            raise ValueError(_('旋转轴设置错误'))
+
+        rotAxis = np.array([x, y, z])
+
+        rotAxis = rotAxis/np.linalg.norm(rotAxis)
+        rotAxisX, rotAxisY, rotAxisZ = rotAxis
+
+        # half theta = theta/2
+        htheta = np.pi*theta/2
+        # sin theta = sin(htheta)
+        stheta = np.sin(htheta)
+
+        a = np.cos(htheta)
+        b = stheta*rotAxisX
+        c = stheta*rotAxisY
+        d = stheta*rotAxisZ
+        b2 = b**2
+        c2 = c**2
+        d2 = d**2
+        ab = a*b
+        ac = a*c
+        ad = a*d
+        bc = b*c
+        bd = b*d
+        cd = c*d
+
+        # rotation matrix
+        return np.array([[1-2*(c2+d2), 2*(bc-ad), 2*(ac+bd)],
+                         [2*(bc+ad), 1-2*(b2+d2), 2*(cd-ab)],
+                         [2*(bd-ac), 2*(ab+cd), 1-2*(b2+c2)]])
 
     def rotate_orth(self, theta, x, y, z, xAxis, yAxis, zAxis):
         pass

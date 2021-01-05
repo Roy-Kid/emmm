@@ -3,7 +3,7 @@
 # This file will contain the constructors for the basic
 #  lattcie structure like sc, bcc, fcc, dc, etc
 
-from emmm.core.create import Create
+from emmm.core.create import CreateAtom
 from emmm.core.atom import Atom
 from emmm.core.molecule import Molecule
 from . import InorganicBase

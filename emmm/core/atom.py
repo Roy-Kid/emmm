@@ -2,20 +2,22 @@
 
 from emmm.core.item import Item
 import numpy as np
+from emmm.i18n.i18n import _
 
 class Atom(Item):
 
-    def __init__(self, label=None, type=None, parent=None, path=None):
+    def __init__(self, label=None, type=None):
 
         super().__init__()
 
-        self.label = label
-        self.type = type
-        self.parent = parent
-        self.path = path
+        self._label = label
+        self._type = type
+
+        self._duplicate = [self]
+
 
     def __str__(self) -> str:
-        return f' < Atom: {self.label} in {self.parent} > '
+        return f' < Atom: {self.label} in {self.parent} at {self.position}> '
 
     __repr__ = __str__ 
 
@@ -60,6 +62,7 @@ class Atom(Item):
         """
         vec = np.array([x, y, z], dtype=float)
         self.position += vec
+        return self
 
     def randmove(self, length):
         """ 以当前位置为球心, length为半径随机方向移动
@@ -70,76 +73,57 @@ class Atom(Item):
         vec /= np.linalg.norm(vec)
         vec *= length
 
-        self.position += vec
+        self.move(*vec)
+        return self
 
-    def rotate(self, theta, x, y, z, x0=0, y0=0, z0=0):
-        """ 以四元数的方式旋转atom. (x0=0,y0=0,z0=0)到(x,y,z)形成旋转轴, theta则是围绕旋转轴逆时针旋转的弧度(多少个π). 
+    def rotate(self, theta, x, y, z, xo=0, yo=0, zo=0):
+        """ 以四元数的方式旋转atom. (x,y,z)是空间指向, (xo,yo,zo)是中心点, 即旋转轴为(x-xo,y-yo,z-zo). theta则是围绕旋转轴逆时针旋转的弧度(多少个π).
 
         Args:
             theta (radian): theta:=theta*PI
             x (float): to
             y (float): to
             z (float): to
-            x0 (float): from
-            y0 (float): from
-            z0 (float): from
+            xo (float): from
+            yo (float): from
+            zo (float): from
         """
         # rotation axis
-        x = float(x)
-        y = float(y)
-        z = float(z)
-        x0 = float(x0)
-        y0 = float(y0)
-        z0 = float(z0)
-        disVec = np.array([x0, y0, z0])
-        rotAxis = np.array([x, y, z])
 
-        rotAxis = rotAxis/np.linalg.norm(rotAxis)
-        rotAxisX, rotAxisY, rotAxisZ = rotAxis
+        xo = float(xo)
+        yo = float(yo)
+        zo = float(zo)
+        disVec = np.array([xo, yo, zo])
 
-        # half theta = theta/2
-        htheta = np.pi*theta/2
-        # sin theta = sin(htheta)
-        stheta = np.sin(htheta)
+        rotm = self._quaternion2rotmatrix(theta, x, y, z)
 
-        a = np.cos(htheta)
-        b = stheta*rotAxisX
-        c = stheta*rotAxisY
-        d = stheta*rotAxisZ
-        b2 = b**2
-        c2 = c**2
-        d2 = d**2
-        ab = a*b
-        ac = a*c
-        ad = a*d
-        bc = b*c
-        bd = b*d
-        cd = c*d
+        self.move(*-disVec)
 
-        # rotation matrix
-        rotm = np.array([[1-2*(c2+d2), 2*(bc-ad), 2*(ac+bd)],
-                         [2*(bc+ad), 1-2*(b2+d2), 2*(cd-ab)],
-                         [2*(bd-ac), 2*(ab+cd), 1-2*(b2+c2)]])
-
-        self.position -= disVec
+        # np.dot(rotm, self.position, out=self.position)
         self.position = np.dot(rotm, self.position)
-        self.position += disVec
+
+        self.move(*disVec)
+        return self
+
 
     def rotate_orth(self, theta, x, y, z, xAxis, yAxis, zAxis):
 
         """ 围绕(x,y,z)点的x/y/z轴旋转theta角
 
-        Raises:
+        Raises:        self.x = pos[0]
+        self.y = pos[1]
+        self.z = pos[2]
             SyntaxError: [description]
         """
 
-        if (x, y, z) == (1, 0, 0) or\
-           (x, y, z) == (0, 1, 0) or\
-           (x, y, z) == (0, 0, 1):
+        if (xAxis, yAxis, zAxis) == (1, 0, 0) or\
+           (xAxis, yAxis, zAxis) == (0, 1, 0) or\
+           (xAxis, yAxis, zAxis) == (0, 0, 1):
 
-            self.rotate(self, theta, x+xAxis, y+yAxis, z+zAxis, x, y, z)
+            self.rotate(theta, xAxis, yAxis, zAxis, x, y, z)
         else:
             raise SyntaxError(_('为了指定空间中(x,y,z)的旋转轴的朝向, 需要将方向设定为1. 如: 旋转轴指向x方向则xAxis=1, yAxis=zAxis=0'))
+        return self
 
     def seperate_with(self, targetItem, type, value):
         """ [Bioperate] to seperate two items in opposite direction: (rel)ative distance is move EACH item in a distance under system unit; (abs)olute distance is the time of current distance of two items, e.g.: item+=unit_orientation_vector*rel; item+=orientation_vector*abs.
@@ -153,16 +137,22 @@ class Atom(Item):
         if all(self.position == targetItem.position):
             raise ValueError(_("两个atom完全重叠, 无法计算方向矢量"))
         oriVec = targetItem.position - self.position
-        print(oriVec, targetItem.position, self.position)
-        uniVec = oriVec/np.linalg.norm(oriVec)
-        print(oriVec)
+
+        distance = np.linalg.norm(oriVec)
+
+        uniVec = oriVec/distance
 
         if type == 'relative' or type == 'rel':
+
+            distance = distance*(value-1)/2
+
+            self.move( *-uniVec*distance )
+            targetItem.move(*+uniVec*distance)
+
+        if type == 'abusolute' or type == 'abs':
             self.move( *-uniVec*value )
             targetItem.move(*+uniVec*value)
-        if type == 'abusolute' or type == 'abs':
-            self.move( *-oriVec*value )
-            targetItem.move(*+oriVec*value)
+        return self
 
     def distance_to(self, targetItem):
         """[Bioperate] return the distance to a target item
@@ -172,7 +162,6 @@ class Atom(Item):
         """
         coords1 = self.position
         coords2 = targetItem.position
-        print(coords1, coords2)
 
         dist = np.linalg.norm(coords2-coords1)
 
@@ -180,7 +169,8 @@ class Atom(Item):
 
     def get_replica(self, newLabal):
 
-        atom = Atom()
+        atom = Atom(newLabal)
+
         for k,v in self.__dict__.items():
             if k != "_Item__id":
                 setattr(atom, str(k), v)
@@ -189,3 +179,16 @@ class Atom(Item):
     @property
     def pwd(self):
         return self.path
+
+    def duplicate(self, n, x, y, z):
+        
+        temp = []
+        for j in self._duplicate:
+            for i in range(1, n+1):
+                atom = j.get_replica(j.label)
+                atom.move(i*x, i*y, i*z)
+                temp.append(atom)
+
+        self._duplicate.extend(temp)
+
+        return self

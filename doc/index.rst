@@ -32,9 +32,5 @@ Emmm 简介
 
 .. toctree::
    :maxdepth: 2
-   
+
    modules/modules
-   modules/emmm.core
-   modules/emmm.plugins.input
-   modules/emmm.plugins.output
-   modules/emmm.plugins.precast

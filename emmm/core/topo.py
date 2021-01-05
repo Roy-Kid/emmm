@@ -8,9 +8,9 @@ class Topo:
     def __init__(self, world) -> None:
         self.world = world
         
-        self.world['topoBond'] = list()
-        self.world['topoAngle'] = list()
-        self.world['topoDihedral'] = list()
+        # self.world['topoBond'] = list()
+        # self.world['topoAngle'] = list()
+        # self.world['topoDihedral'] = list()
 
     def search_topo(self, item, isBond=True, isAngle=True, isDihedral=True):
         """to search the topological structure for the passed molecules.

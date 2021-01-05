@@ -1,4 +1,4 @@
-from emmm.core.create import Create
+from emmm.core.create import CreateAtom
 from emmm.core.molecule import Molecule
 from . import InorganicBase
 
