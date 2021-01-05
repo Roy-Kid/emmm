@@ -161,3 +161,6 @@ class TestAtom:
     def test_distance(self, atoms, targetAtom, exception):
         dist = atoms.distance_to(targetAtom)
         assert dist == exception
+
+    def test_duplicate(self, atom000):
+        atoms = atom000.duplicate(3, 1, 0, 0).duplicate(3, 0, 1, 0)

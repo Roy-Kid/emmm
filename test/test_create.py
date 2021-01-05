@@ -1,8 +1,7 @@
 # author: Roy Kid
 # contact: lijichen365@126.com
 
-from test.conftest import h2o
-from emmm.core.create import Create
+from emmm.core.create import CreateAtom, CreateMolecule
 import pytest
 
 
@@ -23,10 +22,11 @@ raws = [
 @pytest.fixture()
 def setup_atom(request):
     param = request.param
-    create = Create('atom', param['type'])
     if param['type'] == 'full':
+        create = CreateAtom.fullAtom
         atom = create(param['label'], param['type'], param['q'], param['x'], param['y'], param['z'])
     elif param['type'] == 'molecular':
+        create = CreateAtom.molecularAtom
         atom = create(param['label'], param['type'], param['x'], param['y'], param['z'])
     
     return atom
@@ -41,16 +41,12 @@ def test_full_atom(setup_atom, setup_field):
     for k,v in setup_field.items():
         assert getattr(setup_atom, k) == v
 
-
-
-
-
 def test_h2o():
-    create = Create('atom', 'molecular')
+    create = CreateAtom.molecularAtom
     h1 = create('h1', 'h', -1, 1, 0)
     o = create('o', 'o', 0, 0, 0)
     h2 = create('h2', 'h', 1, 1, 0)  
-    create = Create('molecule', 'lmp')
+    create = CreateMolecule.lmpMolecule
     h2o = create('h2o', 'h2o', h1, o, h2)
 
     assert h2o['h1'].parent == 'h2o'
