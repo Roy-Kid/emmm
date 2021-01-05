@@ -7,9 +7,9 @@
 
 ``Atom`` 和 ``Molecule`` 统称为 ``Item``. 一个 ``Molecule`` 可以储存多个 ``Atom`` 形成一个初级结构, 可以储存多个 ``Molecule`` 形成更高一级的结构, 也可以混合储存这两种 ``Item`` . ``Item`` 可以看作空间中的一个实体, 都可以进行 ``move`` 平移, ``rotate`` 旋转等单元操作, 也可以使用 ``seperate_with`` 和其他 ``Item`` 相分离, ``distance_to`` 测量距离这样的二元操作. 
 
-这个软件的使用思路应该是自下向上, 我们先生成 `Atom`, 再将其储存在 `Molecule` 中, 层层向上.
+这个软件的使用思路应该是自下向上, 我们先生成 ``Atom``, 再将其储存在 ``Molecule`` 中, 层层向上.
 
-`Atom` 储存每个原子单元的信息. 生成每个 `Atom` 应该使 `Create` 类, 这样就可以免去数据类型校验等一系列细节:
+``Atom`` 储存每个原子单元的信息. 生成每个 ``Atom`` 应该使 ``Create`` 类, 这样就可以免去数据类型校验等一系列细节:
 
 .. code-block:: python
 
@@ -22,9 +22,10 @@ h1 = create('h1', 'h', -1, 1, 0)
 o = create('o', 'o', 0, 0, 0)
 h2 = create('h2', 'h', 1, 1, 0)  
 
-`label` 是每个原子的标签, 可以重复, 其中一个作用是从 `Molecule` 中索引这个原子. `type` 和坐标都是LAMMPS中的标准, 而 `id` 等会在导出的时候自动生成. 然后我们需要把原子连接起来: 
+``label`` 是每个原子的标签, 可以重复, 其中一个作用是从 ``Molecule`` 中索引这个原子. ``type`` 和坐标都是LAMMPS中的标准, 而 ``id`` 等会在导出的时候自动生成. 然后我们需要把原子连接起来: 
 
 .. code-block:: python
+
 o.add_neighbors(h1, h2)
 ### 等价于 ###
 h1.add_neighbors(o)
@@ -54,14 +55,31 @@ world.xhi = 38.8
 操作
 ************
 
-对于`Item`, 我们可以在空间中操作它们
+对于 ``Item`` , 我们可以在空间中操作它们
 
 * move() 在空间中移动
 * rotate() 旋转
 * rotate_orth() 在某个平面内旋转
-* seperate_with() 和另一个 `Item` 分离
+* seperate_with() 和另一个 ``Item`` 分离
 * get_replica() 复制自己
 * duplicate() 批量复制自己
 
+使用插件读取文件
+*****************
+
+手动构建一个个分子会非常繁琐, 我们可以使用插件去读取文件中的模型. 
+
+.. code-block:: python
 
 
+world = em.World() # 初始化一个world
+reader = world.active_plugin('INlmpdat') # 读取INlmpdat插件
+h2o = reader.read_data('h2o.lmpdat') # 使用插件读取文件
+
+``read_data`` 将返回一个数据结构, 其中包括已经处理过的 ``lmpdat`` 文件所有信息. 可以通过访问属性的方式获取信息:
+
+.. code-block:: python
+
+h2o.atoms
+h2o.molecules
+h2o.xlo
