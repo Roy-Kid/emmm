@@ -1,7 +1,7 @@
 # author: Roy Kid
 
 import numpy as np
-from uuid import uuid4
+import copy
 
 class Item:
 
@@ -15,7 +15,6 @@ class Item:
         self._x = float()
         self._y = float()
         self._z = float()
-        self.__id = uuid4()
 
         self.container = list()
         self.__pos = 0
@@ -25,7 +24,7 @@ class Item:
 
     @property
     def id(self):
-        return self.__id
+        return id(self)
 
     def __iter__(self):
         return iter(self.container)
@@ -38,6 +37,7 @@ class Item:
             raise StopIteration
         return n
 
+    @property
     def ls(self):
         print(self.container)
 
@@ -165,7 +165,9 @@ class Item:
         pass
 
     def get_replica(self, newLabal):
-        pass
+        newMol = copy.deepcopy(self)
+        newMol.label = newLabal
+        return newMol
 
     def compute_bounding_box(self):
         pass

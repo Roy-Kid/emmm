@@ -3,14 +3,18 @@ class ForceField:
     def __init__(self, world):
         
         self.world = world
+        self.bondTypes = list()
+        self.bondCoeffs = list()
 
-    def set_bond_coeffs(self, style, label, item1, item2, *coeffs):
 
-        # self.world['bondCoeffs] -> (style, label, item1, item2, coeff1, coeff2)
+    def set_bond_coeffs(self, style, item1, item2, *coeffs):
+        style = str(style)
+        item1 = str(item1)
+        item2 = str(item2)
 
-        self.world['bondStyle'] = style
-        ## self.world['bondLabel']
-        self.world.setdefault('bondCoeffs', list).append([str(item1), str(item2), *map(str,coeffs)])
+        self.bondCoeffs.append([style, item1, item2, *map(str,coeffs)])
+
+        self.bondTypes.append(sorted([item1, item2]))
 
     def set_angle_coeffs(self, style, item1, item2, item3, *coeffs):
         self.world['angleStyle'] = style

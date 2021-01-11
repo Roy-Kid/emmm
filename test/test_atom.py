@@ -5,8 +5,8 @@ import pytest
 class TestAtom:
 
     data = [
-        ['atom000', 'full', 0, 0, 1, 0],
-        ['atom100', 'molecular', 1, 0, 0],
+        ['atom000', 'parent', 'full', 0, 0, 1, 0],
+        ['atom100', 'parent', 'full', 0, 1, 0, 0],
     ]
 
     @pytest.mark.parametrize('atoms', data, indirect=True)
@@ -22,8 +22,8 @@ class TestAtom:
         assert all(atom.position == position)
 
     tData = [
-        ['atom100', 'molecular', 1, 0, 0],        
-        ['atom000', 'full', 0, 0, 1, 0],
+        ['atom100', 'parent', 'molecular', 1, 0, 0],        
+        ['atom000', 'parent', 'full', 0, 0, 1, 0],
     ]
     exception = [1.414, 1.414]
 
@@ -44,11 +44,11 @@ class TestAtom:
         assert aa.id != atoms.id
 
     data = [
-        ['atom000', 'full', 0, 0, 0, 0]
+        ['atom000', 'parent', 'full', 0, 0, 0, 0]
     ]
 
     tData = [
-        ['atom100', 'full', 0, 2, 0, 0]
+        ['atom100', 'parent', 'full', 0, 2, 0, 0]
     ]
 
 
@@ -72,11 +72,11 @@ class TestAtom:
 
 
     data = [
-        ['atom000', 'full', 0, 0, 0, 0]
+        ['atom000', 'parent', 'full', 0, 0, 0, 0]
     ]
 
     tData = [
-        ['atom100', 'full', 0, 2, 0, 0]
+        ['atom100', 'parent', 'full', 0, 2, 0, 0]
     ]
 
 
@@ -98,9 +98,9 @@ class TestAtom:
 
 
     data = [
-        ['atom-110', 'full', 0, -1, 1, 0],
-        ['atom000', 'molecular', 0, 0, 0],
-        ['atom110', 'molecular', 1, 1, 0]
+        ['atom-110', 'parent', 'full', 0, -1, 1, 0],
+        ['atom000', 'parent', 'molecular', 0, 0, 0],
+        ['atom110', 'parent', 'molecular', 1, 1, 0]
     ]
 
     rotate = [
@@ -126,7 +126,7 @@ class TestAtom:
 
 
     data = [
-        ['atom010', 'molecular', 0, 1, 0], 
+        ['atom010', 'parent', 'molecular', 0, 1, 0], 
 
     ]
     exception = [
@@ -144,15 +144,15 @@ class TestAtom:
 
     
     data = [
-        ['atom000', 'molecular', 0, 0, 0],
-        ['atom100', 'molecular', 1, 0, 0],
-        ['atom110', 'molecular', 1, 1, 0]  
+        ['atom000','parent', 'molecular', 0, 0, 0],
+        ['atom100','parent', 'molecular', 1, 0, 0],
+        ['atom110','parent', 'molecular', 1, 1, 0]  
     ]
 
     targetAtom = [
-        ['atom000', 'molecular', 0, 0, 0],
-        ['atom010', 'molecular', 0, 1, 0],
-        ['atom111', 'molecular', 1, 1, 1]          
+        ['atom000','parent', 'molecular', 0, 0, 0],
+        ['atom010','parent', 'molecular', 0, 1, 0],
+        ['atom111','parent', 'molecular', 1, 1, 1]          
     ]
 
     exception = [0, 2**0.5, 1]

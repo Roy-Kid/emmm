@@ -10,8 +10,8 @@ import pytest
 # data 为字段对应的数据
 
 raws = [
-    {'label':'full', 'type':'full', 'q':0, 'x':0, 'y':0, 'z':0},
-    {'label':'mol', 'type':'molecular', 'x':1, 'y':0, 'z':0}
+    {'label':'full', 'parent': 'parent', 'type':'full', 'q':0, 'x':0, 'y':0, 'z':0},
+    {'label':'mol', 'parent': 'parent', 'type':'molecular', 'x':1, 'y':0, 'z':0}
 ]
 
 # 测试部分
@@ -24,10 +24,10 @@ def setup_atom(request):
     param = request.param
     if param['type'] == 'full':
         create = CreateAtom.fullAtom
-        atom = create(param['label'], param['type'], param['q'], param['x'], param['y'], param['z'])
+        atom = create(param['label'], param['parent'], param['type'], param['q'], param['x'], param['y'], param['z'])
     elif param['type'] == 'molecular':
         create = CreateAtom.molecularAtom
-        atom = create(param['label'], param['type'], param['x'], param['y'], param['z'])
+        atom = create(param['label'], param['parent'], param['type'], param['x'], param['y'], param['z'])
     
     return atom
 
@@ -36,16 +36,16 @@ def setup_field(request):
     return request.param
 
 
-@pytest.mark.parametrize('setup_atom,setup_field', zip(raws, raws), indirect=True)
+@pytest.mark.parametrize('setup_atom, setup_field', zip(raws, raws), indirect=True)
 def test_full_atom(setup_atom, setup_field):
     for k,v in setup_field.items():
         assert getattr(setup_atom, k) == v
 
 def test_h2o():
     create = CreateAtom.molecularAtom
-    h1 = create('h1', 'h', -1, 1, 0)
-    o = create('o', 'o', 0, 0, 0)
-    h2 = create('h2', 'h', 1, 1, 0)  
+    h1 = create('h1', 'parent', 'h', -1, 1, 0)
+    o = create('o', 'parent', 'o', 0, 0, 0)
+    h2 = create('h2', 'parent', 'h', 1, 1, 0)  
     create = CreateMolecule.lmpMolecule
     h2o = create('h2o', 'h2o', h1, o, h2)
 

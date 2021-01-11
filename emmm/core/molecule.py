@@ -49,6 +49,9 @@ class Molecule(Item):
                 if item.label == label:
                     return item
 
+        elif isinstance(label, int):
+            return self.container[label]
+
         elif isinstance(label, slice):
             raise TypeError(_('暂不支持切片调用'))
 
@@ -98,18 +101,18 @@ class Molecule(Item):
 
         return m
 
-    def get_replica(self, newLabal):
+    # def get_replica(self, newLabal):
 
-        newMol = Molecule(newLabal)
-        for k, v in self.__dict__.items():
-            if k != "_Item__id" and k != "container":
+    #     newMol = Molecule(newLabal)
+    #     for k, v in self.__dict__.items():
+    #         if k != "_Item__id" and k != "container":
 
-                setattr(newMol, str(k), v)
+    #             setattr(newMol, str(k), v)
 
-        for item in self:
-            newMol.add_items(item.get_replica(item.label))
+    #     for item in self:
+    #         newMol.add_items(item.get_replica(item.label))
 
-        return newMol
+    #     return newMol
 
     @property
     def position(self):

@@ -1,26 +1,15 @@
 #author: Roy Kid
 
-from collections import defaultdict
+from emmm.plugins.input.input_base import InputData
 from emmm.core.create import CreateAtom
 from . import InputBase
-import sys
-
-class LmpData:
-
-    def __init__(self) -> None:
-        self.filename = str()
-
-
-    def __str__(self):
-        print(f'< MutureData of {self.filename} >')
-
 
 class INlmpdat(InputBase):
 
     def __init__(self, world):
         super().__init__(world)
         self.rawData = dict()
-        self.mutureData = LmpData()
+        self.mutureData = InputData()
         
 
     def _read_title(self, line):
@@ -46,7 +35,7 @@ class INlmpdat(InputBase):
     def read_data(self, file, atom_style='full'):
 
         self.file_name = file
-        print(sys.path)
+        self.mutureData.filename = self.file_name
         self.file = open(self.file_name)
 
         line = self._readline()

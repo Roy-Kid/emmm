@@ -3,6 +3,30 @@
 from collections import defaultdict
 from emmm.core.molecule import Molecule
 
+
+class InputData:
+
+    def __init__(self) -> None:
+        self.filename = str()
+        self.molecules = list()
+
+    def __str__(self):
+        return f'< InputData of {self.filename} >'
+
+    __repr__ = __str__
+
+    def __getitem__(self, index):
+        if isinstance(index, int):
+            return self.molecules[index]
+        elif isinstance(index, str):
+            for mol in self.molecules:
+                if mol.label == index:
+                    return mol
+                
+            raise KeyError('没有这个molecule')
+        else:
+            raise IndexError('未支持的索引方式')
+
 class InputBase:
     """ The parent class for all the input parser
     """
@@ -10,7 +34,7 @@ class InputBase:
         
         self.world = world
 
-    def group_by(self, label:str, atoms:list, reference:str='parent'):
+    def group_by(self, filename:str, atoms:list, reference:str='parent'):
         """ Util method to group atoms by a certain reference. For example, you can group them by the molLable, which means those atoms in a same molecule. 
 
         Args:
@@ -31,6 +55,7 @@ class InputBase:
         molecules = list()
         for ref, gatom in grouped_atoms.items():
             mol = Molecule(ref)
+            mol.parent = filename
             mol.add_items(*gatom)
             molecules.append(mol)
         return molecules

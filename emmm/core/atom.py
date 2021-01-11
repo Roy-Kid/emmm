@@ -167,14 +167,14 @@ class Atom(Item):
 
         return dist
 
-    def get_replica(self, newLabal):
+    # def get_replica(self, newLabal):
 
-        atom = Atom(newLabal)
+    #     atom = Atom(newLabal)
 
-        for k,v in self.__dict__.items():
-            if k != "_Item__id":
-                setattr(atom, str(k), v)
-        return atom
+    #     for k,v in self.__dict__.items():
+    #         if k != "_Item__id":
+    #             setattr(atom, str(k), v)
+    #     return atom
 
     @property
     def pwd(self):

@@ -53,7 +53,7 @@ class CreateAtom:
         atom_list = list()
     
         for atom in atoms:
-            print(atom)
+
             label = atom[0]
             parent = atom[1]
             type = atom[2]
@@ -65,14 +65,14 @@ class CreateAtom:
   
 
     @staticmethod
-    def molecularAtom(label, type, x, y, z, *args):
+    def molecularAtom(label, parent, type, x, y, z, *args):
         label = str(label)
-
+        parent = str(parent)
         type = str(type)
 
         x, y, z = float(x), float(y), float(z)
 
-        return CreateAtom._create_atom(label=label, type=type,  x=x, y=y, z=z)
+        return CreateAtom._create_atom(label=label, parent=parent,type=type,  x=x, y=y, z=z)
 
 
     @staticmethod

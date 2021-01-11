@@ -48,3 +48,17 @@ class World:
 
     def add_items(self, *items):
         self.items.add_items(*items)
+
+    def __getitem__(self, index):
+
+        if isinstance(index, int):
+
+            return self.items[index]
+        elif isinstance(index, str):
+            for item in self.items:
+                if item.label == index:
+                    return item
+                
+            raise KeyError('没有这个item')
+        else:
+            raise IndexError('未支持的索引方式')       

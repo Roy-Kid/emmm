@@ -1,6 +1,6 @@
 import pytest
 
-class TestMOLECULE:
+class TestH2O:
 
 
     # create = Create('atom', 'molecular')
@@ -62,6 +62,7 @@ class TestMOLECULE:
         h2o0.move(1,1,1)
         assert all(h2o['h1'].position == (-1, 1, 0))
         assert all(h2o0['h1'].position == (0, 2, 1)) 
+        assert h2o.id != h2o0.id
 
 
     def test_h2o_seperate_with(self, h2o):
@@ -86,8 +87,7 @@ class TestMOLECULE:
         assert round(h2o['h2'].position[1]) == -1
         assert round(h2o['h2'].position[2]) == 0
 
-### end h2o test ###
-### start poly test ###
+class TestPE:
 
     def test_pe_move(self, pe):
 
@@ -99,14 +99,12 @@ class TestMOLECULE:
             assert mol.position[2] == 3
 
     def test_pe_centroid(self, pe):
-        for atom in pe.flatten():
-            print(atom)
 
-        assert pe.position[0] == 2.5
+        assert pe.position[0] == 1.5
 
     def test_pe_distance(self, pe, buoy000):
-        print(pe.distance_to(buoy000))
-        assert pe.distance_to(buoy000) == 2.5
+
+        assert pe.distance_to(buoy000) == 1.5
 
     def test_pe_get_replica(self, pe):
         pe0 = pe.get_replica('pe0')
