@@ -1,40 +1,41 @@
-# author: Roy Kids
-from numpy.core.numeric import isfortran
-from emmm.core.molecule import Molecule
-from emmm.core.atom import Atom
+# author: Roy Kid
+# contact: lijichen365@126.com
+# date: 2021-01-16
 
+from .molecule import Molecule
+from .atom import Atom
 
 class Topo:
-    """ A class to search topological structure for the passed molecules; instanciated by the World class
+    """ Topo类负责搜索拓扑结构, 包括bond, angle, dihedral和improper
+        Topo类不应该负责去匹配力场参数, 这个工作应该又其他类来进行
     """
 
     def __init__(self, world) -> None:
         self.world = world
+        self.match_ff = self.world.forcefield.match_ff
 
         self.world.topoBond = list()
         self.world.topoAngle = list()
         self.world.topoDihedral = list()
 
-    def search_topo(self, item, isBond=True, isAngle=True, isDihedral=True, isForceField=False):
-        """to search the topological structure for the passed molecules.
+    def search_topo(self, item, isBond=True, isAngle=True, isDihedral=True, isFF=True):
+        """ Topo类的主调方法, 开始搜索拓扑结构
 
         Args:
-            item (Molecule|Atom): item to be searche topo
-            isBond (bool, optional): if need to search bond. Defaults to True.
-            isAngle (bool, optional): if need to search angle. Defaults to True.
-            isDihedral (bool, optional): if need to search dihedral. Defaults to True.
+            item (Molecule|Atom): 待搜索的item
+            isBond (bool, optional): 是否搜索bond. Defaults to True
+            isAngle (bool, optional): 是否搜索angle. Defaults to True
+            isDihedral (bool, optional): 是否搜索dihedral. Defaults to True
+            isFF (bool, optional): 是否和力场比对. Defaults to True
         """
-
+        self.isFF = True
+        # 将item展开成atom的列表
         if isinstance(item, Molecule):
             self.atoms = item.flatten()  # <-molecule._flatten()
         elif isinstance(item, Atom):
             self.atoms = [item]
 
-        # self.atoms is a list of Atoms
 
-        self.forcefield = self.world.forcefield
-        self.isForceField = isForceField
-        if isBond:
             self.world.topoBond.extend(self.search_bond(self.atoms))
         if isAngle:
             self.world.topoAngle.extend(self.search_angle(self.atoms))
@@ -42,69 +43,128 @@ class Topo:
             self.world.topoDihedral.extend(self.search_dihedral(self.atoms))
 
     def search_bond(self, atoms):
+        """ 生成bond的函数. 生成的时候会经过力场比对, 如果bond类型没有出现在已设定的力场中, 则会报错并终止程序运行. 
 
+        Args:
+            atoms (list): atom列表, 逐个搜索其neighbors
+
+        Returns:
+            list: [[atom1, atom2], ...]
+        """
+        # 在search_topo中的isFF级别高于局部
+        isFF = self.isFF
+
+        # bond_id -> bond_id
         bonds_id = list()
+
+        # bonds -> bond
         bonds = list()
 
         for atom in atoms:
-            # bond is len==2 list corresponding to two atoms in a bond
-            bond_id = [atom.id]
-            bond_type = [atom.type]
+            # 取第一个atom, 然后内层for搜索所有键接的atom
+            # bond -> [atom, atom]
             bond = [atom]
+            bond_id = [atom.id]
 
+            # 外层的atoms传入的已经是atom列表了
             for ato in atom.get_neighbors():
                 if ato.id in bond_id:
+                    # warning: 似乎不太可能出现这种情况
+                    # 如果自己和自己相连, 跳过
                     continue
                 elif ato.id not in bond_id:
+
+                    # 将键接的atom的id添加
                     bond_id.append(ato.id)
-                    bond_type.append(ato.type)
+                    
+                    # 排序以和bonds_id中已有的键比对
+                    # 以防止A-B B-A情况
                     bond_id = sorted(bond_id)
-                    bond_type = sorted(bond_type)
+
+                    # 实际键接关系
                     bond.append(ato)
-                    if self.isForceField:
-                        
-                        if bond_id not in bonds_id and self.match_forcefield(bond_type):
-                            bonds.append(tuple(bond))
-                            bonds_id.append(bond_id)
 
-                    else:
-                        if bond_id not in bonds_id:
+                    # 如果现在拿到的bond没有出现过 (就是没有第二次被搜索) and
+                    # 需要和力场比对:
+                    if tuple(bond_id) not in bonds_id and isFF:
+                        bond_type = [atom.type for atom in bond]
+                        if self.match_ff(bond_type):
+                            # 把bond 添加到bonds
                             bonds.append(tuple(bond))
-                            bonds_id.append(bond_id)
-
+                            # 记录这个bond 的id
+                            bonds_id.append(tuple(bond_id))
+                        else:
+                            raise TypeError(f'bond:{bond_type} 没有相匹配的力场参数')
+                    
+                    # 弹出键接atom, 准备检查下一个
                     bond.pop()
                     bond_id.pop()
-                    bond_type.pop()
+            
+            # 准备检查下一个
             bond.pop()
             bond_id.pop()
-            bond_type.pop()
-        return bonds
 
-    def match_forcefield(self, types:tuple):
-        if len(types) == 2:
-            
-            if types in self.world.forcefield.bondTypes:
-                return True
+        return bonds
 
 
     def search_angle(self, atoms):
+        """ 生成angle的函数. 生成的时候会经过力场比对, 如果angle类型没有出现在已设定的forcefield中, 则会警告.
+
+        Args:
+            atoms (list): atom的列表, 向下搜索两层neighbor
+
+        Returns:
+            list: [[atom1, atom2, atom3], ...] 
+        """
+        isFF = self.isFF
+
+        # angle_id -> angle_id
+        angles_id = list()
+
+        # bonds -> bond
         angles = list()
+
         for atom in atoms:
+            # 取第一个atom, 然后内层for搜索所有键接的atom
+
+            # angle_id -> [atom.id, atom.id, atom.id]
+            angle_id = [atom.id]
+
+            # angle -> [atom, atom, atom]
             angle = [atom]
+
             for ato in atom.get_neighbors():
-                angle.append(ato)
 
-                for at in ato.get_neighbors():
+                if ato.id not in angle_id:
 
-                    if at in angle:
-                        continue
-                    elif at not in angle:
-                        angle.append(at)
-                        angl = sorted(angle)
-                        if angl not in angles:
-                            angles.append(angl)
-                        angle.pop()
-                angle.pop()
+                    angle.append(ato)
+                    angle_id.append(ato.id)
+
+                    for at in ato.get_neighbors():
+                        
+                        if at.id not in angle_id:
+                            angle.append(at)
+                            angle_id.append(at.id)
+
+                            angle_id = sorted(angle_id)
+
+                            if tuple(angle_id) not in angles_id and isFF:
+                                angle_type = [atom.type for atom in angle]
+                                if self.match_ff(angle_type):
+
+                                    angles.append(tuple(angle))
+
+                                    angles_id.append(tuple(angle_id))
+                                else:
+                                    raise TypeError(f'angle:{angle_type} 没有匹配的力场参数')
+
+                            angle_id.pop()
+                            angle.pop()
+
+                    angle_id.pop()
+                    angle.pop()
+
+            angle_id.pop()
             angle.pop()
 
         return angles
@@ -134,20 +194,3 @@ class Topo:
             dihedral.pop()
         return dihedrals
 
-    def gen_bond(self):
-        """ match [Atom1, Atom2] with forcefield to get bond type; then convert it to [type, label1, label] in str.
-
-        Args:
-            source_bonds ([type]): [description]
-            bond_coeff ([type]): [description]
-        """
-        raw_bonds = self.world['topoBond']
-        typed_bonds = list()
-
-        for bond in raw_bonds:
-
-            # bondinfo = [bondStyle, coeff1, coeff2]
-            bondinfo = self.world.forcefield.match_bond(*bond)
-            typed_bonds.append([*bondinfo, *bond])
-
-        return typed_bonds

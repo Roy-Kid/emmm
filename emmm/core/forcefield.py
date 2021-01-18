@@ -1,38 +1,50 @@
+from .dstru import ndarray
 class ForceField:
 
     def __init__(self, world):
         
         self.world = world
-        self.bondTypes = list()
-        self.bondCoeffs = list()
 
+        self.typeMap = list() # =ndarray(256)
+        self.bondMap = ndarray((256, 256))
 
-    def set_bond_coeffs(self, style, item1, item2, *coeffs):
-        style = str(style)
-        item1 = str(item1)
-        item2 = str(item2)
+        self.bondCoeffMap = dict()
 
-        self.bondCoeffs.append([style, item1, item2, *map(str,coeffs)])
+        # type->typeMap->typeId->bondId->bondCoeffMap
 
-        self.bondTypes.append(sorted([item1, item2]))
+    def _type_map(self, *types):
+        for type in types:
+            if type not in self.typeMap:
+                self.typeMap.append(type)
 
-    def set_angle_coeffs(self, style, item1, item2, item3, *coeffs):
-        self.world['angleStyle'] = style
-        self.world['angleCoeffs'] = [str(item1), str(item2), str(item3), *map(str,coeffs)]
+    def get_typeId(self, type):
 
-    def set_dihedral_coeff(self, style, item1, item2, item3, item4, *coeffs):
-        self.world['dihedralStyle'] = style
-        self.world['dihedralCoeffs'] = [str(item1), str(item2), str(item3), str(item4), *map(str, coeffs)]
+        return self.typeMap.index(type)
 
-    def _match_items(self, items1:list, items2:list)->bool:
-        if sorted(items1) == sorted(items2):
-            return True
-        else:
-            return False
+    def _bond_map(self, style, coeffs):
+        bondId = len(self.bondCoeffMap)
+        self.bondCoeffMap[bondId] = {'style':style, 'coeffs':coeffs}
+        return bondId
 
-    def match_bond(self, item1, item2):
-        for coeff in self.world['bondCoeffs']:
-            if self._match_items([item1, item2], coeff[:2]):
-                return [self.world['bondStyle'], *coeff[2:]]
+    def set_bond_coeffs(self, style, type1, type2, *coeffs):
 
-                
+        self._type_map(type1, type2)
+
+        typeId1 = self.get_typeId(type1)
+        typeId2 = self.get_typeId(type2)
+
+        bondId = self._bond_map(style, coeffs)
+
+        self.bondMap.symetry_assign(bondId, typeId1, typeId2)
+
+    def get_bond_coeffs(self, type1, type2):
+        typeId1 = self.get_typeId(type1)
+        typeId2 = self.get_typeId(type2)
+        
+        bondId = self.bondMap[typeId1][typeId2]
+        print(self.bondCoeffMap[bondId])
+
+        return self.bondCoeffMap[bondId]
+
+    def match_ff(self, types):
+        return True
