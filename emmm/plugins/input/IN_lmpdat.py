@@ -1,4 +1,7 @@
-#author: Roy Kid
+# author: Roy Kid
+# contact: lijichen365@126.com
+# date: 2021-01-24
+# version: 0.0.2
 
 from emmm.plugins.input.input_base import InputData
 from emmm.core.create import CreateAtom
@@ -9,7 +12,7 @@ class INlmpdat(InputBase):
     def __init__(self, world):
         super().__init__(world)
         self.rawData = dict()
-        self.mutureData = InputData()
+        self.muturalData = InputData()
         
 
     def _read_title(self, line):
@@ -20,7 +23,7 @@ class INlmpdat(InputBase):
         return self.file.readline()
 
     def _skipblankline(self, line):
-        while line.startswith('\n') or line.startswith('#'):
+        while len(line) or line.startswith('\n') or line.startswith('#'):
             line = self.file.readline()
         return line
 
@@ -35,7 +38,7 @@ class INlmpdat(InputBase):
     def read_data(self, file, atom_style='full'):
 
         self.file_name = file
-        self.mutureData.filename = self.file_name
+        self.muturalData.filename = self.file_name
         self.file = open(self.file_name)
 
         line = self._readline()
@@ -49,12 +52,13 @@ class INlmpdat(InputBase):
             line = self._read_bondaries(line)
             line = self._read_system(line)
             line = self._read_masses(line)
+            # section to read coefficients
             line = self._read_pair_coeffs(line)
             line = self._read_bond_coeffs(line)
             line = self._read_angle_coeffs(line)
-            line = self._read_velocities(line)
             line = self._read_dihedral_coeffs(line)
             line = self._read_improper_coeffs(line)
+            line = self._read_velocities(line)
 
             line = self._read_atoms(line)
             line = self._read_angles(line)
@@ -64,15 +68,16 @@ class INlmpdat(InputBase):
 
             i+=1
 
+        # After reading all the info from the lmp file,
+        # you should post-processe them from rawData 
+        # and store them to muture data
 
         create = CreateAtom.genericAtoms(atom_style)
         atoms = create(self.rawData['Atoms'])
-        self.mutureData.atoms = atoms
+        self.muturalData.atoms = atoms
 
-        # add topo
+        # First : create topo from the bond section
         for b in self.rawData['Bonds']:
-            # b[0] id
-            # b[1] type
             clabel = b[2] # center atom id
             plabel = b[3] # pair atom id
             catom = None
@@ -87,10 +92,19 @@ class INlmpdat(InputBase):
                 raise ValueError(_('拓扑结构没有匹配到相应的Atom'))
             catom.add_neighbors(patom)
         
-        self.mutureData.molecules = self.group_by('lmpdat', atoms, reference='parent')
-        # print(mol, mol.values())
-        # defaultdict(<class 'emmm.core.molecule.Molecule'>, {'1': < molecule: 1 in None>, '2': < molecule: 2 in None>, '3': < molecule: 3 in None>}) dict_values([< molecule: 1 in None>, < molecule: 2 in None>, < molecule: 3 in None>])
-        return self.mutureData
+        # Second : orgnize atoms to the molecules according to the reference
+        # default refer to atom.parent
+        # because the lmpdat only have one hierarchy
+        self.muturalData.molecules = self.group_by('lmpdat', atoms, reference='parent')
+
+        # Third : set system info such as no. of atoms, bonds, boundaries. etc..
+        # ! in the version : 0.0.2, the info of system directly store in the muturalData
+        # because i am lazy
+
+        # Fourth : deal with coefficient
+        # bond_coeff = self.rawData['bond_coeffs']
+
+        return self.muturalData
 
     def _read_atoms(self, line):
         line = self._skipblankline(line)        
@@ -222,13 +236,13 @@ class INlmpdat(InputBase):
         line = self._skipblankline(line)        
         if 'Bond' in line and 'Coeffs' in line:
             line = self._skipblankline(self._readline())
-            self.bond_coeffs = list()
+            bond_coeffs = list()
 
             while line != '\n':
                 line = self._deal_with_comment(line.split())
-                self.bond_coeffs.append(line)
+                bond_coeffs.append(line)
                 line = self._readline()    
-            self.rawData['bond_coeffs'] = self.bond_coeffs
+            self.rawData['bond_coeffs'] = bond_coeffs
         return line    
 
     def _read_pair_coeffs(self, line):
@@ -275,7 +289,7 @@ class INlmpdat(InputBase):
 
             line = self._deal_with_comment(line.split())
 
-            self.rawData[KEYWORD] = line[0]
+            self.muturalData[KEYWORD] = int(line[0])
 
             line = self._readline()
             KEYWORD = _check_system(line)
@@ -298,8 +312,8 @@ class INlmpdat(InputBase):
         KEYWORD = _check_system(line)
         while KEYWORD:
             line = self._deal_with_comment(line.split())
-            self.rawData[KEYWORD] = line[0]
-            self.rawData[line[-1]] = line[1]
+            self.muturalData[KEYWORD] = line[0]
+            self.muturalData[line[-1]] = line[1]
             
             line = self._readline()
             KEYWORD = _check_system(line)

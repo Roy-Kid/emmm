@@ -12,7 +12,6 @@ class Topo:
 
     def __init__(self, world) -> None:
         self.world = world
-        self.match_ff = self.world.forcefield.match_ff
 
         self.world.topoBond = list()
         self.world.topoAngle = list()
@@ -34,8 +33,6 @@ class Topo:
             self.atoms = item.flatten()  # <-molecule._flatten()
         elif isinstance(item, Atom):
             self.atoms = [item]
-
-
             self.world.topoBond.extend(self.search_bond(self.atoms))
         if isAngle:
             self.world.topoAngle.extend(self.search_angle(self.atoms))
@@ -86,15 +83,16 @@ class Topo:
 
                     # 如果现在拿到的bond没有出现过 (就是没有第二次被搜索) and
                     # 需要和力场比对:
-                    if tuple(bond_id) not in bonds_id and isFF:
+                    if tuple(bond_id) not in bonds_id:
                         bond_type = [atom.type for atom in bond]
-                        if self.match_ff(bond_type):
-                            # 把bond 添加到bonds
-                            bonds.append(tuple(bond))
-                            # 记录这个bond 的id
-                            bonds_id.append(tuple(bond_id))
-                        else:
-                            raise TypeError(f'bond:{bond_type} 没有相匹配的力场参数')
+                        if isFF:
+                            if self.world.forcefield.get_bond_coeff(bond_type):
+                                # 把bond 添加到bonds
+                                bonds.append(tuple(bond))
+                                # 记录这个bond 的id
+                                bonds_id.append(tuple(bond_id))
+                            else:
+                                raise TypeError(f'bond:{bond_type} 没有相匹配的力场参数')
                     
                     # 弹出键接atom, 准备检查下一个
                     bond.pop()
@@ -146,17 +144,18 @@ class Topo:
                             angle.append(at)
                             angle_id.append(at.id)
 
-                            angle_id = sorted(angle_id)
+                            angle_id.sort()
 
-                            if tuple(angle_id) not in angles_id and isFF:
+                            if tuple(angle_id) not in angles_id:
                                 angle_type = [atom.type for atom in angle]
-                                if self.match_ff(angle_type):
+                                if isFF:
+                                    if self.world.forcefield.get_angle_ceff(angle_type):
 
-                                    angles.append(tuple(angle))
+                                        angles.append(tuple(angle))
 
-                                    angles_id.append(tuple(angle_id))
-                                else:
-                                    raise TypeError(f'angle:{angle_type} 没有匹配的力场参数')
+                                        angles_id.append(tuple(angle_id))
+                                    else:
+                                        raise TypeError(f'angle:{angle_type} 没有匹配的力场参数')
 
                             angle_id.pop()
                             angle.pop()
@@ -170,27 +169,55 @@ class Topo:
         return angles
 
     def search_dihedral(self, atoms):
-        dihedrals = list()
-        for atom in atoms:
-            dihedral = [atom]
-            for ato in atom.neighbor:
-                dihedral.append(ato)
-                for at in ato.neighbor:
-                    if at in dihedral:
-                        continue
-                    elif at not in dihedral:
-                        dihedral.append(at)
-                        for a in at.neighbor:
-                            if a in dihedral:
-                                continue
-                            elif a not in dihedral:
-                                dihedral.append(a)
-                                di = sorted(dihedral)
-                                if di not in dihedrals:
-                                    dihedrals.append(di)
-                                dihedral.pop()
-                        dihedral.pop()
-                dihedral.pop()
-            dihedral.pop()
-        return dihedrals
+ 
+        isFF = self.isFF
 
+        dihedrals_id = list()
+        dihedrals = list()
+
+        for atom in atoms:
+
+            dihedral_id = [atom.id]
+            dihedral = [atom]
+
+            for ato in atom.get_neighbors():
+
+                dihedral_id.append(ato.id)
+                dihedral.append(ato)
+
+                for at in ato.get_neighbors():
+
+                    if at.id not in dihedral_id:
+                        dihedral.append(at)
+                        dihedral_id.append(at.id)
+
+                        for a in at.get_neighbors():
+
+                            if a.id not in dihedral_id:
+                                dihedral.append(a)
+                                dihedral_id.append(a.id)
+
+                                dihedral_id.sort()
+
+                                if tuple(dihedral_id) not in dihedrals_id:
+                                    dihedral_type = [atom.type for atom in dihedral]
+                                    if isFF:
+                                        if self.world.forcefield.get_dihedral_coeff(dihedral_type):
+                                            dihedrals.append(tuple(dihedral))
+                                            dihedrals_id.append(tuple(dihedral_id))
+                                        else:
+                                            raise TypeError(f'dihedral:{dihedral_type} 没有匹配的力场')
+                                
+                                dihedral_id.pop()
+                                dihedral.pop()
+
+                        dihedral_id.pop()
+                        dihedral.pop()
+                
+                dihedral_id.pop()
+                dihedral.pop()
+
+            dihedral_id.pop()
+            dihedral.pop()
+        
+        return dihedrals
