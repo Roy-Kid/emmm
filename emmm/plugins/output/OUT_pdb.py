@@ -1,7 +1,7 @@
 from . import OutputBase
 import sys, os, shutil
 
-class OUTPdb(OutputBase):
+class OUTpdb(OutputBase):
     def __init__(self, world):
         super().__init__(world)
 

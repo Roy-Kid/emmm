@@ -55,7 +55,7 @@ class Atom(Item):
         a['x'] = self.x
         a['y'] = self.y
         a['z'] = self.z
-
+    # TODO: 用_move()来处理数据
     def move(self, x, y, z):
         """ 按照(x,y,z)矢量移动
 

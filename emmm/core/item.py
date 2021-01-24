@@ -1,4 +1,4 @@
-# author: Roy Kid
+   # author: Roy Kid
 
 import numpy as np
 import copy
@@ -73,6 +73,10 @@ class Item:
     def path(self, v):
         self._path = str(v)
 
+    # x,y,z(float) -> position(array) -> [operate] -> newpos(array)
+    #      ^                                             |
+    #      |-----------------assign--------------------- v
+    
     @property
     def position(self):
         return np.array([self.x, self.y, self.z])
