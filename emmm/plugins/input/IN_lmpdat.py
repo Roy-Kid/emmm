@@ -108,6 +108,7 @@ class INlmpdat(InputBase):
         # Fourth : deal with coefficient
         # bond_coeff = self.rawData['bond_coeffs']
 
+        self.file.close()
         return self.rawData
 
     def _post_process(self, rawData):

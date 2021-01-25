@@ -16,13 +16,11 @@ class World:
         self.zlo = float()
         self.zhi = float()
 
-        self._world = dict()
-
         self.forcefield = ForceField(self)
 
         self.topo  = Topo(self)
 
-        self.items = Molecule('world')
+        self._molecules = Molecule('world')
 
         self.pluginManager = PluginManager(self)
 
@@ -38,27 +36,18 @@ class World:
 
         return self.pluginManager.plugins[pname](self)
 
-    def vis(self):
-        out = self.active_plugin('OUTjson')
-        json = out.dump_data()
-        import eel
-        eel.init('/home/roy/Work/emmm/emmm/vis')
-        eel.readDataInJs(json)
-        eel.start('atom-sim.html', mode='chrome')
 
     def add_items(self, *items):
-        self.items.add_items(*items)
+        self._molecules.add_items(*items)
 
-    def __getitem__(self, index):
+    @property
+    def atoms(self):
+        return self.molecule.flatten()
 
-        if isinstance(index, int):
+    @property
+    def molecules(self):    
+        return self._molecules
 
-            return self.items[index]
-        elif isinstance(index, str):
-            for item in self.items:
-                if item.label == index:
-                    return item
-                
-            raise KeyError('没有这个item')
-        else:
-            raise IndexError('未支持的索引方式')       
+    @property
+    def items(self):
+        return self._molecules

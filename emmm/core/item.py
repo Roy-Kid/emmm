@@ -12,6 +12,8 @@ class Item:
         self._path = str()
         self._type = str()
 
+        self._root = str()
+
         self._x = 0
         self._y = 0
         self._z = 0
@@ -25,6 +27,14 @@ class Item:
     @property
     def id(self):
         return id(self)
+
+    @property
+    def root(self):
+        return self._root
+
+    @root.setter
+    def root(self, r):
+        self._root = r
 
     def __iter__(self):
         return iter(self.container)

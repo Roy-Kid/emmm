@@ -4,18 +4,19 @@
 
 from .molecule import Molecule
 from .atom import Atom
+from copy import deepcopy
 
 class Topo:
     """ Topo类负责搜索拓扑结构, 包括bond, angle, dihedral和improper
-        Topo类不应该负责去匹配力场参数, 这个工作应该又其他类来进行
+
     """
 
     def __init__(self, world) -> None:
         self.world = world
 
-        self.world.topoBond = list()
-        self.world.topoAngle = list()
-        self.world.topoDihedral = list()
+        self.topoBond = list()
+        self.topoAngle = list()
+        self.topoDihedral = list()
 
     def search_topo(self, item, isBond=True, isAngle=True, isDihedral=True, isFF=True):
         """ Topo类的主调方法, 开始搜索拓扑结构
@@ -33,11 +34,11 @@ class Topo:
             self.atoms = item.flatten()  # <-molecule._flatten()
         elif isinstance(item, Atom):
             self.atoms = [item]
-            self.world.topoBond.extend(self.search_bond(self.atoms))
+            self.topoBond.extend(self.search_bond(self.atoms))
         if isAngle:
-            self.world.topoAngle.extend(self.search_angle(self.atoms))
+            self.topoAngle.extend(self.search_angle(self.atoms))
         if isDihedral:
-            self.world.topoDihedral.extend(self.search_dihedral(self.atoms))
+            self.topoDihedral.extend(self.search_dihedral(self.atoms))
 
     def search_bond(self, atoms):
         """ 生成bond的函数. 生成的时候会经过力场比对, 如果bond类型没有出现在已设定的力场中, 则会报错并终止程序运行. 
@@ -86,11 +87,13 @@ class Topo:
                     if tuple(bond_id) not in bonds_id:
                         bond_type = [atom.type for atom in bond]
                         if isFF:
+                            
                             if self.world.forcefield.get_bond_coeff(bond_type):
+
                                 # 把bond 添加到bonds
-                                bonds.append(tuple(bond))
+                                bonds.append(deepcopy(bond))
                                 # 记录这个bond 的id
-                                bonds_id.append(tuple(bond_id))
+                                bonds_id.append(deepcopy(bond_id))
                             else:
                                 raise TypeError(f'bond:{bond_type} 没有相匹配的力场参数')
                     

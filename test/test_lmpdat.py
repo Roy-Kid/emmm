@@ -6,6 +6,7 @@
 from emmm.core.world import World
 import pytest
 
+
 class TestLMPDAT:
 
     @pytest.fixture(scope='class')
@@ -50,7 +51,6 @@ class TestLMPDAT:
         assert reader['bond_coeffs'][0][0] == '1'
         assert reader['bond_coeffs'][-1][0] == '12'
 
-
     def test_angle_coeffs(self, reader):
 
         assert len(reader['angle_coeffs']) == 18
@@ -70,3 +70,12 @@ class TestLMPDAT:
     def test_Bonds(self, reader):
 
         assert len(reader['Bonds']) == 12
+
+    def test_Angles(self, reader):
+        assert len(reader['Angles']) == 18
+
+    def test_Dihedral(self, reader):
+        assert len(reader['Dihedrals']) == 24
+
+    def test_Impropers(self, reader):
+        assert len(reader['Impropers']) == 6

@@ -1,5 +1,6 @@
 # author: Roy Kid
 
+from numpy.lib.arraysetops import isin
 from emmm.core.atom import Atom
 from emmm.core.item import Item
 import numpy as np
@@ -55,7 +56,7 @@ class Molecule(Item):
         elif isinstance(label, slice):
             raise TypeError(_('暂不支持切片调用'))
 
-    def flatten(self, dir=None, isSelf=False):
+    def flatten(self, dir=None, isMol=False):
 
         if dir is None:
             dir = [self.label]
@@ -64,18 +65,25 @@ class Molecule(Item):
             dir.append(self.label)
         atoms = list()
         for item in self:
+
+            if self.isAdhere:
+                item.root = self.root
+                if isinstance(item, Molecule): 
+                    item.isAdhere = True
+
             if isinstance(item, Atom):
                 dir.append(item.label)
                 item.path = '/'.join(dir)
                 atoms.append(item)
                 dir.pop()
 
-            elif isinstance(item, Molecule) and isSelf:
-                atoms.append(item)
+            elif isinstance(item, Molecule):
+
                 atoms.append(item.flatten(dir))
 
-            elif isinstance(item, Molecule) and not isSelf:
-                atoms.extend(item.flatten(dir))
+                if isMol:
+                    atoms.append(item)
+
 
         dir.pop()
         return atoms

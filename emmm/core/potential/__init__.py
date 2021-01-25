@@ -16,3 +16,5 @@ def bond_potential_interface(style:str, coeffs:dict):
     module_name = 'bond_'+style
 
     bond_potential = import_module(module_name)
+
+    # return a bond potential instance 

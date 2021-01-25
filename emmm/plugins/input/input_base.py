@@ -15,8 +15,6 @@ class InputData(dict):
 
     __repr__ = __str__
 
-
-
 class InputBase:
     """ The parent class for all the input parser
     """

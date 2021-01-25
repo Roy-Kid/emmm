@@ -3,6 +3,7 @@
 # date: 2021-01-24
 # version: 0.0.1 
 
+from emmm.core.potential import bond_potential_interface
 from .dstru import ndarray
 class ForceField:
 
@@ -37,11 +38,12 @@ class ForceField:
             if t == type:
                 return i
         
-        return False
+        return None
 
     def set_styleId(self, styleCoeffMap, style, coeffs):
         styleId = len(styleCoeffMap)
-        self.bondCoeffMap.append({'style':style, 'coeffs':coeffs})
+        # TODO: replace here to an instance of bondPotential
+        styleCoeffMap.append({'style':style, 'coeffs':coeffs})
         return styleId
 
     def get_styleId(self, styleId, styleMap):
@@ -61,13 +63,13 @@ class ForceField:
 
 
         # 其次: 将bond type 映射到 bondId
-        bondId = self.set_styleId(self.bondCoeffMap, style, coeffs)
+        bp = bond_potential_interface(style, coeffs)
 
         # 最后: 2darray中, 两个typeId对应两个坐标, 交点是bondId
         # 任给两个atom, 根据其type可以找到bondId, 
         # 使用这个bondId可以在bond_map中找到对应的键信息
-        self.bondMap.assign(bondId, typeId1, typeId2)
-        self.bondMap.assign(bondId, typeId2, typeId1)
+        self.bondMap.assign(bp, typeId1, typeId2)
+        self.bondMap.assign(bp, typeId2, typeId1)
 
     def get_bond_coeff(self, type1, type2):
 
@@ -80,7 +82,7 @@ class ForceField:
             return self.bondCoeffMap[bondId]
 
         else:
-            return False
+            return None
 
     def set_angle_coeff(self, style, type1, type2, type3, *coeffs):
 
@@ -103,7 +105,7 @@ class ForceField:
             angleId = self.angleMap[typeId1][typeId2][typeId3]
             return self.angleCoeffMap[angleId]
         else:
-            return False
+            return None
 
     def set_dihedral_coeff(self, style, type1, type2, type3, type4, *coeff):
 
@@ -126,4 +128,4 @@ class ForceField:
             dihedralId = self.dihedralMap[type1][type2][type3][type4]
             return self.dihedralCoeffMap[dihedralId]
         else:
-            return False
+            return None

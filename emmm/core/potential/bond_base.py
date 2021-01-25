@@ -37,3 +37,6 @@ class BondBase:
         flist = [self.force(r) for r in rlist]
 
         return (rlist, flist)
+
+    def lmpformat(self):
+        pass
