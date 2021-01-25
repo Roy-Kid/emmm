@@ -8,12 +8,6 @@ class TestAtom:
     def atom(self):
         yield Atom()
 
-    def test_move(self, atom):
-
-        o = np.array([0, 0, 0])
-
-        assert (atom._move(o, 1, 1, 1) == np.array([1,1,1])).all()
-        assert (atom._move(o, 1.1, 1.1, 1.1) == np.array([1.1, 1.1, 1.1])).all()
 
     def test_atom_move(self, atom):
 
@@ -26,3 +20,12 @@ class TestAtom:
 
         atom.move_to(1,1,1)
         assert (atom.position == np.array([1,1,1])).all()
+
+
+    def test_atom_rotate(self, atom):
+
+        atom.position = (0, 0, 0)
+        atom.rotate(1,1,0,0)
+        assert (atom.position == np.array([0, 0, 0])).all()
+        atom.rotate(1.0,1.0,0.0,0.0)
+        assert (atom.position == np.array([0, 0, 0])).all()

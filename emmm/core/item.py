@@ -121,14 +121,20 @@ class Item:
     def z(self, z):
         self._z = z
 
-    def move(self, x, y, z):
-        pass
+    def _move(self, original, x, y, z):
+        vec = np.array([x, y, z], dtype=float)
+        return original+vec
 
     def randmove(self, length):
         pass
 
-    def rotate(self, theta, x, y, z, xo=0, yo=0, zo=0):
-        pass
+    def _rotate(self, o, theta, x, y, z):
+
+        rotm = self._quaternion2rotmatrix(theta, x, y, z)
+
+        newpos = np.dot(rotm, o)
+
+        return newpos
 
     def _quaternion2rotmatrix(self, theta, x, y, z):
 

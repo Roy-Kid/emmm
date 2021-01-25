@@ -58,9 +58,7 @@ class Atom(Item):
 
     # _move()方法输入的是np.array和float
     # 输出的是np.array, 所以测试的时候仅需要测试这个函数即可
-    def _move(self, original, x, y, z):
-        vec = np.array([x, y, z], dtype=float)
-        return original+vec
+
 
     def move(self, x, y, z):
         """ move by (x, y, z)
@@ -87,31 +85,15 @@ class Atom(Item):
         self.move(*vec)
         return self
 
-    def rotate(self, theta, x, y, z, xo=0, yo=0, zo=0):
+    def rotate(self, theta, x, y, z, x0=0, y0=0, z0=0):
         """ 以四元数的方式旋转atom. (x,y,z)是空间指向, (xo,yo,zo)是中心点, 即旋转轴为(x-xo,y-yo,z-zo). theta则是围绕旋转轴逆时针旋转的弧度(多少个π).
-
-        Args:
-            theta (radian): theta:=theta*PI
-            x (float): to
-            y (float): to
-            z (float): to
-            xo (float): from
-            yo (float): from
-            zo (float): from
         """
-        # rotation axis
-
-        xo = float(xo)
-        yo = float(yo)
-        zo = float(zo)
-        disVec = np.array([xo, yo, zo])
-
-        rotm = self._quaternion2rotmatrix(theta, x, y, z)
+        disVec = np.array([x0, y0, z0])
 
         self.move(*-disVec)
 
         # np.dot(rotm, self.position, out=self.position)
-        self.position = np.dot(rotm, self.position)
+        self.position = self._rotate(self.position, theta, x, y, z)
 
         self.move(*disVec)
         return self
