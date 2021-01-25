@@ -18,9 +18,6 @@ class InputData(dict):
 class InputBase:
     """ The parent class for all the input parser
     """
-    def __init__(self, world):
-        
-        self.world = world
 
     def group_by(self, filename:str, atoms:list, reference:str='parent'):
         """ Util method to group atoms by a certain reference. For example, you can group them by the molLable, which means those atoms in a same molecule. 

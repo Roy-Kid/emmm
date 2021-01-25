@@ -34,7 +34,7 @@ class World:
             [plugin]: [instance of plugin]
         """
 
-        return self.pluginManager.plugins[pname](self)
+        return self.pluginManager.plugins[pname]()
 
 
     def add_items(self, *items):

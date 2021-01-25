@@ -9,8 +9,7 @@ from . import InputBase
 
 class INlmpdat(InputBase):
 
-    def __init__(self, world):
-        super().__init__(world)
+    def __init__(self):
         # the raw data stores the original data from the lmp
         #   may it would get post-processed such as kwremap
         self.rawData = InputData()

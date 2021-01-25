@@ -8,10 +8,14 @@ from emmm.plugins.output.output_base import OutputBase
 
 
 class OUTlmpdat(OutputBase):
-    def __init__(self, world) -> None:
-        super().__init__(world)
 
     def write_data(self, fname, atomStyle='full'):
+
+        # check if there is a world to be written
+        # TODO: generalize the world to item
+
+        if not getattr(self, 'world', None):
+            raise KeyError('assign a world first')
 
         self.atomStyle = atomStyle
 
