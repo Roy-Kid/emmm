@@ -12,9 +12,9 @@ class Item:
         self._path = str()
         self._type = str()
 
-        self._x = float()
-        self._y = float()
-        self._z = float()
+        self._x = 0
+        self._y = 0
+        self._z = 0
 
         self.container = list()
         self.__pos = 0
@@ -76,7 +76,7 @@ class Item:
     # x,y,z(float) -> position(array) -> [operate] -> newpos(array)
     #      ^                                             |
     #      |-----------------assign--------------------- v
-    
+
     @property
     def position(self):
         return np.array([self.x, self.y, self.z])

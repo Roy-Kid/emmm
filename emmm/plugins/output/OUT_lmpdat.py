@@ -1,6 +1,8 @@
 # author: Roy Kid
-from . import OutputBase
-import sys
+
+
+from emmm.plugins.output.output_base import OutputBase
+
 
 class OUTlmpdat(OutputBase):
     def __init__(self, world) -> None:

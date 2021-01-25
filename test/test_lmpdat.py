@@ -1,35 +1,72 @@
+# author: Roy Kid
+# contact: lijichen365@126.com
+# date: 2021-01-25
+# version: 0.0.1
+
 from emmm.core.world import World
 import pytest
-import emmm as em
 
 class TestLMPDAT:
 
     @pytest.fixture(scope='class')
-    def test_read(self):
+    def reader(self):
 
         world = World()
         reader = world.active_plugin('INlmpdat')
-        h2olmpdat = reader.read_data('h2o.lmpdat')
+        yield reader.read_data('test/benezen/lmp')
 
-        h2o1 = h2olmpdat[0]
+    def test_system(self, reader):
 
-        h2o2 = h2olmpdat['2']
+        assert reader['atoms'] == 12
+        assert reader['bonds'] == 12
+        assert reader['angles'] == 18
+        assert reader['dihedrals'] == 24
+        assert reader['impropers'] == 6
 
-        h2o3 = h2olmpdat[-1]
+        assert reader['atom types'] == 12
+        assert reader['bond types'] == 12
+        assert reader['angle types'] == 18
+        assert reader['dihedral types'] == 24
+        assert reader['improper types'] == 6
 
-        world.add_items(h2o1, h2o2, h2o3)
-        print('init lmpdat')
- 
+        assert reader['xlo'] == -2.177870
+        assert reader['xhi'] == 47.822130
+        assert reader['ylo'] == 0.998810
+        assert reader['yhi'] == 50.998810
+        assert reader['zlo'] == -0.941580
+        assert reader['zhi'] == 49.058420
 
-        return world
+    def test_masses(self, reader):
+
+        assert len(reader['Masses']) == 12
+
+    def test_pair_coeffs(self, reader):
+
+        assert len(reader['pair_coeffs']) == 12
+
+    def test_bond_coeffs(self, reader):
+
+        assert len(reader['bond_coeffs']) == 12
+        assert reader['bond_coeffs'][0][0] == '1'
+        assert reader['bond_coeffs'][-1][0] == '12'
 
 
-    def test_topo(self, test_read):
-        
-        world = test_read 
+    def test_angle_coeffs(self, reader):
 
-        world.forcefield.set_bond_coeffs('harmonic', 1, 2, '2.7')
+        assert len(reader['angle_coeffs']) == 18
 
-        world.topo.search_topo(world[0], isAngle=False, isDihedral=False, isForceField=True)
+    def test_dihedral_coeffs(self, reader):
 
-        assert len(world.topoBond)
+        assert len(reader['dihedral_coeffs']) == 24
+
+    def test_improper_coeffs(self, reader):
+
+        assert len(reader['improper_coeffs']) == 6
+
+    def test_Atoms(self, reader):
+
+        assert len(reader['Atoms']) == 12
+
+    def test_Bonds(self, reader):
+
+        assert len(reader['Bonds']) == 12

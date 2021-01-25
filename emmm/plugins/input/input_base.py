@@ -4,7 +4,7 @@ from collections import defaultdict
 from emmm.core.molecule import Molecule
 
 
-class InputData:
+class InputData(dict):
 
     def __init__(self) -> None:
         self.filename = str()
@@ -15,17 +15,7 @@ class InputData:
 
     __repr__ = __str__
 
-    def __getitem__(self, index):
-        if isinstance(index, int):
-            return self.molecules[index]
-        elif isinstance(index, str):
-            for mol in self.molecules:
-                if mol.label == index:
-                    return mol
-                
-            raise KeyError('没有这个molecule')
-        else:
-            raise IndexError('未支持的索引方式')
+
 
 class InputBase:
     """ The parent class for all the input parser

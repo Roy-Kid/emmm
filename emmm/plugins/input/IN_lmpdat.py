@@ -11,8 +11,10 @@ class INlmpdat(InputBase):
 
     def __init__(self, world):
         super().__init__(world)
-        self.rawData = dict()
-        self.muturalData = InputData()
+        # the raw data stores the original data from the lmp
+        #   may it would get post-processed such as kwremap
+        self.rawData = InputData()
+        
         
 
     def _read_title(self, line):
@@ -23,7 +25,7 @@ class INlmpdat(InputBase):
         return self.file.readline()
 
     def _skipblankline(self, line):
-        while len(line) or line.startswith('\n') or line.startswith('#'):
+        while line.isspace() or line.startswith('#'):
             line = self.file.readline()
         return line
 
@@ -38,14 +40,14 @@ class INlmpdat(InputBase):
     def read_data(self, file, atom_style='full'):
 
         self.file_name = file
-        self.muturalData.filename = self.file_name
+
         self.file = open(self.file_name)
 
         line = self._readline()
         line = self._read_title(line)
         line = self._skipblankline(line)
         ##
-        number_of_section = 9
+        number_of_section = 14
         i = 0
         while i < number_of_section and line != '':
 
@@ -68,13 +70,15 @@ class INlmpdat(InputBase):
 
             i+=1
 
+        # TODO: move all the post-processes to the _post_process
+        
         # After reading all the info from the lmp file,
         # you should post-processe them from rawData 
         # and store them to muture data
 
         create = CreateAtom.genericAtoms(atom_style)
         atoms = create(self.rawData['Atoms'])
-        self.muturalData.atoms = atoms
+        self.rawData.atoms = atoms
 
         # First : create topo from the bond section
         for b in self.rawData['Bonds']:
@@ -95,16 +99,29 @@ class INlmpdat(InputBase):
         # Second : orgnize atoms to the molecules according to the reference
         # default refer to atom.parent
         # because the lmpdat only have one hierarchy
-        self.muturalData.molecules = self.group_by('lmpdat', atoms, reference='parent')
+        self.rawData.molecules = self.group_by('lmpdat', atoms, reference='parent')
 
-        # Third : set system info such as no. of atoms, bonds, boundaries. etc..
-        # ! in the version : 0.0.2, the info of system directly store in the muturalData
-        # because i am lazy
+        # Third : remap the lmp key words to standard keywords
+
+        self._post_process(self.rawData)
 
         # Fourth : deal with coefficient
         # bond_coeff = self.rawData['bond_coeffs']
 
-        return self.muturalData
+        return self.rawData
+
+    def _post_process(self, rawData):
+        """ to process raw data to the mutural data
+
+        Args:
+            rawData ([type]): [description]
+
+        Returns:
+            [type]: [description]
+        """
+        # muturalData = InputData()
+
+        return rawData
 
     def _read_atoms(self, line):
         line = self._skipblankline(line)        
@@ -181,55 +198,55 @@ class INlmpdat(InputBase):
         line = self._skipblankline(line)
         if 'Velocities' in line:
             line = self._skipblankline(self._readline())
-            self.velocities = list()
+            velocities = list()
 
             while line != '\n':
                 line = self._deal_with_comment(line.split())
-                self.velocities.append(line)
+                velocities.append(line)
                 line = self._readline()
 
-            self.rawData['velocities'] = self.velocities
+            self.rawData['velocities'] = velocities
         return line
 
     def _read_improper_coeffs(self, line):
         line = self._skipblankline(line)
         if 'Improper' in line and 'Coeffs' in line:
             line = self._skipblankline(self._readline())
-            self.improper_coeff = list()
+            improper_coeff = list()
 
             while line != '\n':
                 line = self._deal_with_comment(line.split())
-                self.improper_coeff.append(line)
+                improper_coeff.append(line)
                 line = self._readline()
 
-            self.rawData['improper_coeff'] = self.improper_coeff
+            self.rawData['improper_coeffs'] = improper_coeff
         return line
 
     def _read_dihedral_coeffs(self, line):
         line = self._skipblankline(line)
         if 'Dihedral' in line and 'Coeffs' in line:
             line = self._skipblankline(self._readline())
-            self.dihedral_coeffs = list()
+            dihedral_coeffs = list()
 
             while line != '\n':
                 line = self._deal_with_comment(line.split())
-                self.dihedral_coeffs.append(line)
+                dihedral_coeffs.append(line)
                 line = self._readline()
 
-            self.rawData['dihedral_coeffs'] = self.dihedral_coeffs
+            self.rawData['dihedral_coeffs'] = dihedral_coeffs
         return line
 
     def _read_angle_coeffs(self, line):
         line = self._skipblankline(line)
         if 'Angle' in line and 'Coeffs' in line:
             line = self._skipblankline(self._readline())
-            self.angle_coeffs = list()
+            angle_coeffs = list()
 
             while line != '\n':
                 line = self._deal_with_comment(line.split())
-                self.angle_coeffs.append(line)
+                angle_coeffs.append(line)
                 line = self._readline()
-            self.rawData['angle_coeffs'] = self.angle_coeffs
+            self.rawData['angle_coeffs'] = angle_coeffs
         return line
 
     def _read_bond_coeffs(self, line):
@@ -249,13 +266,13 @@ class INlmpdat(InputBase):
         line = self._skipblankline(line) # /n
         if 'Pair' in line and 'Coeffs' in line:
             line = self._skipblankline(self._readline())
-            self.pair_coeffs = list()
+            pair_coeffs = list()
 
             while line != '\n':
                 line = self._deal_with_comment(line.split())
-                self.pair_coeffs.append(line)
+                pair_coeffs.append(line)
                 line = self._readline()
-            self.rawData['pair_coeffs'] = self.pair_coeffs
+            self.rawData['pair_coeffs'] = pair_coeffs
         return line
 
     def _read_masses(self, line):
@@ -263,13 +280,13 @@ class INlmpdat(InputBase):
         if 'Masses' in line:
             line = self._skipblankline(self._readline())
             
-            self.masses = list()
+            masses = list()
 
             while line!= '\n':
                 line = self._deal_with_comment(line.split())
-                self.masses.append(line)
+                masses.append(line)
                 line = self._readline()
-            self.rawData['Masses'] = self.masses
+            self.rawData['Masses'] = masses
             
         return line
 
@@ -289,7 +306,7 @@ class INlmpdat(InputBase):
 
             line = self._deal_with_comment(line.split())
 
-            self.muturalData[KEYWORD] = int(line[0])
+            self.rawData[KEYWORD] = int(line[0])
 
             line = self._readline()
             KEYWORD = _check_system(line)
@@ -312,8 +329,8 @@ class INlmpdat(InputBase):
         KEYWORD = _check_system(line)
         while KEYWORD:
             line = self._deal_with_comment(line.split())
-            self.muturalData[KEYWORD] = line[0]
-            self.muturalData[line[-1]] = line[1]
+            self.rawData[KEYWORD] = float(line[0])
+            self.rawData[line[-1]] = float(line[1])
             
             line = self._readline()
             KEYWORD = _check_system(line)

@@ -55,13 +55,24 @@ class Atom(Item):
         a['x'] = self.x
         a['y'] = self.y
         a['z'] = self.z
-    # TODO: 用_move()来处理数据
-    def move(self, x, y, z):
-        """ 按照(x,y,z)矢量移动
 
-        """
+    # _move()方法输入的是np.array和float
+    # 输出的是np.array, 所以测试的时候仅需要测试这个函数即可
+    def _move(self, original, x, y, z):
         vec = np.array([x, y, z], dtype=float)
-        self.position += vec
+        return original+vec
+
+    def move(self, x, y, z):
+        """ move by (x, y, z)
+        """
+        newpos = self._move(self.position, x, y, z)
+        self.position = newpos
+        return self
+
+    def move_to(self, x, y, z):
+        """ move to (x, y, z)
+        """
+        self.position = (x,y,z)
         return self
 
     def randmove(self, length):
