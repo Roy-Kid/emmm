@@ -13,11 +13,9 @@ class INlmpdat(InputBase):
         # the raw data stores the original data from the lmp
         #   may it would get post-processed such as kwremap
         self.rawData = InputData()
-        
-        
 
     def _read_title(self, line):
-        self.comment = line
+        self.rawData['comment'] = line
         return self._readline()
 
     def _readline(self):
@@ -92,7 +90,7 @@ class INlmpdat(InputBase):
                     patom = atom
             
             if catom is None or patom is None:
-                raise ValueError(_('拓扑结构没有匹配到相应的Atom'))
+                raise ValueError('拓扑结构没有匹配到相应的Atom')
             catom.add_neighbors(patom)
         
         # Second : orgnize atoms to the molecules according to the reference

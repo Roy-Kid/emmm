@@ -6,15 +6,43 @@
 from emmm.core.world import World
 import pytest
 
+@pytest.fixture(scope='module')
+def reader():
 
-class TestLMPDAT:
+    world = World()
+    reader = world.active_plugin('INlmpdat')
+    yield reader.read_data('test/benezen/lmp')
 
-    @pytest.fixture(scope='class')
-    def reader(self):
+@pytest.fixture(scope='module')
+def writer(reader):
 
-        world = World()
-        reader = world.active_plugin('INlmpdat')
-        yield reader.read_data('test/benezen/lmp')
+    world = World()
+    writer = world.active_plugin('OUTlmpdat')
+    world.comment = reader['comment']
+    world.atomCount = reader['atoms']
+    world.bondCount = reader['bonds']
+    world.angleCount = reader['angles']
+    world.dihedralCount = reader['dihedrals']
+    world.improperCount = reader['impropers']
+    world.atomTypeCount = reader['atom types']
+    world.bondTypeCount = reader['bond types']
+    world.angleTypeCount = reader['angle types']
+    world.dihedralTypeCount = reader['dihedral types']
+    world.improperTypeCount = reader['improper types']
+    world.xlo = reader['xlo']
+    world.xhi = reader['xhi'] 
+    world.ylo = reader['ylo']
+    world.yhi = reader['yhi']
+    world.zlo = reader['zlo']
+    world.zhi = reader['zhi'] 
+
+    world.masses = reader['Masses']
+
+
+    yield (world, writer)
+
+
+class TestINlmpdat:
 
     def test_system(self, reader):
 
@@ -79,3 +107,9 @@ class TestLMPDAT:
 
     def test_Impropers(self, reader):
         assert len(reader['Impropers']) == 6
+
+class TestOUTlmpdat:
+
+    def test_commet(self, writer):
+        assert writer[1].comment() == f'LAMMPS data from {writer[0].comment} Created by \n\n'
+
