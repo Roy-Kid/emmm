@@ -17,7 +17,8 @@ class Topo:
         self.topoBond = list()
         self.topoAngle = list()
         self.topoDihedral = list()
-
+        self.topoImproper = list()
+        
     def search_topo(self, item, isBond=True, isAngle=True, isDihedral=True, isFF=True):
         """ Topo类的主调方法, 开始搜索拓扑结构
 
@@ -88,7 +89,7 @@ class Topo:
                         bond_type = [atom.type for atom in bond]
                         if isFF:
                             
-                            if self.world.forcefield.get_bond_coeff(bond_type):
+                            if self.world.forcefield.get_bond(*bond_type):
 
                                 # 把bond 添加到bonds
                                 bonds.append(deepcopy(bond))
@@ -152,7 +153,7 @@ class Topo:
                             if tuple(angle_id) not in angles_id:
                                 angle_type = [atom.type for atom in angle]
                                 if isFF:
-                                    if self.world.forcefield.get_angle_ceff(angle_type):
+                                    if self.world.forcefield.get_angle(*angle_type):
 
                                         angles.append(tuple(angle))
 
@@ -205,7 +206,7 @@ class Topo:
                                 if tuple(dihedral_id) not in dihedrals_id:
                                     dihedral_type = [atom.type for atom in dihedral]
                                     if isFF:
-                                        if self.world.forcefield.get_dihedral_coeff(dihedral_type):
+                                        if self.world.forcefield.get_dihedral(*dihedral_type):
                                             dihedrals.append(tuple(dihedral))
                                             dihedrals_id.append(tuple(dihedral_id))
                                         else:
@@ -224,3 +225,57 @@ class Topo:
             dihedral.pop()
         
         return dihedrals
+
+    def search_improper(self, atoms):
+ 
+        isFF = self.isFF
+
+        impropers_id = list()
+        impropers = list()
+
+        for atom in atoms:
+
+            improper_id = [atom.id]
+            improper = [atom]
+
+            for ato in atom.get_neighbors():
+
+                improper_id.append(ato.id)
+                improper.append(ato)
+
+                for at in ato.get_neighbors():
+
+                    if at.id not in improper_id:
+                        improper.append(at)
+                        improper_id.append(at.id)
+
+                        for a in at.get_neighbors():
+
+                            if a.id not in improper_id:
+                                improper.append(a)
+                                improper_id.append(a.id)
+
+                                improper_id.sort()
+
+                                if tuple(improper_id) not in impropers_id:
+                                    improper_type = [atom.type for atom in improper]
+                                    if isFF:
+                                        if self.world.forcefield.get_improper(*improper_type):
+                                            impropers.append(tuple(improper))
+                                            impropers_id.append(tuple(improper_id))
+                                        else:
+                                            raise TypeError(f'improper:{improper_type} 没有匹配的力场')
+                                
+                                improper_id.pop()
+                                improper.pop()
+
+                        improper_id.pop()
+                        improper.pop()
+                
+                improper_id.pop()
+                improper.pop()
+
+            improper_id.pop()
+            improper.pop()
+        
+        return impropers

@@ -3,6 +3,7 @@
 # date: 2021-01-24
 # version: 0.0.2
 
+from numpy.lib.function_base import angle
 from emmm.plugins.input.input_base import InputData
 from emmm.core.create import CreateAtom
 from . import InputBase
@@ -10,12 +11,11 @@ from . import InputBase
 class INlmpdat(InputBase):
 
     def __init__(self):
-        # the raw data stores the original data from the lmp
-        #   may it would get post-processed such as kwremap
-        self.rawData = InputData()
+
+        self.data = InputData()
 
     def _read_title(self, line):
-        self.rawData['comment'] = line
+        self.data.comment = line
         return self._readline()
 
     def _readline(self):
@@ -35,6 +35,7 @@ class INlmpdat(InputBase):
         
 
     def read_data(self, file, atom_style='full'):
+        self.atomStyle = atom_style
 
         self.file_name = file
 
@@ -67,18 +68,30 @@ class INlmpdat(InputBase):
 
             i+=1
 
-        # TODO: move all the post-processes to the _post_process
-        
+        # TODO: after determining the name of properies of muturalData
+        # remove rawData and muturalData -> data
+        return self._post_process()
+
+
+    def _post_process(self):
+        """ to process raw data to the mutural data
+
+        Args:
+            rawData ([type]): [description]
+
+        Returns:
+            [type]: [description]
+        """
+
         # After reading all the info from the lmp file,
         # you should post-processe them from rawData 
         # and store them to muture data
 
-        create = CreateAtom.genericAtoms(atom_style)
-        atoms = create(self.rawData['Atoms'])
-        self.rawData.atoms = atoms
+        create = CreateAtom.genericAtoms(self.atomStyle)
+        atoms = create(self.data.atomRaw)
 
         # First : create topo from the bond section
-        for b in self.rawData['Bonds']:
+        for b in self.data.bondRaw:
             clabel = b[2] # center atom id
             plabel = b[3] # pair atom id
             catom = None
@@ -92,34 +105,53 @@ class INlmpdat(InputBase):
             if catom is None or patom is None:
                 raise ValueError('拓扑结构没有匹配到相应的Atom')
             catom.add_neighbors(patom)
-        
-        # Second : orgnize atoms to the molecules according to the reference
-        # default refer to atom.parent
-        # because the lmpdat only have one hierarchy
-        self.rawData.molecules = self.group_by('lmpdat', atoms, reference='parent')
 
-        # Third : remap the lmp key words to standard keywords
+        self.data.atoms = atoms
 
-        self._post_process(self.rawData)
+        self.data.molecules = self.group_by('lmpdat', atoms, reference='parent')
 
-        # Fourth : deal with coefficient
-        # bond_coeff = self.rawData['bond_coeffs']
+        self.data.pairCoeffs = list()
+        for pc in self.data.pairCoeffRaw:
+            self.data.pairCoeffs.append([pc[0], pc[0], *pc[1:]])
+            
 
-        self.file.close()
-        return self.rawData
+        self.data.bondCoeffs = list()
+        for bc in self.data.bondCoeffRaw:
+            bondType = bc[0]
+            for b in self.data.bondRaw:
+                if bondType == b[1]:
+                    typeName1 = b[2]
+                    typeName2 = b[3]
+                    self.data.bondCoeffs.append([typeName1, typeName2, *bc[1:]])
 
-    def _post_process(self, rawData):
-        """ to process raw data to the mutural data
 
-        Args:
-            rawData ([type]): [description]
+        self.data.angleCoeffs = list()
+        for ac in self.data.angleCoeffRaw:
+            angleType = ac[0]
+            for a in self.data.angleRaw:
+                if angleType == a[1]:
+                    typeName1 = a[2]
+                    typeName2 = a[3]
+                    typeName3 = a[4]
+                    self.data.angleCoeffs.append([typeName1, typeName2, typeName3, *ac[1:]])
 
-        Returns:
-            [type]: [description]
-        """
-        # muturalData = InputData()
+        self.data.dihedralCoeffs = list()
+        for dc in self.data.dihedralCoeffRaw:
+            dihedralType = dc[0]
+            for d in self.data.dihedralRaw:
+                if dihedralType == d[1]:
+                    self.data.dihedralCoeffs.append([d[2], d[3], d[4], d[5], *dc[1:]])
 
-        return rawData
+        self.data.improperCoeffs = list()
+        for ic in self.data.improperCoeffRaw:
+            it = ic[0]
+            for i in self.data.improperRaw:
+                if it == i[1]:
+                    self.data.improperCoeffs.append([i[2], i[3], i[4], i[5], *ic[1:]])
+
+        # combine 
+
+        return self.data
 
     def _read_atoms(self, line):
         line = self._skipblankline(line)        
@@ -131,7 +163,7 @@ class INlmpdat(InputBase):
                 Atoms.append(line)
                 line = self._readline()
 
-            self.rawData['Atoms'] = Atoms
+            self.data.atomRaw = Atoms
 
         return line 
 
@@ -145,7 +177,7 @@ class INlmpdat(InputBase):
             while line != '\n' and line != '':
                 Bonds.append(self._deal_with_comment(line.split()))
                 line = self._readline()
-            self.rawData['Bonds'] = Bonds
+            self.data.bondRaw = Bonds
 
         return line
 
@@ -153,13 +185,13 @@ class INlmpdat(InputBase):
         line = self._skipblankline(line)
         if 'Angles' in line :
             line = self._skipblankline(self._readline())
-            self.Angles = list()
+            Angles = list()
 
             while line != '\n' and line != '':
-                self.Angles.append(self._deal_with_comment(line.split()))
+                Angles.append(self._deal_with_comment(line.split()))
                 line = self._readline()
 
-            self.rawData['Angles'] = self.Angles
+            self.data.angleRaw = Angles
 
         return line
 
@@ -167,13 +199,13 @@ class INlmpdat(InputBase):
         line = self._skipblankline(line)
         if 'Dihedrals' in line:
             line = self._skipblankline(self._readline())
-            self.Dihedrals = list()
+            Dihedrals = list()
 
             while line != '\n' and line != '':
-                self.Dihedrals.append(self._deal_with_comment(line.split()))
+                Dihedrals.append(self._deal_with_comment(line.split()))
                 line = self._readline()
 
-            self.rawData['Dihedrals'] = self.Dihedrals
+            self.data.dihedralRaw = Dihedrals
 
         return line
 
@@ -181,13 +213,13 @@ class INlmpdat(InputBase):
         line = self._skipblankline(line)
         if 'Impropers' in line:
             line = self._skipblankline(self._readline())
-            self.Impropers = list()
+            Impropers = list()
 
             while line != '\n' and line != '':
-                self.Impropers.append(self._deal_with_comment(line.split()))
+                Impropers.append(self._deal_with_comment(line.split()))
                 line = self._readline()
 
-            self.rawData['Impropers'] = self.Impropers
+            self.data.improperRaw = Impropers
 
         return line
 
@@ -203,7 +235,7 @@ class INlmpdat(InputBase):
                 velocities.append(line)
                 line = self._readline()
 
-            self.rawData['velocities'] = velocities
+            self.velocitiesRaw = velocities
         return line
 
     def _read_improper_coeffs(self, line):
@@ -217,7 +249,7 @@ class INlmpdat(InputBase):
                 improper_coeff.append(line)
                 line = self._readline()
 
-            self.rawData['improper_coeffs'] = improper_coeff
+            self.data.improperCoeffRaw = improper_coeff
         return line
 
     def _read_dihedral_coeffs(self, line):
@@ -231,7 +263,7 @@ class INlmpdat(InputBase):
                 dihedral_coeffs.append(line)
                 line = self._readline()
 
-            self.rawData['dihedral_coeffs'] = dihedral_coeffs
+            self.data.dihedralCoeffRaw = dihedral_coeffs
         return line
 
     def _read_angle_coeffs(self, line):
@@ -244,7 +276,7 @@ class INlmpdat(InputBase):
                 line = self._deal_with_comment(line.split())
                 angle_coeffs.append(line)
                 line = self._readline()
-            self.rawData['angle_coeffs'] = angle_coeffs
+            self.data.angleCoeffRaw = angle_coeffs
         return line
 
     def _read_bond_coeffs(self, line):
@@ -257,7 +289,7 @@ class INlmpdat(InputBase):
                 line = self._deal_with_comment(line.split())
                 bond_coeffs.append(line)
                 line = self._readline()    
-            self.rawData['bond_coeffs'] = bond_coeffs
+            self.data.bondCoeffRaw = bond_coeffs
         return line    
 
     def _read_pair_coeffs(self, line):
@@ -270,7 +302,7 @@ class INlmpdat(InputBase):
                 line = self._deal_with_comment(line.split())
                 pair_coeffs.append(line)
                 line = self._readline()
-            self.rawData['pair_coeffs'] = pair_coeffs
+            self.data.pairCoeffRaw = pair_coeffs
         return line
 
     def _read_masses(self, line):
@@ -284,14 +316,23 @@ class INlmpdat(InputBase):
                 line = self._deal_with_comment(line.split())
                 masses.append(line)
                 line = self._readline()
-            self.rawData['Masses'] = masses
+            self.data.massRaw = masses
             
         return line
 
     def _read_system(self, line):
         line = self._skipblankline(line)
+        KEYWORDS = {'atoms': 'atomCount', 
+                    'atom types': 'atomTypeCount', 
+                    'bonds': 'bondCount',
+                    'bond types': 'bondTypeCount', 
+                    'angles': 'angleCount', 
+                    'angle types': 'angleTypeCount', 
+                    'dihedrals': 'dihedralCount', 
+                    'dihedral types': 'dihedralTypeCount', 
+                    'impropers': 'improperCount', 
+                    'improper types': 'improperTypeCount'}
         def _check_system(line):
-            KEYWORDS = ['atoms', 'atom types', 'bonds', 'bond types', 'angles', 'angle types', 'dihedrals', 'dihedral types', 'impropers', 'improper types']
 
             for k in KEYWORDS:
                 if k in line:
@@ -304,7 +345,7 @@ class INlmpdat(InputBase):
 
             line = self._deal_with_comment(line.split())
 
-            self.rawData[KEYWORD] = int(line[0])
+            setattr(self.data, KEYWORDS[KEYWORD], int(line[0]))
 
             line = self._readline()
             KEYWORD = _check_system(line)
@@ -327,8 +368,8 @@ class INlmpdat(InputBase):
         KEYWORD = _check_system(line)
         while KEYWORD:
             line = self._deal_with_comment(line.split())
-            self.rawData[KEYWORD] = float(line[0])
-            self.rawData[line[-1]] = float(line[1])
+            setattr(self.data, line[-2], float(line[0]))
+            setattr(self.data, line[-1], float(line[1]))
             
             line = self._readline()
             KEYWORD = _check_system(line)

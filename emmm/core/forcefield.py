@@ -3,129 +3,71 @@
 # date: 2021-01-24
 # version: 0.0.1 
 
-from emmm.core.potential import bond_potential_interface
-from .dstru import ndarray
+from emmm.core.potential import *
+
 class ForceField:
 
     def __init__(self, world):
         
         self.world = world
-
-        self.typeMap = list() # =ndarray(256)
-
-        self.bondMap = ndarray((16, 16))
-        self.angleMap = ndarray((16,16,16))
-        self.dihedralMap = ndarray((16,16,16,16))
-
-        self.bondCoeffMap = list()
-        self.angleCoeffMap = list()
-        self.dihedralCoeffMap = list()
-
-        # type->typeMap->typeId->bondId->bondCoeffMap
-
-    def set_typeId(self, *types):
-        typeId = list()
-        for type in types:
-            if type not in self.typeMap:
-               self.typeMap.append(type)
-               typeId.append(len(self.typeMap))
-        return typeId
-        
-
-    def get_typeId(self, type):
-
-        for i, t in enumerate(self.typeMap):
-            if t == type:
-                return i
-        
-        return None
-
-    def set_styleId(self, styleCoeffMap, style, coeffs):
-        styleId = len(styleCoeffMap)
-        # TODO: replace here to an instance of bondPotential
-        styleCoeffMap.append({'style':style, 'coeffs':coeffs})
-        return styleId
-
-    def get_styleId(self, styleId, styleMap):
-
-        return styleMap[styleId]
-
-    def set_bond_coeffs(self, style, type1, type2, *coeffs):
-        """增加键参数. 
-
-        Args:
-            style (str): 键的类型
-            type1 (str): atom1的类型
-            type2 (str): atom2的类型
-        """
-        # 首先: 将atom type 映射到 typeId
-        typeId1, typeId2 = self.set_typeId(type1, type2)
+        self.bondPotentialList = list()
+        self.anglePotentiallist= list()
+        self.dihedralPotentiallist = list()
+        self.improperPotentiallist = list()
+        self.pairPotentiallist = list()
 
 
-        # 其次: 将bond type 映射到 bondId
-        bp = bond_potential_interface(style, coeffs)
+    def set_bond(self, style, typeName1, typeName2, *coeffs):
 
-        # 最后: 2darray中, 两个typeId对应两个坐标, 交点是bondId
-        # 任给两个atom, 根据其type可以找到bondId, 
-        # 使用这个bondId可以在bond_map中找到对应的键信息
-        self.bondMap.assign(bp, typeId1, typeId2)
-        self.bondMap.assign(bp, typeId2, typeId1)
+        bp = bond_potential_interface(style, typeName1, typeName2, coeffs)
+        self.bondPotentialList.append(bp)
 
-    def get_bond_coeff(self, type1, type2):
+    def get_bond(self, typeName1, typeName2):
 
-        typeIds = [typeId1, typeId2] = [self.get_typeId(type1), self.get_typeId(type2)]
+        for bp in self.bondPotentialList:
+            if bp.compare(typeName1, typeName2):
+                return bp
 
-        if all(typeIds):
+    def set_angle(self, style, typeName1, typeName2, typeName3, *coeffs):
 
-            bondId = self.bondMap[typeId1][typeId2]
+        ap = angle_potential_interface(style, typeName1, typeName2, coeffs)
+        self.anglePotentialList.append(ap)
 
-            return self.bondCoeffMap[bondId]
+    def get_angle(self, typeName1, typeName2, typeName3):
 
-        else:
-            return None
+        for ap in self.bondPotentialList:
+            if ap.compare(typeName1, typeName2, typeName3):
+                return ap
 
-    def set_angle_coeff(self, style, type1, type2, type3, *coeffs):
+    def set_dihedral(self, style, typeName1, typeName2, typeName3, typeName4, *coeffs):
 
-        typeId1, typeId2, typeId3 = self.set_typeId(type1, type2, type3)
+        dp = dihedral_potential_interface(style, typeName1, typeName2, typeName3, typeName4, coeffs)
+        self.dihedralPotentialList.append(dp)
 
-        angleId = self.set_styleId(self.angleCoeffMap, style, coeffs)
+    def get_dihedral(self, typeName1, typeName2, typeName3, typeName4):
 
-        # angle 1-2-3 == angle 3-2-1
-        self.angleMap.assign(angleId, typeId1, typeId2, typeId3)
-        self.angleMap.assign(angleId, typeId3, typeId2, typeId1)
+        for dp in self.dihedralPotentialList:
+            if dp.compare(typeName1, typeName2, typeName3, typeName4):
+                return dp
 
+    def set_improper(self, style, typeName1, typeName2, typeName3, typeName4, *coeffs):
 
-    def get_angle_coeff(self, type1, type2, type3):
+        ip = improper_potential_interface(style, typeName1, typeName2, coeffs)
+        self.improperPotentialList.append(ip)
 
-        typeId1 = self.get_typeId(type1)
-        typeId2 = self.get_typeId(type2)
-        typeId3 = self.get_typeId(type3)
+    def get_improper(self, typeName1, typeName2, typeName3, typeName4):
 
-        if typeId1 and typeId2 and typeId3:
-            angleId = self.angleMap[typeId1][typeId2][typeId3]
-            return self.angleCoeffMap[angleId]
-        else:
-            return None
+        for ip in self.improperPotentialList:
+            if ip.compare(typeName1, typeName2, typeName3, typeName4):
+                return ip
 
-    def set_dihedral_coeff(self, style, type1, type2, type3, type4, *coeff):
+    def set_pair(self, style, typeName1, typeName2, *coeffs):
 
-        typeId1, typeId2, typeId3, typeId4 = self.set_typeId(type1, type2, type3, type4)
+        bp = pair_potential_interface(style, typeName1, typeName2, coeffs)
+        self.pairPotentialList.append(bp)
 
-        dihedralId = self.set_styleId(self.angleCoeffMap, style, coeff)
+    def get_pair(self, typeName1, typeName2):
 
-        # dihedral 1-2-3-4 == 4-3-2-1
-        self.dihedralMap.assign(dihedralId, typeId1, typeId2, typeId3, typeId4)
-        self.dihedralMap.assign(dihedralId, typeId4, typeId3, typeId2, typeId1)
-
-    def get_dihedral_coeff(self, type1, type2, type3, type4):
-
-        typeId1 = self.get_typeId(type1)
-        typeId2 = self.get_typeId(type2)
-        typeId3 = self.get_typeId(type3)
-        typeId4 = self.get_typeId(type4)
-
-        if typeId1 and typeId2 and typeId3 and typeId4:
-            dihedralId = self.dihedralMap[type1][type2][type3][type4]
-            return self.dihedralCoeffMap[dihedralId]
-        else:
-            return None
+        for pp in self.bondPotentialList:
+            if pp.compare(typeName1, typeName2):
+                return pp

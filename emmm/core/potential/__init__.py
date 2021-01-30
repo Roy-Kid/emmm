@@ -11,10 +11,39 @@
 
 from importlib import import_module
 
-def bond_potential_interface(style:str, coeffs:dict):
+# how to import https://blog.csdn.net/edward_zcl/article/details/88809212
+def bond_potential_interface(style:str, typeName1, typeName2, coeffs:dict):
+    
+    module_name = 'emmm.core.potential.'+'bond_'+style
+    class_name = 'Bond'+style.capitalize()
 
-    module_name = 'bond_'+style
+    bp = getattr(import_module(module_name), class_name)
+    return bp(typeName1, typeName2, coeffs)
 
-    bond_potential = import_module(module_name)
+def angle_potential_interface(style:str, typeName1, typeName2, typeName3, coeffs):
 
-    # return a bond potential instance 
+    module_name = 'emmm.core.potential.'+'angle_'+style
+    class_name = 'Angle'+style.capitalize()
+    ap = getattr(import_module(module_name), class_name)
+    return ap(typeName1, typeName2, coeffs)
+
+def dihedral_potential_interface(style:str, typeName1, typeName2, typeName3, typeName4, coeffs):
+
+    module_name = 'emmm.core.potential.'+'dihedral_'+style
+    class_name = 'Dihedral'+style.capitalize()
+    dp = getattr(import_module(module_name), class_name)
+    return dp(typeName1, typeName2, coeffs)
+
+def improper_potential_interface(style:str, typeName1, typeName2, typeName3, typeName4, coeffs):
+
+    module_name = 'emmm.core.potential.'+'improper_'+style
+    class_name = 'Improper'+style.capitalize()
+    ip = getattr(import_module(module_name), class_name)
+    return ip(typeName1, typeName2, coeffs)
+
+def pair_potential_interface(style:str, typeName1, typeName2, coeffs):
+
+    module_name = 'emmm.core.potential.'+'pair_'+style
+    class_name = 'Pair'+style.capitalize()
+    pp = getattr(import_module(module_name), class_name)
+    return pp(typeName1, typeName2, coeffs)

@@ -4,7 +4,7 @@ from collections import defaultdict
 from emmm.core.molecule import Molecule
 
 
-class InputData(dict):
+class InputData:
 
     def __init__(self) -> None:
         self.filename = str()
