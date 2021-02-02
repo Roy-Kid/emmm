@@ -3,18 +3,30 @@
 # date: 2021-01-30
 # version: 0.0.1
 
-from core.potential.potential_base import PairBase
+from emmm.core.potential.potential_base import PairBase
 
 
 class PairLjcut(PairBase):
 
     def __init__(self, typeName1, typeName2, coeffs) -> None:
         super().__init__(typeName1, typeName2)
-        self.style = 'ljcut'
+        self._style = 'ljcut'
         self.epsilon = coeffs['epsilon']
         self.sigma = coeffs['sigma']
         
+    @property
+    def epsilon(self):
+        return self._epsilon
+    @epsilon.setter
+    def epsilon(self, e):
+        self._epsilon = float(e)
 
+    @property
+    def sigma(self):
+        return self._sigma
+    @sigma.setter
+    def sigma(self, s):
+        self._sigma = float(s)
 
     def energy(self, r):
         r6inv = 1/r**6

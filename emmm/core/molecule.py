@@ -79,7 +79,7 @@ class Molecule(Item):
 
             elif isinstance(item, Molecule):
 
-                atoms.append(item.flatten(dir))
+                atoms.extend(item.flatten(dir))
 
                 if isMol:
                     atoms.append(item)

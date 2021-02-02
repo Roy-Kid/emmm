@@ -22,16 +22,16 @@ class OUTlmpdat(OutputBase):
         self.file = open(fname, 'w')
 
         self.comment()
-        self.atoms()
-        self.bonds()
-        self.angles()
-        self.dihedrals()
-        self.impropers()
-        self.atom_types()
-        self.bond_types()
-        self.angle_types()
-        self.dihedral_types()
-        self.improper_types()
+        self.atomCount()
+        self.bondCount()
+        self.angleCount()
+        self.dihedralCount()
+        self.improperCount()
+        self.atomTypeCount()
+        self.bondTypeCount()
+        self.angleTypeCount()
+        self.dihedralTypeCount()
+        self.improperTypeCount()
         self.boundary()
         self.masses()
         self.pair_coeffs()
@@ -52,34 +52,34 @@ class OUTlmpdat(OutputBase):
     def comment(self):
         return f'LAMMPS data from {self.world.comment} Created by \n\n'
 
-    def atoms(self):
+    def atomCount(self):
         return f'\t  {self.world.atomCount}  atoms\n'
 
-    def bonds(self):
+    def bondCount(self):
         return f'\t  {self.world.bondCount}  bonds\n'
 
-    def angles(self):
+    def angleCount(self):
         return f'\t  {self.world.angleCount}  angles\n'
 
-    def dihedrals(self):
+    def dihedralCount(self):
         return f'\t  {self.world.dihedralCount}  dihedrals\n\n'
 
-    def impropers(self):
-        return f'\t  {self.world.improperCount}  dihedrals\n\n'
+    def improperCount(self):
+        return f'\t  {self.world.improperCount}  impropers\n\n'
 
-    def atom_types(self):
+    def atomTypeCount(self):
         return f'\t  {self.world.atomTypeCount}  atom types\n'
 
-    def bond_types(self):
+    def bondTypeCount(self):
         return f'\t  {self.world.bondTypeCount}  bond types\n'
 
-    def angle_types(self):
+    def angleTypeCount(self):
         return f'\t  {self.world.angleTypeCount}  angle types\n'
 
-    def dihedral_types(self):
+    def dihedralTypeCount(self):
         return f'\t  {self.world.dihedralTypeCount}  dihedral types\n'
 
-    def improper_types(self):
+    def improperTypeCount(self):
         return f'\t  {self.world.improperTypeCount}  improper types\n\n'
 
     def boundary(self):

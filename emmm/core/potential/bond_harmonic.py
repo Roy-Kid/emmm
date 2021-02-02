@@ -3,17 +3,37 @@
 # date: 2021-01-25
 # version: 0.0.1
 
-from core.potential.potential_base import BondBase
+from emmm.core.potential.potential_base import BondBase
 
 class BondHarmonic(BondBase):
     def __init__(self, typeName1, typeName2, coeffs) -> None:
         super().__init__(typeName1, typeName2)
         if not isinstance(coeffs, dict):
             raise TypeError(f'coeffs 应为dict类型而不是{type(coeffs)}')
-        self.style = 'harmonic'
+        self._style = 'harmonic'
         self.k = coeffs['k']
         self.r0 = coeffs['r0']
         # self.cutoff = coeffs['cutoff']
+
+    @property
+    def style(self):
+        return self.style
+
+    @property
+    def k(self):
+        return self._k
+
+    @k.setter
+    def k(self, k):
+        self._k = float(k)
+
+    @property
+    def r0(self):
+        return self._r0
+
+    @r0.setter
+    def r0(self, r0):
+        self._r0 = float(r0)
 
     def energy(self, r):
         """ get the energy when bond length=r

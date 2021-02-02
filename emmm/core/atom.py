@@ -21,7 +21,8 @@ class Atom(Item):
 
     __repr__ = __str__ 
 
-    def get_neighbors(self):
+    @property
+    def neighbors(self):
         return self.container
 
     def add_neighbors(self, *atoms):

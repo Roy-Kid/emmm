@@ -3,7 +3,6 @@
 # date: 2021-01-24
 # version: 0.0.2
 
-from numpy.lib.function_base import angle
 from emmm.plugins.input.input_base import InputData
 from emmm.core.create import CreateAtom
 from . import InputBase

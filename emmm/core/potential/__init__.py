@@ -25,21 +25,21 @@ def angle_potential_interface(style:str, typeName1, typeName2, typeName3, coeffs
     module_name = 'emmm.core.potential.'+'angle_'+style
     class_name = 'Angle'+style.capitalize()
     ap = getattr(import_module(module_name), class_name)
-    return ap(typeName1, typeName2, coeffs)
+    return ap(typeName1, typeName2, typeName3, coeffs)
 
 def dihedral_potential_interface(style:str, typeName1, typeName2, typeName3, typeName4, coeffs):
 
     module_name = 'emmm.core.potential.'+'dihedral_'+style
     class_name = 'Dihedral'+style.capitalize()
     dp = getattr(import_module(module_name), class_name)
-    return dp(typeName1, typeName2, coeffs)
+    return dp(typeName1, typeName2, typeName3, typeName4, coeffs)
 
 def improper_potential_interface(style:str, typeName1, typeName2, typeName3, typeName4, coeffs):
 
     module_name = 'emmm.core.potential.'+'improper_'+style
     class_name = 'Improper'+style.capitalize()
     ip = getattr(import_module(module_name), class_name)
-    return ip(typeName1, typeName2, coeffs)
+    return ip(typeName1, typeName2, typeName3, typeName4, coeffs)
 
 def pair_potential_interface(style:str, typeName1, typeName2, coeffs):
 

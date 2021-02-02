@@ -6,7 +6,11 @@
 class PotentialBase:
 
     def __init__(self) -> None:
-        pass    
+        self._style = str()
+
+    @property
+    def style(self):
+        return self._style
 
     def compair(self) -> bool:
         pass
@@ -92,8 +96,11 @@ class ImproperBase(PotentialBase):
         self.typeName3 = typeName3       
         self.typeName4 = typeName4
 
+    def __str__(self) -> str:
+        return f'improper style:{self._style} def by {self.typeName1} {self.typeName2} {self.typeName3} {self.typeName4}'
+
     def compare(self, t1, t2, t3, t4):
-        if [t1, t2, t3, t4] == [self.typeName1, self.typeName2, self.typeName3, self.typeName4] or [t4, t3, t2, t1] == [self.typeName1, self.typeName2, self.typeName3, self.typeName4]:
+        if t1 == self.typeName1 and sorted([t2, t3, t4]) == sorted([self.typeName2, self.typeName3, self.typeName4]):
             return True
         else:
             return False

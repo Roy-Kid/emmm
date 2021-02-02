@@ -2,7 +2,7 @@
 # contact: lijichen365@126.com
 # date: 2021-01-25
 # version: 0.0.1
-from emmm.core.potential.bond_base import BondBase
+from emmm.core.potential.potential_base import BondBase
 import pytest
 
 @pytest.fixture()
