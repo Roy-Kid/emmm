@@ -45,3 +45,7 @@ class ImproperCvff(ImproperBase):
 
     def force(self, phi):
         return -1*self.n*self.k*math.sin(self.n*phi)
+
+    @property
+    def lmp_format(self):
+        return [self.k, self.d, self.n]

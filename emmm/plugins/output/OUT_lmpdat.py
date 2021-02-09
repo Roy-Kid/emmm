@@ -3,12 +3,10 @@
 # date: 2021-01-25
 # version: 0.0.1
 
-
 from emmm.plugins.output.output_base import OutputBase
 
 
 class OUTlmpdat(OutputBase):
-
     def write_data(self, fname, atomStyle='full'):
 
         # check if there is a world to be written
@@ -83,56 +81,80 @@ class OUTlmpdat(OutputBase):
         return f'\t  {self.world.improperTypeCount}  improper types\n\n'
 
     def boundary(self):
-        return [f'\t  {self.world.xlo}\t{self.world.xhi}\txlo\txhi\n',
-                f'\t  {self.world.ylo}\t{self.world.yhi}\tylo\tyhi\n',
-                f'\t  {self.world.zlo}\t{self.world.zhi}\tzlo\tzhi\n\n']
+        return [
+            f'\t  {self.world.xlo}\t{self.world.xhi}\txlo\txhi\n',
+            f'\t  {self.world.ylo}\t{self.world.yhi}\tylo\tyhi\n',
+            f'\t  {self.world.zlo}\t{self.world.zhi}\tzlo\tzhi\n\n'
+        ]
 
     def masses(self):
         lines = list()
-        lines.append(f'Masses\n\n')
-        for id, mass in self.world.masses.items():
-            lines.append(f'\t{id}\t{mass}\n')
+        lines.append('Masses\n\n')
+        for m in self.world.masses:
+            lines.append(f'\t{m[0]}\t{m[1]}\n')
 
-        lines.append('\n')
+        return lines
 
     def pair_coeffs(self):
         lines = list()
-        lines.append(f'Pair Coeffs\n\n')
-        for id, pp in self.world.forcefield.pairPotential.items():
-            lines.append(f'\t{id}\t{pp.lmpformat.join("  ")}\n')
-        lines.append('\n')
+        lines.append('Pair Coeffs\n\n')
+        for pp in self.world.pairPotentials:
+            coeffs = [pp.pairID, *pp.lmp_format]
+            coeffs = [str(i) for i in coeffs]
+            pc = '\t'.join(coeffs)
+            lines.append(f'\t\t{ pc }\n')
+
+        return lines
 
     def bond_coeffs(self):
         lines = list()
-        lines.append(f'Bond Coeffs\n\n')
-        for id, bp in self.wold.forcefield.bondPotential.items():
-            lines.append(f'\t{id}\t{bp.lmpformat.join("  ")}\n')
-        lines.append('\n')
+        lines.append('Bond Coeffs\n\n')
+        for bp in self.world.bondPotentials:
+
+            coeffs = [bp.bondID, *bp.lmp_format]
+            coeffs = [str(i) for i in coeffs]
+            bc = '\t'.join(coeffs)
+            lines.append(f'\t\t{bc}\n')
+
+        return lines
 
     def angle_coeffs(self):
         lines = list()
-        lines.append(f'Angle Coeffs\n\n')
-        for id, ap in self.world.forcefield.anglePotential.items():
-            lines.append(f'\t{id}\t{ap.lmpformat.join("  ")}\n')
-        lines.append('\n')
+        lines.append('Angle Coeffs\n\n')
+        for ap in self.world.anglePotentials:
+            coeffs = [ap.angleID, *ap.lmp_format]
+            coeffs = [str(i) for i in coeffs]
+            ac = '\t'.join(coeffs)
+            lines.append(f'\t\t{ac}\n')
+
+        return lines
 
     def dihedral_coeffs(self):
         lines = list()
-        lines.append(f'Dihedral Coeffs\n\n')
-        for id, dp in self.world.forcefield.dihedralPotential.items():
-            lines.append(f'\t{id}\t{dp.lmpformat.join("  ")}\n')
-        lines.append('\n')
+        lines.append('Dihedral Coeffs\n\n')
+        for dp in self.world.dihedralPotentials:
+            coeffs = [dp.dihedralID, *dp.lmp_format]
+            coeffs = [str(i) for i in coeffs]
+            dc = '\t'.join(coeffs)
+            lines.append(f'\t\t{dc}\n')
+
+        return lines
 
     def improper_coeffs(self):
         lines = list()
-        lines.append(f'Improper Coeffs\n\n')
-        for id, ip in self.world.forcefield.improperPotential.items():
-            lines.append(f'\t{id}\t{ip.lmpformat.join("  ")}\n')
-        lines.append('\n')
+        lines.append('Improper Coeffs\n\n')
+
+        for ip in self.world.improperPotentials:
+            coeffs = [ip.improperID, *ip.lmp_format]
+            coeffs = [str(i) for i in coeffs]
+            ip = '\t'.join(coeffs)
+            lines.append(f'\t\t{ip}\n')
+
+        return lines
 
     def Atoms(self):
         lines = list()
-        lines.append(f'Atoms\n\n')
+        lines.append('Atoms\n\n')
 
         self.atomIdMap = dict()
 
@@ -146,8 +168,8 @@ class OUTlmpdat(OutputBase):
             self.atomIdMap[atom.id] = i
 
             # but yes, repear atom type
-            atomTypeId = self.atomTypeMap.setdefault(
-                atom.type, atomTypeMapCounter)
+            atomTypeId = self.atomTypeMap.setdefault(atom.type,
+                                                     atomTypeMapCounter)
             atomTypeMapCounter += 1
             # if atom.type not in self.atomTypeMap:
             #     self.atomTypeMap[atom.type] = atomTypeMapCounter
@@ -159,10 +181,14 @@ class OUTlmpdat(OutputBase):
             molid = atom.root
 
             if self.atomStyle == 'full':
-                lines.append(f'\t{id}\t{molid}\t{atomTypeId}\t{atom.q}\t{atom.x}\t{atom.y}\t{atom.z}\n')
+                lines.append(
+                    f'\t{id}\t{molid}\t{atomTypeId}\t{atom.q}\t{atom.x}\t{atom.y}\t{atom.z}\n'
+                )
 
             elif self.atomStyle == 'molecular':
-                lines.append(f'\t{id}\t{molid}\t{atomTypeId}\t{atom.x}\t{atom.y}\t{atom.z}\n')
+                lines.append(
+                    f'\t{id}\t{molid}\t{atomTypeId}\t{atom.x}\t{atom.y}\t{atom.z}\n'
+                )
 
         lines.append('\n')
 
@@ -174,14 +200,18 @@ class OUTlmpdat(OutputBase):
 
         for id, bond in enumerate(self.world.topo.topoBonds):
 
-            bondType = [self.atomTypeMap.index(
-                bond[0].type), self.atomTypeMap.index(bond[0].type)]
+            bondType = [
+                self.atomTypeMap.index(bond[0].type),
+                self.atomTypeMap.index(bond[0].type)
+            ]
             sorted(bondType)
             if bondType not in self.bondTypeMap:
                 self.bondTypeMap.append(bondType)
             type = self.bondTypeMap.index(bondType)
 
-            lines.append(f'\t{id}\t{type}\t{self.atomIdMap[bond[0].id]}\t{self.atomIdMap[bond[1].id]}\n')
+            lines.append(
+                f'\t{id}\t{type}\t{self.atomIdMap[bond[0].id]}\t{self.atomIdMap[bond[1].id]}\n'
+            )
 
         lines.append(f'\n')
 
@@ -204,7 +234,9 @@ class OUTlmpdat(OutputBase):
                 self.angleTypeMap.append(angleType)
             type = self.angleTypeMap.index(angleType)
 
-            lines.append(f'\t{id}\t{type}\t{self.atomIdMap[angle[0].id]}\t{self.atomIdMap[angle[1].id]}\t{self.atomIdMap[angle[2].id]}\n')
+            lines.append(
+                f'\t{id}\t{type}\t{self.atomIdMap[angle[0].id]}\t{self.atomIdMap[angle[1].id]}\t{self.atomIdMap[angle[2].id]}\n'
+            )
 
         lines.append(f'\n')
 
@@ -227,7 +259,9 @@ class OUTlmpdat(OutputBase):
                 self.dihedralTypeMap.append(dihedralType)
             type = self.dihedralTypeMap.index(dihedralType)
 
-            lines.append(f'\t{id}\t{type}\t{self.atomIdMap[dihedral[0].id]}\t{self.atomIdMap[dihedral[1].id]}\t{self.atomIdMap[dihedral[2].id]}\t{self.atomIdMap[dihedral[3].id]}')
+            lines.append(
+                f'\t{id}\t{type}\t{self.atomIdMap[dihedral[0].id]}\t{self.atomIdMap[dihedral[1].id]}\t{self.atomIdMap[dihedral[2].id]}\t{self.atomIdMap[dihedral[3].id]}'
+            )
         lines.append(f'\n')
 
     def Impropers(self):
@@ -249,5 +283,7 @@ class OUTlmpdat(OutputBase):
                 self.improperTypeMap.append(improperType)
             type = self.improperTypeMap.index(improperType)
 
-            lines.append(f'\t{id}\t{type}\t{self.atomIdMap[improper[0].id]}\t{self.atomIdMap[improper[1].id]}\t{self.atomIdMap[improper[2].id]}\t{self.atomIdMap[improper[3].id]}')
+            lines.append(
+                f'\t{id}\t{type}\t{self.atomIdMap[improper[0].id]}\t{self.atomIdMap[improper[1].id]}\t{self.atomIdMap[improper[2].id]}\t{self.atomIdMap[improper[3].id]}'
+            )
         lines.append(f'\n')

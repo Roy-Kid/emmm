@@ -258,6 +258,5 @@ class Topo:
                             impropers_id.append(sorted_improper_id)
                         else:
                             print(f'improper:{improper_type} 没有匹配力场')
-        for ip in self.world.forcefield.improperPotentialList:
-            print(ip)
+
         return impropers

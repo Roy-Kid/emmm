@@ -60,3 +60,7 @@ class DihedralOpls(DihedralBase):
             3*self.k3*math.sin(3*phi)+
             4*self.k4*math.sin(4*phi)
         )
+
+    @property
+    def lmp_format(self):
+        return [self.k1, self.k2, self.k3, self.k4]

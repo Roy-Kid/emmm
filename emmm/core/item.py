@@ -48,10 +48,6 @@ class Item:
         return n
 
     @property
-    def ls(self):
-        print(self.container)
-
-    @property
     def label(self):
         return self._label
 
@@ -144,7 +140,7 @@ class Item:
         z = float(z)
 
         if x==0 and y==0 and z==0:
-            raise ValueError(_('旋转轴设置错误'))
+            raise ValueError('旋转轴设置错误')
 
         rotAxis = np.array([x, y, z])
 

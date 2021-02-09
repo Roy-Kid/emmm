@@ -32,3 +32,6 @@ class AngleHarmonic(AngleBase):
     def force(self, theta):
         return self.k*2 *(theta - self.theta0)
 
+    @property
+    def lmp_format(self):
+        return [self.k, self.theta0]

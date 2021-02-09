@@ -1,6 +1,8 @@
 # author: Roy Kid
+# contact: lijichen365@126.com
+# date: 2021-02-07
+# version: 0.0.1
 
-from numpy.lib.arraysetops import isin
 from emmm.core.atom import Atom
 from emmm.core.item import Item
 import numpy as np

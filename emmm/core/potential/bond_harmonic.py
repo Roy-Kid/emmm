@@ -56,7 +56,7 @@ class BondHarmonic(BondBase):
             force: bond force
         """
         return 2*self.k*(r - self.r0)
-
-    def lmpformat(self):
+    @property
+    def lmp_format(self):
         # k r0
         return [self.k, self.r0]

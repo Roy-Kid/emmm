@@ -32,3 +32,7 @@ class ImproperHarmonic(ImproperBase):
 
     def force(self, chi):
         return 2*self.k*(chi - self.chi0)
+
+    @property
+    def lmp_format(self):
+        return [self.k, self.chi]
