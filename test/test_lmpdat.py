@@ -4,7 +4,7 @@
 # version: 0.0.1
 
 from os import write
-from emmm.core.world import World
+from mollab.core.world import World
 import pytest
 
 
@@ -235,4 +235,3 @@ class TestOUTlmpdat:
 
     def test_Atoms(self, writer):
         line = writer.Atoms()
-        

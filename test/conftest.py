@@ -1,8 +1,8 @@
 # author: Roy Kid
 # contact: lijichen365@126.com
 
-from emmm.core.create import CreateAtom, CreateMolecule
-from emmm.core.world import World
+from mollab.core.create import CreateAtom, CreateMolecule
+from mollab.core.world import World
 import pytest
 
 

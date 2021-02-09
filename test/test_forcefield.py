@@ -3,7 +3,7 @@
 # date: 2021-01-27
 # version: 0.0.1
 
-from emmm.core.world import World
+from mollab.core.world import World
 
 class TestForcefieldViaH2o:
 

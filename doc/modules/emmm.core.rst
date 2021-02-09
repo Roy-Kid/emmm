@@ -1,69 +1,69 @@
-emmm.core package
+mollab.core package
 =================
 
 Submodules
 ----------
 
-emmm.core.atom module
+mollab.core.atom module
 ---------------------
 
-.. automodule:: emmm.core.atom
+.. automodule:: mollab.core.atom
    :members:
    :undoc-members:
    :show-inheritance:
 
-emmm.core.create module
+mollab.core.create module
 -----------------------
 
-.. automodule:: emmm.core.create
+.. automodule:: mollab.core.create
    :members:
    :undoc-members:
    :show-inheritance:
 
-emmm.core.forcefield module
+mollab.core.forcefield module
 ---------------------------
 
-.. automodule:: emmm.core.forcefield
+.. automodule:: mollab.core.forcefield
    :members:
    :undoc-members:
    :show-inheritance:
 
-emmm.core.item module
+mollab.core.item module
 ---------------------
 
-.. automodule:: emmm.core.item
+.. automodule:: mollab.core.item
    :members:
    :undoc-members:
    :show-inheritance:
 
-emmm.core.molecule module
+mollab.core.molecule module
 -------------------------
 
-.. automodule:: emmm.core.molecule
+.. automodule:: mollab.core.molecule
    :members:
    :undoc-members:
    :show-inheritance:
 
-emmm.core.select module
+mollab.core.select module
 -----------------------
 
-.. automodule:: emmm.core.select
+.. automodule:: mollab.core.select
    :members:
    :undoc-members:
    :show-inheritance:
 
-emmm.core.topo module
+mollab.core.topo module
 ---------------------
 
-.. automodule:: emmm.core.topo
+.. automodule:: mollab.core.topo
    :members:
    :undoc-members:
    :show-inheritance:
 
-emmm.core.world module
+mollab.core.world module
 ----------------------
 
-.. automodule:: emmm.core.world
+.. automodule:: mollab.core.world
    :members:
    :undoc-members:
    :show-inheritance:
@@ -71,7 +71,7 @@ emmm.core.world module
 Module contents
 ---------------
 
-.. automodule:: emmm.core
+.. automodule:: mollab.core
    :members:
    :undoc-members:
    :show-inheritance:

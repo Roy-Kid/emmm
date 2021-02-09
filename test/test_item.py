@@ -1,5 +1,5 @@
 
-from emmm.core.item import Item
+from mollab.core.item import Item
 import pytest
 import numpy as np
 

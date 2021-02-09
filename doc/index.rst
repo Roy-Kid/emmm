@@ -1,4 +1,4 @@
-Emmm 手册 | 版本 v0.0.1
+mollab 手册 | 版本 v0.0.1
 ================================
 
 :开发者:       Roy Kid
@@ -7,11 +7,11 @@ Emmm 手册 | 版本 v0.0.1
 
 :日期:         |today|
 
-Emmm 简介
+mollab 简介
 ================================
-**Emmm** 是 Emmm makes molecule manipulated的缩写. 
+**mollab** 是 mollab makes molecule manipulated的缩写. 
 
-**Emmm** 是 一款分子建模工具. 
+**mollab** 是 一款分子建模工具. 
 
 使用手册
 ================================

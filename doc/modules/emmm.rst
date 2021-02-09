@@ -1,4 +1,4 @@
-emmm package
+mollab package
 ============
 
 Subpackages
@@ -7,13 +7,13 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   emmm.core
-   emmm.plugins
+   mollab.core
+   mollab.plugins
 
 Module contents
 ---------------
 
-.. automodule:: emmm
+.. automodule:: mollab
    :members:
    :undoc-members:
    :show-inheritance:

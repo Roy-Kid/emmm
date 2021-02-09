@@ -1,4 +1,4 @@
-from emmm.core.atom import Atom
+from mollab.core.atom import Atom
 import pytest
 import numpy as np
 

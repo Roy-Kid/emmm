@@ -1,4 +1,4 @@
-emmm.plugins.precast package
+mollab.plugins.precast package
 ============================
 
 Subpackages
@@ -7,23 +7,23 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
-   emmm.plugins.precast.inorganic
+   mollab.plugins.precast.inorganic
 
 Submodules
 ----------
 
-emmm.plugins.precast.csarw module
+mollab.plugins.precast.csarw module
 ---------------------------------
 
-.. automodule:: emmm.plugins.precast.csarw
+.. automodule:: mollab.plugins.precast.csarw
    :members:
    :undoc-members:
    :show-inheritance:
 
-emmm.plugins.precast.precast\_base module
+mollab.plugins.precast.precast\_base module
 -----------------------------------------
 
-.. automodule:: emmm.plugins.precast.precast_base
+.. automodule:: mollab.plugins.precast.precast_base
    :members:
    :undoc-members:
    :show-inheritance:
@@ -31,7 +31,7 @@ emmm.plugins.precast.precast\_base module
 Module contents
 ---------------
 
-.. automodule:: emmm.plugins.precast
+.. automodule:: mollab.plugins.precast
    :members:
    :undoc-members:
    :show-inheritance:

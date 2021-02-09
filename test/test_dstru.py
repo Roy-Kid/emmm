@@ -3,7 +3,7 @@
 # date: 2021-01-27
 # version: 0.0.1
 
-from emmm.core.dstru import ndarray
+from mollab.core.dstru import ndarray
 import pytest
 
 class TESTndarray:

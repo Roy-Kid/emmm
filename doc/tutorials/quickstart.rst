@@ -13,7 +13,7 @@
 
 .. code-block:: python
 
-import emmm as em    # 首先导入emmm包
+import mollab as em    # 首先导入mollab包
 
 create = em.Create('atom', 'molecular') # 实例化一个创建方法
 # 创建三个原子, 原子类型是 molecular
@@ -44,7 +44,7 @@ h2o = create('h2o', 'h2o', h1, o, h2)
 
 .. code-block:: python
 
-import emmm as em
+import mollab as em
 
 world = em.World()
 world.add_items(h2o)
