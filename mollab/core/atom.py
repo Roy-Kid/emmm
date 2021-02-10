@@ -15,11 +15,10 @@ class Atom(Item):
 
         self._duplicate = [self]
 
-
     def __str__(self) -> str:
         return f' < Atom: {self.label} in {self.parent} at {self.position}> '
 
-    __repr__ = __str__ 
+    __repr__ = __str__
 
     @property
     def neighbors(self):

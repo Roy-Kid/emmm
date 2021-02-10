@@ -7,6 +7,7 @@ class Item:
 
     def __init__(self):
 
+        self._id = str()
         self._label = str()
         self._parent = str()
         self._path = str()
@@ -26,7 +27,11 @@ class Item:
 
     @property
     def id(self):
-        return id(self)
+        return self._id
+
+    @id.setter
+    def id(self, id):
+        self._id = id
 
     @property
     def root(self):

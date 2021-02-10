@@ -1,6 +1,7 @@
 ### Python ###
 
 docs/
+.VSCodeCounter/
 
 vis
 # Byte-compiled / optimized / DLL files

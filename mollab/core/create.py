@@ -5,26 +5,27 @@ from mollab.core.molecule import Molecule
 
 import numpy as np
 
+
 class CreateAtom:
 
-# class NodeVisitor(object):
-#     def visit(self, node):
-#         method_name = 'visit_' + type(node).__name__
-#         visitor = getattr(self, method_name, self.generic_visit)
-#         return visitor(node)
+    # class NodeVisitor(object):
+    #     def visit(self, node):
+    #         method_name = 'visit_' + type(node).__name__
+    #         visitor = getattr(self, method_name, self.generic_visit)
+    #         return visitor(node)
 
-#     def generic_visit(self, node):
-#         raise Exception('No visit_{} method'.format(type(node).__name__))
+    #     def generic_visit(self, node):
+    #         raise Exception('No visit_{} method'.format(type(node).__name__))
 
     @staticmethod
     def genericAtom(type):
-        method_name = type+'Atom'
+        method_name = type + 'Atom'
         create_method = getattr(CreateAtom, method_name, CreateAtom.errorRaise)
         return create_method
 
     @staticmethod
     def genericAtoms(type):
-        method_name = type+'Atoms'
+        method_name = type + 'Atoms'
         create_method = getattr(CreateAtom, method_name, CreateAtom.errorRaise)
         return create_method
 
@@ -34,7 +35,7 @@ class CreateAtom:
     @staticmethod
     def _create_atom(**kwargs):
         atom = Atom()
-        for k,v in kwargs.items():
+        for k, v in kwargs.items():
             setattr(atom, k, v)
         return atom
 
@@ -45,13 +46,19 @@ class CreateAtom:
         type = str(type)
         q = float(q)
         x, y, z = float(x), float(y), float(z)
-        return CreateAtom._create_atom(label=label, parent=parent, type=type, q=q, x=x, y=y, z=z)       
+        return CreateAtom._create_atom(label=label,
+                                       parent=parent,
+                                       type=type,
+                                       q=q,
+                                       x=x,
+                                       y=y,
+                                       z=z)
 
     @staticmethod
     def fullAtoms(atoms):
 
         atom_list = list()
-    
+
         for atom in atoms:
 
             label = atom[0]
@@ -60,9 +67,9 @@ class CreateAtom:
             q = atom[3]
             x, y, z = atom[4], atom[5], atom[6]
 
-            atom_list.append(CreateAtom.fullAtom(label, parent, type, q, x, y, z))
+            atom_list.append(
+                CreateAtom.fullAtom(label, parent, type, q, x, y, z))
         return atom_list
-  
 
     @staticmethod
     def molecularAtom(label, parent, type, x, y, z, *args):
@@ -72,13 +79,17 @@ class CreateAtom:
 
         x, y, z = float(x), float(y), float(z)
 
-        return CreateAtom._create_atom(label=label, parent=parent,type=type,  x=x, y=y, z=z)
-
+        return CreateAtom._create_atom(label=label,
+                                       parent=parent,
+                                       type=type,
+                                       x=x,
+                                       y=y,
+                                       z=z)
 
     @staticmethod
     def molecularAtoms(atoms):
         atom_list = list()
-    
+
         for atom in atoms:
             label = atom[0]
             parent = atom[1]
@@ -86,11 +97,29 @@ class CreateAtom:
             q = atom[3]
             x, y, z = atom[4], atom[5], atom[6]
 
-            atom_list.append(CreateAtom.fullAtom(label, parent, type, q, x, y, z))
+            atom_list.append(
+                CreateAtom.fullAtom(label, parent, type, q, x, y, z))
         return atom_list
 
-class CreateMolecule:
+    @staticmethod
+    def pdbAtom(serial, name, resName, x, y, z):
+        serial = str(serial)
+        name = str(name)
+        resName = str(resName)
+        x, y, z = float(x), float(y), float(z)
+        return CreateAtom._create_atom(id=serial,
+                                       label=name,
+                                       parent=resName,
+                                       x=x,
+                                       y=y,
+                                       z=z)
 
+    @staticmethod
+    def pdbAtoms(atoms):
+        pass
+
+
+class CreateMolecule:
     @staticmethod
     def _create_molecule(label, type, atoms, isAdhere):
         mol = Molecule()
@@ -106,6 +135,7 @@ class CreateMolecule:
     def lmpMolecule(label, type, *atoms, isAdhere=False):
         return CreateMolecule._create_molecule(label, type, atoms, isAdhere)
 
+
 # class CreateAtomFull(_Create):
 
 #     def __call__(self, label, type, q, x, y, z, **kwargs):
@@ -113,9 +143,8 @@ class CreateMolecule:
 #         if kwargs['Atoms']:
 #             return self.atoms(label, type, q, x, y, z)
 
-#         else: 
+#         else:
 #             return self.atom(label, type, q, x, y, z)
-
 
 #     def atom(self, label, type, q, x, y, z, *args):
 #         label = str(label)
@@ -136,7 +165,7 @@ class CreateMolecule:
 
 # class CreateMolecularAtom(_Create):
 #     def __call__(self, label,type, x, y, z):
-        
+
 #         if isinstance(label, str):
 #             return self.atom(label,type, x, y, z)
 #         else:
@@ -169,11 +198,10 @@ class CreateMolecule:
 #         return self._atomType[type]
 
 # class CreateLmpMolecule(_Create):
-    
-#     def __call__(self, label, type, *atoms, isAdhere=False):
-        
-#         return self._create_molecule(label, type, atoms, isAdhere)
 
+#     def __call__(self, label, type, *atoms, isAdhere=False):
+
+#         return self._create_molecule(label, type, atoms, isAdhere)
 
 # class CreateMolecule:
 
@@ -183,14 +211,10 @@ class CreateMolecule:
 #         }
 #         return self._molType[type]
 
-
 # def Create(*type):
 #     if type[0] == 'atom':
 #         return CreateAtom()(type[1])
 #     elif type[0] == 'molecule':
 #         return CreateMolecule()(type[1])
 
-
 # class Create:
-
-

@@ -3,7 +3,7 @@
 # date: 2021-01-25
 # version: 0.0.1
 
-from os import write
+
 from mollab.core.world import World
 import pytest
 
@@ -55,7 +55,7 @@ def reader(world):
 
 
 @pytest.fixture(scope='module')
-def writer(world, reader):
+def writer(world):
     writer = world.active_plugin('OUTlmpdat')
     world.update()
     writer.world = world
