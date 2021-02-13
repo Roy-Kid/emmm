@@ -3,40 +3,29 @@
 # date: 2021-02-07
 # version: 0.0.1
 
-from mollab.core.atom import Atom
 from mollab.core.item import Item
 import numpy as np
 from mollab.i18n.i18n import _
 
 
 class Molecule(Item):
+    def __init__(self, moleculeStyle):
 
-
-
-    def __init__(self, label=None, type=None, isAdhere=False):
-
-        super().__init__()
-
-        self._label = label
-        self._type = type
-        self.isAdhere = isAdhere        
+        super().__init__('Molecule')
+        self.moleculeStyle = moleculeStyle
 
         self._duplicate = [self]
-
-
 
     def __repr__(self) -> str:
         return f'< molecule: {self.label} in {self.parent}>'
 
     __str__ = __repr__
 
-
-
     def add_items(self, *items):
         """ 向molecule中添加item
         """
         for item in items:
-            if isinstance(item, Atom) or isinstance(item, Molecule):
+            if item.itemType == 'Molecule' or item.itemType == 'Atom':
                 item.parent = self.label
                 self.container.append(item)
 
@@ -70,22 +59,21 @@ class Molecule(Item):
 
             if self.isAdhere:
                 item.root = self.root
-                if isinstance(item, Molecule): 
+                if item.itemType == 'Molecule':
                     item.isAdhere = True
 
-            if isinstance(item, Atom):
+            if item.itemType == 'Molecule':
                 dir.append(item.label)
                 item.path = '/'.join(dir)
                 atoms.append(item)
                 dir.pop()
 
-            elif isinstance(item, Molecule):
+            elif item.itemType == 'Atom':
 
                 atoms.extend(item.flatten(dir))
 
                 if isMol:
                     atoms.append(item)
-
 
         dir.pop()
         return atoms
@@ -96,7 +84,7 @@ class Molecule(Item):
         for atom in atoms:
             vec += atom.position
 
-        centroid = vec/len(atoms)
+        centroid = vec / len(atoms)
         setattr(self, '_position', centroid)
 
     def toDict(self):
@@ -138,7 +126,7 @@ class Molecule(Item):
         return np.array(coords)
 
     def move(self, x, y, z):
-        
+
         for atom in self:
             atom.move(x, y, z)
 
@@ -152,7 +140,7 @@ class Molecule(Item):
     def distance_to(self, item):
         position1 = self.position
         position2 = item.position
-        dist = np.linalg.norm(position2-position1)
+        dist = np.linalg.norm(position2 - position1)
 
         return dist
 
@@ -190,7 +178,8 @@ class Molecule(Item):
             self.rotate(theta, xAxis, yAxis, zAxis, x, y, z)
         else:
             raise SyntaxError(
-                _('为了指定空间中(x,y,z)的旋转轴的朝向, 需要将方向设定为1. 如: 旋转轴指向x方向则xAxis=1, yAxis=zAxis=0'))
+                _('为了指定空间中(x,y,z)的旋转轴的朝向, 需要将方向设定为1. 如: 旋转轴指向x方向则xAxis=1, yAxis=zAxis=0'
+                  ))
 
     def seperate_with(self, targetItem, type, value):
         if all(self.position == targetItem.position):
@@ -199,30 +188,40 @@ class Molecule(Item):
 
         distance = np.linalg.norm(oriVec)
 
-        uniVec = oriVec/distance
+        uniVec = oriVec / distance
 
         if type == 'relative' or type == 'rel':
 
-            distance = distance*(value-1)/2
+            distance = distance * (value - 1) / 2
 
-            self.move(*-uniVec*distance)
-            targetItem.move(*+uniVec*distance)
+            self.move(*-uniVec * distance)
+            targetItem.move(*+uniVec * distance)
 
         if type == 'abusolute' or type == 'abs':
-            self.move(*-uniVec*value)
-            targetItem.move(*+uniVec*value)
+            self.move(*-uniVec * value)
+            targetItem.move(*+uniVec * value)
         return self
 
-
     def duplicate(self, n, x, y, z):
-        
+
         temp = []
         for j in self._duplicate:
-            for i in range(1, n+1):
+            for i in range(1, n + 1):
                 mol = j.get_replica(j.label)
-                mol.move(i*x, i*y, i*z)
+                mol.move(i * x, i * y, i * z)
                 temp.append(mol)
 
         self._duplicate.extend(temp)
 
         return self
+
+
+class lmpMolecule(Molecule):
+    def __init__(self, molId):
+        super().__init__('lmpMolecule')
+
+
+class pdbMolecule(Molecule):
+    def __init__(self, molId):
+        super().__init__('pdbMolecule')
+        

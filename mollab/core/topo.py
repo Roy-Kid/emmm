@@ -3,9 +3,6 @@
 # date: 2021-01-16
 # version: 0.0.1
 
-from .molecule import Molecule
-from .atom import Atom
-from pprint import pprint
 from itertools import combinations
 
 class Topo:
@@ -33,9 +30,9 @@ class Topo:
         """
         self.isFF = True
         # 将item展开成atom的列表
-        if isinstance(item, Molecule):
+        if item.itemType == 'Molecule':
             self.atoms = item.flatten()  # <-molecule._flatten()
-        elif isinstance(item, Atom):
+        elif item.itemType == 'Atom':
             self.atoms = [item]
         if isBond:
             self.bonds.extend(self.search_bond(self.atoms))

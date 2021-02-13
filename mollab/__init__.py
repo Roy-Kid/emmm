@@ -1,6 +1,21 @@
-from .core.atom import Atom
-from .core.molecule import Molecule
-from .core.world import World
-from .core.create import CreateAtom, CreateMolecule
+# author: Roy Kid
+# contact: lijichen365@126.com
+# date: 2021-02-13
+# version: 0.0.1
+from .plugins import PluginManager
+from .core import Atom, World
 
-__all__ = ['Atom', 'Molecule', 'World', 'CreateAtom', 'CreateMolecule']
+
+pluginManager = PluginManager()
+
+def active_plugin(pname):
+    """ to instanciate a plugin and return its instance
+
+    Args:
+        pname ([str]): [class name of plugin]
+
+    Returns:
+        [plugin]: [instance of plugin]
+    """
+
+    return pluginManager.plugins[pname]()

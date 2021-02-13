@@ -3,8 +3,7 @@
 # date: 2021-02-06
 # version: 0.0.1
 
-from mollab.core.atom import Atom
-from mollab.core.molecule import Molecule
+
 import numpy as np
 
 
@@ -49,9 +48,9 @@ class Mapper:
 
     def set_types(self, items):
         for item in items:
-            if isinstance(item, Molecule):
+            if item.itemType == 'Molecule':
                 self.set_types(item)
-            elif isinstance(item, Atom):
+            elif item.itemType == 'Atom':
                 self.set_type(item)
 
     def set_type(self, atom):

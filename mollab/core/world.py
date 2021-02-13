@@ -6,11 +6,10 @@
 from mollab.core.mapper import Mapper
 from mollab.core.topo import Topo
 from mollab.core.forcefield import ForceField
-from mollab.plugins import PluginManager
-from mollab.core.molecule import Molecule
+from mollab.core.item import Item
 
 
-class World:
+class World(Item):
 
     worldCount = 0
     worldCount += 1
@@ -25,93 +24,114 @@ class World:
 
         self.topo = Topo(self)
 
-        # container?
-        self._molecules = Molecule('world')
+    #     self.get_bond = self.forcefield.get_bond
 
-        self.pluginManager = PluginManager(self)
+    #     self.get_improper = self.forcefield.get_improper
 
-        self.get_bond = self.forcefield.get_bond
-
-        self.get_improper = self.forcefield.get_improper
-
-        # track atom type
-
-    def active_plugin(self, pname):
-        """ to instanciate a plugin and return its instance
-
-        Args:
-            pname ([str]): [class name of plugin]
-
-        Returns:
-            [plugin]: [instance of plugin]
-        """
-
-        return self.pluginManager.plugins[pname]()
+    #     # track atom type
 
     def add_items(self, items):
-        self.mapper.set_types(items)
+        for item in items:
+            item.parent = self.label
+        self.container.extend(items)
 
+    # def update(self):
+    #     self._atom = self.molecules.flatten()
+    #     self.topo.search_topo(self.molecules)
 
-        self._molecules.add_items(*items)
+    # @property
+    # def atoms(self):
+    #     if not getattr(self, '_atom', 0):
+    #         self._atom = self.molecules.flatten()
+    #     return self._atom
 
-    def update(self):
-        self._atom = self.molecules.flatten()
-        self.topo.search_topo(self.molecules)
+    # @property
+    # def molecules(self):
+    #     return self._molecules
 
-    @property
-    def atoms(self):
-        if not getattr(self, '_atom', 0):
-            self._atom = self.molecules.flatten()
-        return self._atom
-
-    @property
-    def molecules(self):
-        return self._molecules
-
-    @property
-    def items(self):
-        return self._molecules
+    # @property
+    # def items(self):
+    #     return self._molecules
 
     @property
     def atomCount(self):
-        return len(self.atoms)
+        return self._atomCount
+
+    @atomCount.setter
+    def atomCount(self, v):
+        self._atomCount = int(v)
 
     @property
     def bondCount(self):
-        return len(self.topo.bonds)
+        return self._bondCount
+
+    @bondCount.setter
+    def bondCount(self, v):
+        self._bondCount = int(v)
 
     @property
     def angleCount(self):
-        return len(self.topo.angles)
+        return self._angleCount
+
+    @angleCount.setter
+    def angleCount(self, v):
+        self._angleCount = int(v)
 
     @property
     def dihedralCount(self):
-        return len(self.topo.dihedrals)
+        return self._dihedralCount
+
+    @dihedralCount.setter
+    def dihedralCount(self, v):
+        self._dihedralCount = int(v)
 
     @property
     def improperCount(self):
-        return len(self.topo.impropers)
+        return self._improperCount
+
+    @improperCount.setter
+    def improperCount(self, v):
+        self._improperCount = int(v)
 
     @property
     def atomTypeCount(self):
+        return self._atomTypeCount
 
-        return len(self.mapper.typeID)
+    @atomTypeCount.setter
+    def atomTypeCount(self, v):
+        self._atomTypeCount = int(v)
 
     @property
     def bondTypeCount(self):
-        return len(self.forcefield.bondPotentialList)
+        return self._bondTypeCount
+
+    @bondTypeCount.setter
+    def bondTypeCount(self, v):
+        self._bondTypeCount = int(v)
 
     @property
     def angleTypeCount(self):
-        return len(self.forcefield.anglePotentialList)
+        return self._angleTypeCount
+
+    @angleTypeCount.setter
+    def angleTypeCount(self, v):
+        self._angleTypeCount = int(v)
 
     @property
     def dihedralTypeCount(self):
-        return len(self.forcefield.dihedralPotentialList)
+        return self._dihedralTypeCount
+
+    @dihedralTypeCount.setter
+    def dihedralTypeCount(self, v):
+        self._dihedralTypeCount = int(v)
 
     @property
     def improperTypeCount(self):
-        return len(self.forcefield.improperPotentialList)
+        return self._improperTypeCount
+
+    @improperTypeCount.setter
+    def improperTypeCount(self, v):
+        self._improperTypeCount = int(v)
 
     @property
     def xlo(self):
@@ -119,8 +139,7 @@ class World:
 
     @xlo.setter
     def xlo(self, xlo):
-        if not getattr(self, 'xlo', None) or xlo < self.xlo:
-            self._xlo = xlo
+        self._xlo = float(xlo)
 
     @property
     def xhi(self):
@@ -128,8 +147,7 @@ class World:
 
     @xhi.setter
     def xhi(self, xhi):
-        if not getattr(self, 'xhi', 0) or xhi > self.xhi:
-            self._xhi = xhi
+        self._xhi = float(xhi)
 
     @property
     def ylo(self):
@@ -137,9 +155,7 @@ class World:
 
     @ylo.setter
     def ylo(self, ylo):
-
-        if not getattr(self, 'ylo', None) or ylo < self.ylo:
-            self._ylo = ylo
+        self._ylo = float(ylo)
 
     @property
     def yhi(self):
@@ -147,8 +163,7 @@ class World:
 
     @yhi.setter
     def yhi(self, yhi):
-        if not getattr(self, 'yhi', 0) or yhi > self.xhi:
-            self._yhi = yhi
+        self._yhi = float(yhi)
 
     @property
     def zlo(self):
@@ -156,8 +171,7 @@ class World:
 
     @zlo.setter
     def zlo(self, zlo):
-        if not getattr(self, 'zlo', None) or zlo < self.zlo:
-            self._zlo = zlo
+        self._zlo = float(zlo)
 
     @property
     def zhi(self):
@@ -165,8 +179,13 @@ class World:
 
     @zhi.setter
     def zhi(self, zhi):
-        if not getattr(self, 'zhi', 0) or zhi > self.xhi:
-            self._zhi = zhi
+        self._zhi = float(zhi)
+
+    def set_pair(self, style, typeName1, typeName2, **coeffs):
+
+        pp = self.forcefield.set_pair(style, typeName1, typeName2, coeffs)
+
+        self.mapper.set_pair(typeName1, typeName2, pp)
 
     def set_bond(self, style, typeName1, typeName2, **coeff):
 
@@ -180,7 +199,6 @@ class World:
                                        coeffs)
 
         self.mapper.set_angle(typeName1, typeName2, typeName3, ap)
-
 
     def set_dihedral(self, style, typeName1, typeName2, typeName3, typeName4,
                      **coeffs):
@@ -199,40 +217,32 @@ class World:
         self.mapper.set_improper(typeName1, typeName2, typeName3, typeName4,
                                  ip)
 
-    def set_pair(self, style, typeName1, typeName2, **coeffs):
-
-        pp = self.forcefield.set_pair(style, typeName1, typeName2, coeffs)
-
-        self.mapper.set_pair(typeName1, typeName2, pp)
-
     def set_mass(self, typeName, mass):
         self.forcefield.set_mass(typeName, mass)
 
-    def get_mass(self, typeName):
-        return self.forcefield.get_mass(typeName)
+    # def get_mass(self, typeName):
+    #     return self.forcefield.get_mass(typeName)
 
-    @property
-    def masses(self):
-        return self.forcefield.massList
+    # @property
+    # def masses(self):
+    #     return self.forcefield.massList
 
-    @property
-    def pairPotentials(self):
-        return self.forcefield.pairPotentialList
+    # @property
+    # def pairPotentials(self):
+    #     return self.forcefield.pairPotentialList
 
-    @property
-    def bondPotentials(self):
-        return self.forcefield.bondPotentialList
+    # @property
+    # def bondPotentials(self):
+    #     return self.forcefield.bondPotentialList
 
-    @property
-    def anglePotentials(self):
-        return self.forcefield.anglePotentialList
+    # @property
+    # def anglePotentials(self):
+    #     return self.forcefield.anglePotentialList
 
-    @property
-    def dihedralPotentials(self):
-        return self.forcefield.dihedralPotentialList
+    # @property
+    # def dihedralPotentials(self):
+    #     return self.forcefield.dihedralPotentialList
 
-    @property
-    def improperPotentials(self):
-        return self.forcefield.improperPotentialList
-
-    
+    # @property
+    # def improperPotentials(self):
+    #     return self.forcefield.improperPotentialList

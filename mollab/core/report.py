@@ -4,6 +4,4 @@
 # version: 0.0.1
 
 class Report:
-
-    def __init__(self) -> None:
-        pass
+    pass

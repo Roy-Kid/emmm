@@ -4,49 +4,62 @@
 # version: 0.0.1
 # reference: http://www.wwpdb.org/documentation/file-format-content/format33/v3.3.html
 
-from . import InputBase
-from . import INxml
-from mollab.plugins.input.input_base import InputData
-from mollab.core.create import CreateAtom
+from collections import defaultdict
+from mollab.core.atom import pdbAtom
+from mollab.core.world import World
+from mollab.plugins.input.input_base import InputBase
+from mollab.core.molecule import pdbMolecule
+from mollab.plugins.input.IN_xml import INxml
 
 
 class INpdb(InputBase):
     def __init__(self) -> None:
-
-        self.data = InputData()
-        self.data.atomRaw = list()
-        self.data.atoms = list()
-        self.data.bondRaw = list()
+        super().__init__()
         # Record name -> KEYWORD
         self.KEYWORLD = ['ATOM', 'CONECT', 'TER']
-        self.executor = {
-            'ATOM': self.ATOM,
-            'CONECT': self.CONNET,
-            'TER': self.TER
-        }
+        self.atoms = list()
+        self.bonds = list()
 
-    def read_data(self, file, xml=None):
+    def skipblank(self, line):
+        # while line.isspace() or line.strip().startswith('#'):
+        while self.isblank(line):
+            line = self.readline()
+        return line
 
-        f = open(file, 'r')
-        line = f.readline()
-        self.data.comment = line.split()[1:]
-        line = f.readline()
-        while not line.startswith('END'):
-            record_name = line[:7].strip()
-            if record_name not in self.KEYWORLD:
-                raise KeyError('wrong keyword')
-            else:
-                self.executor[record_name](line)
+    def readline(self):
+        return self.f.readline()
 
-            line = f.readline()
+    def isblank(self, line: str):
+        return not bool(line.strip())
 
-        if xml:
-            inxml = INxml().read_data(xml)
-            
+    def read(self, file, xml=None):
+
+        self.world = World()
+
+        self.f = open(file, 'r')
+        line = self.readline()
+        self.world.comment = line
+        line = self.readline()
+
+        while True:
+            line = self.readline()
+            if line.strip() == 'END':
+                # read EOF
+                break
+
+            status = line.split()[0]
+            execute = getattr(self, status, self.status_error)
+            execute(line)
+
+        # if xml:
+        #     inxml = INxml().read_data(xml)
 
         self._post_process()
 
-        return self.data
+        return self.world
+
+    def status_error(self, line):
+        raise Exception(f'read error at "{line}"')
 
     def ATOM(self, line):
         # COLUMNS        DATA  TYPE    FIELD        DEFINITION                   FIELD IN MOLLAB
@@ -82,10 +95,9 @@ class INpdb(InputBase):
         element = line[77:79].strip()
         charge = line[79:81].strip()
 
-        self.data.atomRaw.append([
-            serial, name, altLoc, resName, chainID, resSeq, x, y, z, occupancy,
-            tempFactor, element, charge
-        ])
+        self.atoms.append(
+            pdbAtom(serial, name, altLoc, resName, chainID, resSeq, x, y, z,
+                    occupancy, tempFactor, element, charge))
 
     def TER(self, line):
         pass
@@ -99,31 +111,33 @@ class INpdb(InputBase):
         a3 = line[22:27].strip()
         a4 = line[27:31].strip()
 
-        self.data.bondRaw.append([i for i in [a, a1, a2, a3, a4] if i != ''])
+        self.bonds.append([i for i in [a, a1, a2, a3, a4] if i != ''])
 
     def _post_process(self):
 
-        # Atom section
-        create = CreateAtom.genericAtom('pdb')
-        for r in self.data.atomRaw:
-            atom = create(r[0], r[1], r[3], r[6], r[7], r[8])
-            self.data.atoms.append(atom)
-
-        # Bond section
-        for b in self.data.bondRaw:
+        # section 1: add neighbors to atom
+        grouped_atoms = defaultdict(list)
+        for b in self.bonds:
             cid = b[0]
-            pid = b[1]
-            catom = None
-            patom = None
-            for atom in self.data.atoms:
-                if atom.id == cid:
-                    catom = atom
-                if atom.id == pid:
-                    patom = atom
+            for bb in b[1:]:
+                pid = bb
+                catom = None
+                patom = None
+                for atom in self.atoms:
+                    if atom.serial == cid:
+                        catom = atom
+                    if atom.serial == pid:
+                        patom = atom
 
-            if catom is None or patom is None:
-                raise ValueError('拓扑结构没有匹配到相应的Atom')
-            catom.add_neighbors(patom)
+                if catom is None or patom is None:
+                    raise ValueError('拓扑结构没有匹配到相应的Atom')
+                catom.add_neighbors(patom)
 
-        self.data.molecules = self.group_by('pdb', self.data.atoms)
+        # section 2
+        molecules = list()
+        for ref, gatom in grouped_atoms.items():
+            mol = pdbMolecule(ref)
+            mol.add_items(*gatom)
+            molecules.append(mol)
 
+        self.world.add_items(*molecules)

@@ -1,13 +1,12 @@
-# author: Roy Kids
+# author: Roy Kid
+# contact: lijichen365@126.com
+# date: 2021-02-13
+# version: 0.0.1
 
 import pkgutil, os
 import inspect
-from .input.input_base import InputBase
-from .output.output_base import OutputBase
-from .precast.precast_base import PrecastBase
-from . import input
-from . import output
-from . import precast
+from .input import InputBase
+from .output import OutputBase
 
 class PluginManager:
 
@@ -15,20 +14,7 @@ class PluginManager:
     该类会通过传入的package查找继承了Plugin类的插件类
     """
 
-    def __init__(self, world) -> None:
-
-        self.world = world
-        self.packages = [
-            'input',
-            'output',
-            'constructor'   
-        ]
-
-        self.baseClass=[
-            'InputBase',
-            'OutputBase',
-            'Constructor'
-        ]
+    def __init__(self) -> None:
 
         self.plugin_package = 'mollab.plugins'
         
@@ -56,8 +42,8 @@ class PluginManager:
                     
 
                 for (_, c) in clsMembers:
-                    if issubclass(c, (InputBase, OutputBase, PrecastBase)):
-                        if c is not InputBase and c is not OutputBase and c is not PrecastBase: 
+                    if issubclass(c, (InputBase, OutputBase)):
+                        if c is not InputBase and c is not OutputBase: 
                         
                             print(f'找到插件类：{c.__module__}. {c.__name__}')
                             self.plugins[c.__name__] = c

@@ -4,25 +4,28 @@ from mollab.core.item import Item
 import numpy as np
 from mollab.i18n.i18n import _
 
+
 class Atom(Item):
+    def __init__(self, style):
 
-    def __init__(self, label=None, type=None):
-
-        super().__init__()
-
-        self._label = label
-        self._type = type
+        super().__init__('Atom')
+        self._style = style
 
         self._duplicate = [self]
+        self._neighbors = list()
 
     def __str__(self) -> str:
-        return f' < Atom: {self.label} in {self.parent} at {self.position}> '
+        return f' < Atom: {self.label} in {self.parent} at {self.position} > '
 
     __repr__ = __str__
 
     @property
+    def style(self):
+        return self.style
+
+    @property
     def neighbors(self):
-        return self.container
+        return self._neighbors
 
     def add_neighbors(self, *atoms):
         """ 给atom添加相键接的atom
@@ -31,34 +34,18 @@ class Atom(Item):
         for atom in atoms:
             if isinstance(atom, Atom):
                 if atom not in self:
-                    self.container.append(atom)
+                    self._neighbors.append(atom)
                 if self not in atom:
-                    atom.container.append(self)
-                
+                    atom._neighbors.append(self)
+
             else:
-                raise TypeError(_('相邻的atom应该是 ATOM类 而不是 %s'% (type(atom))))      
+                raise TypeError(_('相邻的atom应该是 ATOM类 而不是 %s' % (type(atom))))
 
     def toDict(self):
-        """ 输出到字典格式
-
-        Returns:
-            dict
-        """
-
-        # TODO: 适配额外添加的属性
-        # atom.__dict__
-        a = dict()
-        a['label'] = self.label
-        a['type'] = self.type
-        a['parent'] = self.parent
-        a['path'] = self.path
-        a['x'] = self.x
-        a['y'] = self.y
-        a['z'] = self.z
+        pass
 
     # _move()方法输入的是np.array和float
     # 输出的是np.array, 所以测试的时候仅需要测试这个函数即可
-
 
     def move(self, x, y, z):
         """ move by (x, y, z)
@@ -70,7 +57,7 @@ class Atom(Item):
     def move_to(self, x, y, z):
         """ move to (x, y, z)
         """
-        self.position = (x,y,z)
+        self.position = (x, y, z)
         return self
 
     def randmove(self, length):
@@ -98,9 +85,7 @@ class Atom(Item):
         self.move(*disVec)
         return self
 
-
     def rotate_orth(self, theta, x, y, z, xAxis, yAxis, zAxis):
-
         """ 围绕(x,y,z)点的x/y/z轴旋转theta角
 
         Raises:        self.x = pos[0]
@@ -115,7 +100,9 @@ class Atom(Item):
 
             self.rotate(theta, xAxis, yAxis, zAxis, x, y, z)
         else:
-            raise SyntaxError(_('为了指定空间中(x,y,z)的旋转轴的朝向, 需要将方向设定为1. 如: 旋转轴指向x方向则xAxis=1, yAxis=zAxis=0'))
+            raise SyntaxError(
+                _('为了指定空间中(x,y,z)的旋转轴的朝向, 需要将方向设定为1. 如: 旋转轴指向x方向则xAxis=1, yAxis=zAxis=0'
+                  ))
         return self
 
     def seperate_with(self, targetItem, type, value):
@@ -133,18 +120,18 @@ class Atom(Item):
 
         distance = np.linalg.norm(oriVec)
 
-        uniVec = oriVec/distance
+        uniVec = oriVec / distance
 
         if type == 'relative' or type == 'rel':
 
-            distance = distance*(value-1)/2
+            distance = distance * (value - 1) / 2
 
-            self.move( *-uniVec*distance )
-            targetItem.move(*+uniVec*distance)
+            self.move(*-uniVec * distance)
+            targetItem.move(*+uniVec * distance)
 
         if type == 'abusolute' or type == 'abs':
-            self.move( *-uniVec*value )
-            targetItem.move(*+uniVec*value)
+            self.move(*-uniVec * value)
+            targetItem.move(*+uniVec * value)
         return self
 
     def distance_to(self, targetItem):
@@ -156,32 +143,63 @@ class Atom(Item):
         coords1 = self.position
         coords2 = targetItem.position
 
-        dist = np.linalg.norm(coords2-coords1)
+        dist = np.linalg.norm(coords2 - coords1)
 
         return dist
 
-    # def get_replica(self, newLabal):
-
-    #     atom = Atom(newLabal)
-
-    #     for k,v in self.__dict__.items():
-    #         if k != "_Item__id":
-    #             setattr(atom, str(k), v)
-    #     return atom
-
-    @property
-    def pwd(self):
-        return self.path
-
     def duplicate(self, n, x, y, z):
-        
+
         temp = []
         for j in self._duplicate:
-            for i in range(1, n+1):
+            for i in range(1, n + 1):
                 atom = j.get_replica(j.label)
-                atom.move(i*x, i*y, i*z)
+                atom.move(i * x, i * y, i * z)
                 temp.append(atom)
 
         self._duplicate.extend(temp)
 
         return self
+
+
+class FullAtom(Atom):
+    def __init__(self, atomId, molId, typeId, q, x, y, z):
+
+        super().__init__('full')
+        self.atomId = atomId
+        self.molId = molId
+        self.typeId = typeId
+        self.q =  float(q)
+        self._x = float(x)
+        self._y = float(y)
+        self._z = float(z)
+
+
+
+class MolecularAtom(Atom):
+    def __init__(self, atomId, molId, typeId, x, y, z):
+        super().__init__('molecular')
+        self.atomId = atomId
+        self.molId = molId
+        self.typeId = typeId
+        self._x = float(x)
+        self._y = float(y)
+        self._z = float(z)
+
+
+class pdbAtom(Atom):
+    def __init__(self, serial, name, altLoc, resName, chainID, resSeq, x, y, z,
+                 occupancy, tempFactor, element, charge):
+        super().__init__('pdb')
+        self.serial = serial
+        self.name = name
+        self.altLoc = altLoc
+        self.resName = resName
+        self.resSeq = resSeq
+        self.chainID = chainID
+        self._x = x
+        self._y = y
+        self._z = z
+        self.occupancy = occupancy
+        self.tempFactor = tempFactor
+        self.element = element
+        self.charge = charge

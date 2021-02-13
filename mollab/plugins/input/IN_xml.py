@@ -4,7 +4,6 @@
 # version: 0.0.1
 
 from . import InputBase
-from mollab.plugins.input.input_base import InputData
 import xml.etree.ElementTree as ET
 
 
