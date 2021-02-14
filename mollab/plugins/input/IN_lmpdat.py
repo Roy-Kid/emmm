@@ -5,7 +5,7 @@
 
 from mollab.core.molecule import lmpMolecule
 from mollab.plugins.input.input_base import InputBase
-from mollab.core.atom import FullAtom, MolecularAtom
+from mollab.core.atom import fullAtom, molecularAtom
 from mollab.core.world import World
 from collections import defaultdict
 
@@ -47,7 +47,7 @@ class INlmpdat(InputBase):
             status = self.status_checker(line)
             self.status_executor(status, line)
 
-        self.post_process(self)
+        self.post_process()
 
         return self.world
 
@@ -130,6 +130,11 @@ class INlmpdat(InputBase):
                     patom = atom
                 ref = getattr(atom, 'molId', 'UNDEFINED')  # sec 2
                 grouped_atoms[ref].append(atom)  # sec 2
+
+                # set mass
+                for m in self.masses:
+                    if m[0] == atom.atomId:
+                        atom.mass = m[1]
             if catom is None or patom is None:
                 raise ValueError('No atom matches topo')
 
@@ -149,7 +154,7 @@ class INlmpdat(InputBase):
 
         for pc in self.pairCoeffs:
             if len(pc) == 3:
-                self.world.set_pair(self.pairStyle, pc[0], pc[0], *pc[1:])
+                self.world.set_pair(self.pairStyle, pc[0], pc[0], )
 
         for bc in self.bondCoeffs:
             bondType = bc[0]
@@ -187,8 +192,6 @@ class INlmpdat(InputBase):
                 if improperType == i[1]:
                     self.world.set_improper(i[2], i[3], i[4], i[5], *ic[1:])
 
-        for m in self.Masses:
-            self.world.set_masses(m[0], m[1])
 
         return self.world
 
@@ -236,14 +239,14 @@ class INlmpdat(InputBase):
         line = self.readline()
         line = self.skipblank(line)
 
-        self.world.masses = list()
+        self.masses = list()
 
         while not self.isblank(line):
             # self.world.topo.set_mass(line[0], line[1])
-            self.world.masses.append(line)
+            self.masses.append(line.split())
             line = self.readline()
 
-        assert len(self.world.masses) == 12
+        assert len(self.masses) == 12
 
     def pairCoeffs(self, line: str):
 
@@ -252,7 +255,7 @@ class INlmpdat(InputBase):
 
         self.pairCoeffs = list()
         while not self.isblank(line):
-            self.pairCoeffs.append(line)
+            self.pairCoeffs.append(line.split())
             line = self.readline()
         assert len(self.pairCoeffs) == 12
 
@@ -263,7 +266,7 @@ class INlmpdat(InputBase):
 
         self.bondCoeffs = list()
         while not self.isblank(line):
-            self.bondCoeffs.append(line)
+            self.bondCoeffs.append(line.split())
             line = self.readline()
         assert len(self.bondCoeffs) == 12
 
@@ -274,7 +277,7 @@ class INlmpdat(InputBase):
 
         self.angleCoeffs = list()
         while not self.isblank(line):
-            self.angleCoeffs.append(line)
+            self.angleCoeffs.append(line.split())
             line = self.readline()
         assert len(self.angleCoeffs) == 18
 
@@ -285,7 +288,7 @@ class INlmpdat(InputBase):
 
         self.dihedralCoeffs = list()
         while not self.isblank(line):
-            self.dihedralCoeffs.append(line)
+            self.dihedralCoeffs.append(line.split())
             line = self.readline()
         assert len(self.dihedralCoeffs) == 24
 
@@ -296,7 +299,7 @@ class INlmpdat(InputBase):
 
         self.improperCoeffs = list()
         while not self.isblank(line):
-            self.improperCoeffs.append(line)
+            self.improperCoeffs.append(line.split())
             line = self.readline()
         assert len(self.improperCoeffs) == 6
 
@@ -307,9 +310,9 @@ class INlmpdat(InputBase):
 
         self.atoms = list()
         if self.atomStyle == 'full':
-            Atom = FullAtom
+            Atom = fullAtom
         elif self.atomStyle == 'molecular':
-            Atom = MolecularAtom
+            Atom = molecularAtom
         while not self.isblank(line):
             atom = Atom(*line.split())
             self.atoms.append(atom)
@@ -324,7 +327,7 @@ class INlmpdat(InputBase):
         self.bonds = list()
 
         while not self.isblank(line):
-            self.bonds.append(line)
+            self.bonds.append(line.split())
             line = self.readline()
         assert len(self.bonds) == 12
 
@@ -336,7 +339,7 @@ class INlmpdat(InputBase):
         self.angles = list()
 
         while not self.isblank(line):
-            self.angles.append(line)
+            self.angles.append(line.split())
             line = self.readline()
         assert len(self.angles) == 18
 
@@ -348,7 +351,7 @@ class INlmpdat(InputBase):
         self.dihedrals = list()
 
         while not self.isblank(line):
-            self.dihedrals.append(line)
+            self.dihedrals.append(line.split())
             line = self.readline()
         assert len(self.dihedrals) == 24
 
@@ -360,7 +363,7 @@ class INlmpdat(InputBase):
         self.impropers = list()
 
         while not self.isblank(line):
-            self.impropers.append(line)
+            self.impropers.append(line.split())
             line = self.readline()
         assert len(self.impropers) == 6
 

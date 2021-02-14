@@ -3,7 +3,6 @@
 # date: 2021-01-31
 # version: 0.0.1
 
-from mollab.core.mapper import Mapper
 from mollab.core.topo import Topo
 from mollab.core.forcefield import ForceField
 from mollab.core.item import Item
@@ -16,9 +15,9 @@ class World(Item):
 
     def __init__(self):
 
-        self.comment = 'world' + str(World.worldCount)
+        super().__init__('World')
 
-        self.mapper = Mapper(self)
+        self.label = 'world' + str(World.worldCount)
 
         self.forcefield = ForceField(self)
 
@@ -39,11 +38,16 @@ class World(Item):
     #     self._atom = self.molecules.flatten()
     #     self.topo.search_topo(self.molecules)
 
-    # @property
-    # def atoms(self):
-    #     if not getattr(self, '_atom', 0):
-    #         self._atom = self.molecules.flatten()
-    #     return self._atom
+    @property
+    def atoms(self):
+        if not getattr(self, '_atom', 0):
+            self._atom = list()
+            for item in self.container:
+                if item.itemType == 'Molecule':
+                    self._atom.extend(item.flatten())
+                elif item.itemType == 'Atom':
+                    self._atom.append(item)
+        return self._atom
 
     # @property
     # def molecules(self):
@@ -185,20 +189,16 @@ class World(Item):
 
         pp = self.forcefield.set_pair(style, typeName1, typeName2, coeffs)
 
-        self.mapper.set_pair(typeName1, typeName2, pp)
-
     def set_bond(self, style, typeName1, typeName2, **coeff):
 
         bp = self.forcefield.set_bond(style, typeName1, typeName2, coeff)
 
-        self.mapper.set_bond(typeName1, typeName2, bp)
 
     def set_angle(self, style, typeName1, typeName2, typeName3, **coeffs):
 
         ap = self.forcefield.set_angle(style, typeName1, typeName2, typeName3,
                                        coeffs)
 
-        self.mapper.set_angle(typeName1, typeName2, typeName3, ap)
 
     def set_dihedral(self, style, typeName1, typeName2, typeName3, typeName4,
                      **coeffs):
@@ -206,16 +206,12 @@ class World(Item):
         dp = self.forcefield.set_dihedral(style, typeName1, typeName2,
                                           typeName3, typeName4, coeffs)
 
-        self.mapper.set_dihedral(typeName1, typeName2, typeName3, typeName4,
-                                 dp)
 
     def set_improper(self, style, typeName1, typeName2, typeName3, typeName4,
                      **coeffs):
         ip = self.forcefield.set_improper(style, typeName1, typeName2,
                                           typeName3, typeName4, coeffs)
 
-        self.mapper.set_improper(typeName1, typeName2, typeName3, typeName4,
-                                 ip)
 
     def set_mass(self, typeName, mass):
         self.forcefield.set_mass(typeName, mass)

@@ -1,10 +1,32 @@
-# # author: Roy Kid
-# # contact: lijichen365@126.com
+# author: Roy Kid
+# contact: lijichen365@126.com
+# date: 2021-02-14
+# version: 0.0.2
+
+import pytest
+import mollab as ml
 
 
-# from mollab.core.world import World
-# import pytest
+@pytest.fixture()
+def a000():
+    atom = ml.Atom('Atom')
+    atom.position = (0, 0, 0)
 
+    return atom
+
+
+@pytest.fixture()
+def a100():
+    atom = ml.Atom('Atom')
+    atom.position = (1, 0, 0)
+
+    return atom
+
+@pytest.fixture()
+def a010():
+    atom = ml.Atom('Atom')
+    atom.position = (0, 1, 0)
+    return atom
 
 # # 构造测试数据
 # # 默认为molecular型
@@ -36,7 +58,7 @@
 #     create = CreateAtom.molecularAtom
 #     h1 = create('h1', 'parent','h', -1, 1, 0)
 #     o = create('o', 'parent','o', 0, 0, 0)
-#     h2 = create('h2', 'parent','h', 1, 1, 0)  
+#     h2 = create('h2', 'parent','h', 1, 1, 0)
 #     o.add_neighbors(h1, h2)
 #     create = CreateMolecule.lmpMolecule
 #     h2o = create('h2o', 'h2o', h1, o, h2)
@@ -54,16 +76,15 @@
 
 # @pytest.fixture()
 # def ch4World():
-#     #          h1   
-#     #          |    
+#     #          h1
+#     #          |
 #     #    h2----c----h4
-#     #          |     
-#     #          h3   
-#     # 
-#     #   -1     0       1    
-#     # 
+#     #          |
+#     #          h3
+#     #
+#     #   -1     0       1
+#     #
 #     #    centroid = (0, 0, 0)
-
 
 #     create = CreateAtom.molecularAtom
 #     h1 = create('h1', 'parent', 'h', 0, 1, 0)
@@ -85,7 +106,6 @@
 #     world.update()
 #     return world
 
-
 # @pytest.fixture()
 # def c4World():
 
@@ -94,9 +114,9 @@
 #     # ch3h2--ch3c----ch2c----ch2c----ch3c--ch3h2
 #     #          |       |       |       |
 #     #        ch3h3   ch2h2   ch2h2   ch3h3
-#     # 
+#     #
 #     #   -1     0       1       2       3     4
-#     # 
+#     #
 #     #    centroid = (1.5, 0, 0)
 
 #     create = CreateAtom.molecularAtom
@@ -135,16 +155,14 @@
 #     world.set_angle('harmonic', 'h', 'c', 'h', k=1, theta=1)
 #     world.set_dihedral('opls', 'c', 'c', 'c', 'c', k1=1,k2=2,k3=3,k4=4)
 #     world.set_dihedral('opls', 'c', 'c', 'c', 'h', k1=1,k2=2,k3=3,k4=4)
-#     world.set_dihedral('opls', 'h', 'c', 'c', 'h', k1=1,k2=2,k3=3,k4=4)    
+#     world.set_dihedral('opls', 'h', 'c', 'c', 'h', k1=1,k2=2,k3=3,k4=4)
 #     world.set_improper('cvff', 'c', 'c', 'c', 'h', k=1, d=1, n=1)
 #     world.set_improper('cvff', 'c', 'c', 'h', 'h', k=1, d=1, n=1)
 #     world.set_improper('cvff', 'c', 'h', 'h', 'h', k=1, d=1, n=1)
 
 #     world.update()
 
-
 #     return world
-    
 
 # @pytest.fixture()
 # def buoy000():

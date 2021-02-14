@@ -57,18 +57,17 @@ class Molecule(Item):
         atoms = list()
         for item in self:
 
-            if self.isAdhere:
-                item.root = self.root
-                if item.itemType == 'Molecule':
-                    item.isAdhere = True
 
-            if item.itemType == 'Molecule':
+            item.root = self.root
+
+
+            if item.itemType == 'Atom':
                 dir.append(item.label)
                 item.path = '/'.join(dir)
                 atoms.append(item)
                 dir.pop()
 
-            elif item.itemType == 'Atom':
+            elif item.itemType == 'Molecule':
 
                 atoms.extend(item.flatten(dir))
 

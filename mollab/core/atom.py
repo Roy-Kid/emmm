@@ -41,9 +41,6 @@ class Atom(Item):
             else:
                 raise TypeError(_('相邻的atom应该是 ATOM类 而不是 %s' % (type(atom))))
 
-    def toDict(self):
-        pass
-
     # _move()方法输入的是np.array和float
     # 输出的是np.array, 所以测试的时候仅需要测试这个函数即可
 
@@ -160,8 +157,21 @@ class Atom(Item):
 
         return self
 
+    def toDict(self):
 
-class FullAtom(Atom):
+        return {
+            'item': self.itemType,
+            'id': self.id,
+            'label': self.label,
+            'type': self.type,
+            'parent': self.parent,
+            'x': self.x,
+            'y': self.y,
+            'z': self.z,
+        }
+
+
+class fullAtom(Atom):
     def __init__(self, atomId, molId, typeId, q, x, y, z):
 
         super().__init__('full')
@@ -175,7 +185,7 @@ class FullAtom(Atom):
 
 
 
-class MolecularAtom(Atom):
+class molecularAtom(Atom):
     def __init__(self, atomId, molId, typeId, x, y, z):
         super().__init__('molecular')
         self.atomId = atomId

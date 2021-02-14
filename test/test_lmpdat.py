@@ -9,10 +9,11 @@ import pytest
 
 @pytest.fixture(scope='module')
 def lmpWorld():
-    reader = ml.active_plugin('INlmpdat')
+    reader = ml.plugins.INlmpdat()
     reader.atomStyle = 'full'
     reader.bondStyle = 'harmonic'
     reader.angleStyle = 'harmonic'
+    reader.pairStyle = 'ljcut'
     reader.dihedralStyle = 'opls'
     reader.improperStyle = 'cvff'
     return reader.read('test/benezen/lmp')
@@ -42,8 +43,8 @@ class TestINlmpdat:
         assert lmpWorld.zhi == 49.058420
 
     def test_mass(self, lmpWorld):
-
-        assert len(lmpWorld.massRaw) == 12
+        print(lmpWorld.atoms[0])
+        assert lmpWorld.atoms[0].mass == 12.011
 
     def test_pair_coeffs(self, lmpWorld):
 
