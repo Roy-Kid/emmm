@@ -9,15 +9,9 @@ from mollab.core.item import Item
 
 
 class World(Item):
-
-    worldCount = 0
-    worldCount += 1
-
     def __init__(self):
 
         super().__init__('World')
-
-        self.label = 'world' + str(World.worldCount)
 
         self.forcefield = ForceField(self)
 
@@ -185,60 +179,63 @@ class World(Item):
     def zhi(self, zhi):
         self._zhi = float(zhi)
 
-    def set_pair(self, style, typeName1, typeName2, **coeffs):
+    def set_pair(self,
+                 style,
+                 typeName1,
+                 typeName2,
+                 *coeffs,
+                 id=None,
+                 type=None):
 
-        pp = self.forcefield.set_pair(style, typeName1, typeName2, coeffs)
+        self.forcefield.set_pair(style, typeName1, typeName2, coeffs,
+                                      id, type)
 
-    def set_bond(self, style, typeName1, typeName2, **coeff):
+    def set_bond(self,
+                 style,
+                 typeName1,
+                 typeName2,
+                 *coeff,
+                 id=None,
+                 type=None):
 
-        bp = self.forcefield.set_bond(style, typeName1, typeName2, coeff)
+        self.forcefield.set_bond(style, typeName1, typeName2, coeff,
+                                      id, type)
 
-
-    def set_angle(self, style, typeName1, typeName2, typeName3, **coeffs):
+    def set_angle(self,
+                  style,
+                  typeName1,
+                  typeName2,
+                  typeName3,
+                  *coeffs,
+                  id=None,
+                  type=None):
 
         ap = self.forcefield.set_angle(style, typeName1, typeName2, typeName3,
-                                       coeffs)
+                                       coeffs, id, type)
 
-
-    def set_dihedral(self, style, typeName1, typeName2, typeName3, typeName4,
-                     **coeffs):
+    def set_dihedral(self,
+                     style,
+                     typeName1,
+                     typeName2,
+                     typeName3,
+                     typeName4,
+                     *coeffs,
+                     id=None,
+                     type=None):
 
         dp = self.forcefield.set_dihedral(style, typeName1, typeName2,
-                                          typeName3, typeName4, coeffs)
+                                          typeName3, typeName4, coeffs,
+                                          id, type)
 
-
-    def set_improper(self, style, typeName1, typeName2, typeName3, typeName4,
-                     **coeffs):
+    def set_improper(self,
+                     style,
+                     typeName1,
+                     typeName2,
+                     typeName3,
+                     typeName4,
+                     *coeffs,
+                     id=None,
+                     type=None):
         ip = self.forcefield.set_improper(style, typeName1, typeName2,
-                                          typeName3, typeName4, coeffs)
-
-
-    def set_mass(self, typeName, mass):
-        self.forcefield.set_mass(typeName, mass)
-
-    # def get_mass(self, typeName):
-    #     return self.forcefield.get_mass(typeName)
-
-    # @property
-    # def masses(self):
-    #     return self.forcefield.massList
-
-    # @property
-    # def pairPotentials(self):
-    #     return self.forcefield.pairPotentialList
-
-    # @property
-    # def bondPotentials(self):
-    #     return self.forcefield.bondPotentialList
-
-    # @property
-    # def anglePotentials(self):
-    #     return self.forcefield.anglePotentialList
-
-    # @property
-    # def dihedralPotentials(self):
-    #     return self.forcefield.dihedralPotentialList
-
-    # @property
-    # def improperPotentials(self):
-    #     return self.forcefield.improperPotentialList
+                                          typeName3, typeName4, coeffs,
+                                          id, type)

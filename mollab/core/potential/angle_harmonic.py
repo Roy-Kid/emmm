@@ -8,8 +8,8 @@ class AngleHarmonic(AngleBase):
     def __init__(self, typeName1, typeName2, typeName3, coeffs) -> None:
         super().__init__(typeName1, typeName2, typeName3)
         self._style = 'harmonic'
-        self.theta0 = coeffs['theta']
-        self.k = coeffs['k']
+        self.theta0 = coeffs[1]
+        self.k = coeffs[0]
 
     @property
     def theta0 (self):

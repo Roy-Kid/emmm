@@ -6,3 +6,5 @@
 from .input.IN_lmpdat import INlmpdat
 from .input.IN_pdb import INpdb
 from .input.IN_xml import INxml
+
+from .output.OUT_lmpdat import OUTlmpdat

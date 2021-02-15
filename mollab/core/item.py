@@ -10,7 +10,7 @@ import copy
 class Item:
     def __init__(self, itemType):
 
-        self._id = str()
+        self._id = ''
         self._label = str()
         self._parent = str()
         self._path = str()

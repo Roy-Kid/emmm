@@ -33,6 +33,7 @@ class INlmpdat(InputBase):
         status = 'COMMENT'
 
         self.f = open(fname, 'r')
+        self.world.label = fname
         line = self.readline()
         self.world.comment = line
         line = self.readline()
@@ -117,7 +118,6 @@ class INlmpdat(InputBase):
     def post_process(self):
 
         # section 1: add neighbors to atom
-        grouped_atoms = defaultdict(list)
         for b in self.bonds:
             cid = b[2]
             pid = b[3]
@@ -128,8 +128,6 @@ class INlmpdat(InputBase):
                     catom = atom
                 if atom.atomId == pid:
                     patom = atom
-                ref = getattr(atom, 'molId', 'UNDEFINED')  # sec 2
-                grouped_atoms[ref].append(atom)  # sec 2
 
                 # set mass
                 for m in self.masses:
@@ -142,6 +140,10 @@ class INlmpdat(InputBase):
 
         # section 2: group atoms to the molecules
         molecules = list()
+        grouped_atoms = defaultdict(list)
+        for atom in self.atoms:
+            ref = getattr(atom, 'molId', 'UNDEFINED')  # sec 2
+            grouped_atoms[ref].append(atom)  # sec 2
         for ref, gatom in grouped_atoms.items():
             mol = lmpMolecule(ref)
             mol.add_items(*gatom)
@@ -154,7 +156,7 @@ class INlmpdat(InputBase):
 
         for pc in self.pairCoeffs:
             if len(pc) == 3:
-                self.world.set_pair(self.pairStyle, pc[0], pc[0], )
+                self.world.set_pair(self.pairStyle, pc[0], pc[0], *pc[1:], type=pc[0])
 
         for bc in self.bondCoeffs:
             bondType = bc[0]
@@ -163,7 +165,7 @@ class INlmpdat(InputBase):
                     typeName1 = b[2]
                     typeName2 = b[3]
                     self.world.set_bond(self.bondStyle, typeName1, typeName2,
-                                        *bc[1:])
+                                        *bc[1:], type=bondType)
 
         for ac in self.angleCoeffs:
             angleType = ac[0]
@@ -173,7 +175,7 @@ class INlmpdat(InputBase):
                     typeName2 = a[3]
                     typeName3 = a[4]
                     self.world.set_angle(self.angleStyle, typeName1, typeName2,
-                                         typeName3, *ac[1:])
+                                         typeName3, *ac[1:], type=angleType)
 
         for dc in self.dihedralCoeffs:
             dihedralType = dc[0]
@@ -183,15 +185,16 @@ class INlmpdat(InputBase):
                     typeName2 = d[3]
                     typeName3 = d[4]
                     typeName4 = d[5]
-                    self.world.set_dihedral(typeName1, typeName2, typeName3,
-                                            typeName4, *dc[1:])
+                    self.world.set_dihedral(self.dihedralStyle, typeName1,
+                                            typeName2, typeName3, typeName4,
+                                            *dc[1:], type=dihedralType)
 
         for ic in self.improperCoeffs:
             improperType = ic[0]
             for i in self.impropers:
                 if improperType == i[1]:
-                    self.world.set_improper(i[2], i[3], i[4], i[5], *ic[1:])
-
+                    self.world.set_improper(self.improperStyle, i[2], i[3],
+                                            i[4], i[5], *ic[1:], type=improperType)
 
         return self.world
 
@@ -317,7 +320,6 @@ class INlmpdat(InputBase):
             atom = Atom(*line.split())
             self.atoms.append(atom)
             line = self.readline()
-        assert len(self.atoms) == 12
 
     def Bonds(self, line: str):
 
@@ -329,7 +331,6 @@ class INlmpdat(InputBase):
         while not self.isblank(line):
             self.bonds.append(line.split())
             line = self.readline()
-        assert len(self.bonds) == 12
 
     def Angles(self, line: str):
 
@@ -341,7 +342,6 @@ class INlmpdat(InputBase):
         while not self.isblank(line):
             self.angles.append(line.split())
             line = self.readline()
-        assert len(self.angles) == 18
 
     def Dihedrals(self, line: str):
 
@@ -353,7 +353,6 @@ class INlmpdat(InputBase):
         while not self.isblank(line):
             self.dihedrals.append(line.split())
             line = self.readline()
-        assert len(self.dihedrals) == 24
 
     def Impropers(self, line: str):
 
@@ -365,8 +364,6 @@ class INlmpdat(InputBase):
         while not self.isblank(line):
             self.impropers.append(line.split())
             line = self.readline()
-        assert len(self.impropers) == 6
-
 
 # class INlmpdat(InputBase):
 #     def __init__(self):

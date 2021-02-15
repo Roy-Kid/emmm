@@ -18,45 +18,55 @@ __all__ = [
 
 
 # how to import https://blog.csdn.net/edward_zcl/article/details/88809212
-def bond_potential_interface(style: str, typeName1, typeName2, coeffs: dict):
+def bond_potential_interface(style: str, typeName1, typeName2, coeffs, id=None, type=None):
 
     module_name = 'mollab.core.potential.' + 'bond_' + style
     class_name = 'Bond' + style.capitalize()
 
-    bp = getattr(import_module(module_name), class_name)
-    return bp(typeName1, typeName2, coeffs)
+    bp = getattr(import_module(module_name), class_name)(typeName1, typeName2, coeffs)
+    bp.id = id
+    bp.type = type
+    return bp
 
 
 def angle_potential_interface(style: str, typeName1, typeName2, typeName3,
-                              coeffs):
+                              coeffs, id=None, type=None):
 
     module_name = 'mollab.core.potential.' + 'angle_' + style
     class_name = 'Angle' + style.capitalize()
-    ap = getattr(import_module(module_name), class_name)
-    return ap(typeName1, typeName2, typeName3, coeffs)
+    ap = getattr(import_module(module_name), class_name)(typeName1, typeName2, typeName3, coeffs)
+    ap.id = id
+    ap.type = type
+    return ap
 
 
 def dihedral_potential_interface(style: str, typeName1, typeName2, typeName3,
-                                 typeName4, coeffs):
+                                 typeName4, coeffs, id=None, type=None):
 
     module_name = 'mollab.core.potential.' + 'dihedral_' + style
     class_name = 'Dihedral' + style.capitalize()
-    dp = getattr(import_module(module_name), class_name)
-    return dp(typeName1, typeName2, typeName3, typeName4, coeffs)
+    dp = getattr(import_module(module_name), class_name)(typeName1, typeName2, typeName3, typeName4, coeffs)
+    dp.id = id
+    dp.type = type
+    return dp
 
 
-def improper_potential_interface(style: str, typeName1, typeName2, typeName3,
-                                 typeName4, coeffs):
+def improper_potential_interface(style: str,  typeName1, typeName2, typeName3,
+                                 typeName4, coeffs, id=None, type=None):
 
     module_name = 'mollab.core.potential.' + 'improper_' + style
     class_name = 'Improper' + style.capitalize()
-    ip = getattr(import_module(module_name), class_name)
-    return ip(typeName1, typeName2, typeName3, typeName4, coeffs)
+    ip = getattr(import_module(module_name), class_name)(typeName1, typeName2, typeName3, typeName4, coeffs)
+    ip.id = id
+    ip.type = type
+    return ip
 
 
-def pair_potential_interface(style: str, typeName1, typeName2, coeffs):
+def pair_potential_interface(style: str,  typeName1, typeName2, coeffs, id=None, type=None):
 
     module_name = 'mollab.core.potential.' + 'pair_' + style
     class_name = 'Pair' + style.capitalize()
-    pp = getattr(import_module(module_name), class_name)
-    return pp(typeName1, typeName2, coeffs)
+    pp = getattr(import_module(module_name), class_name)(typeName1, typeName2, coeffs)
+    pp.type = type
+    pp.id = id
+    return pp

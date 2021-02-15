@@ -18,9 +18,9 @@ class ForceField:
 
         self.massList = list()
 
-    def set_bond(self, style, typeName1, typeName2, coeffs):
+    def set_bond(self, style, typeName1, typeName2, coeffs, id=None, type=None):
 
-        bp = bond_potential_interface(style, typeName1, typeName2, coeffs)
+        bp = bond_potential_interface(style, typeName1, typeName2, coeffs, id, type)
         self.bondPotentialList.append(bp)
         return bp
 
@@ -30,10 +30,10 @@ class ForceField:
             if bp.compare(typeName1, typeName2):
                 return bp
 
-    def set_angle(self, style, typeName1, typeName2, typeName3, coeffs):
+    def set_angle(self, style, typeName1, typeName2, typeName3, coeffs, id=None, type=None):
 
         ap = angle_potential_interface(style, typeName1, typeName2, typeName3,
-                                       coeffs)
+                                       coeffs, id, type)
         self.anglePotentialList.append(ap)
 
         return ap
@@ -45,10 +45,10 @@ class ForceField:
                 return ap
 
     def set_dihedral(self, style, typeName1, typeName2, typeName3, typeName4,
-                     coeffs):
+                     coeffs, id=None, type=None):
 
         dp = dihedral_potential_interface(style, typeName1, typeName2,
-                                          typeName3, typeName4, coeffs)
+                                          typeName3, typeName4, coeffs, id, type)
         self.dihedralPotentialList.append(dp)
 
         return dp
@@ -60,10 +60,10 @@ class ForceField:
                 return dp
 
     def set_improper(self, style, typeName1, typeName2, typeName3, typeName4,
-                     coeffs):
+                     coeffs, id=None, type=None):
 
         ip = improper_potential_interface(style, typeName1, typeName2,
-                                          typeName3, typeName4, coeffs)
+                                          typeName3, typeName4, coeffs, id, type)
         self.improperPotentialList.append(ip)
         return ip
 
@@ -73,7 +73,7 @@ class ForceField:
             if ip.compare(typeName1, typeName2, typeName3, typeName4):
                 return ip
 
-    def set_pair(self, style, typeName1, typeName2, coeffs):
+    def set_pair(self, style, typeName1, typeName2, coeffs, id=None, type=None):
 
         alreadySet = 0
         for pp in self.pairPotentialList:
@@ -81,7 +81,7 @@ class ForceField:
                 alreadySet = 1
                 break
         if not alreadySet:
-            pp = pair_potential_interface(style, typeName1, typeName2, coeffs)
+            pp = pair_potential_interface(style, typeName1, typeName2, coeffs, id, type)
             self.pairPotentialList.append(pp)
 
         return pp
@@ -91,12 +91,3 @@ class ForceField:
         for pp in self.pairPotentialList:
             if pp.compare(typeName1, typeName2):
                 return pp
-
-    def set_mass(self, typeName, mass):
-
-        self.massList.append([typeName, mass])
-
-    def get_mass(self, typeName):
-        for m in self.massList:
-            if m[0] == typeName:
-                return m[1]

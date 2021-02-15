@@ -9,17 +9,24 @@ import numpy as np
 
 
 class Bond(Item):
-    def __init__(self, atom1: Atom, atom2: Atom) -> None:
+    def __init__(self, atom1: Atom, atom2: Atom, bp=None) -> None:
         super().__init__('Bond')
         self.atom1 = atom1
         self.atom2 = atom2
         self._calc_length()
         self._calc_orient()
         self._calc_position()
-        self.__dict__ = {
-            'x1': self.atom1.x,
-            'x2': self.atom2.x,
-        }
+
+        self._bp = bp
+
+    @property
+    def bp(self):
+        return self._bp
+
+    @property
+    def type(self):
+        self._type = self.bp.type
+        return self._type
 
     def _calc_length(self):
         self._bond_vec = self.atom1.position - self.atom2.position

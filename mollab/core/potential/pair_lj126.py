@@ -6,12 +6,14 @@
 from mollab.core.potential.potential_base import PairBase
 
 
-class PairLjcut(PairBase):
+class PairLj126(PairBase):
     def __init__(self, typeName1, typeName2, coeffs) -> None:
         super().__init__(typeName1, typeName2)
-        self._style = 'ljcut'
-        self.epsilon = coeffs['epsilon']
-        self.sigma = coeffs['sigma']
+        self._style = 'lj126'
+        self.epsilon = coeffs[0]
+        self.sigma = coeffs[1]
+        if len(coeffs) == 3:
+            self.cutoff = coeffs[2]
 
     @property
     def epsilon(self):

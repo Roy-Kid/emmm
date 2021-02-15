@@ -8,12 +8,9 @@ from mollab.core.potential.potential_base import BondBase
 class BondHarmonic(BondBase):
     def __init__(self, typeName1, typeName2, coeffs) -> None:
         super().__init__(typeName1, typeName2)
-        if not isinstance(coeffs, dict):
-            raise TypeError(f'coeffs 应为dict类型而不是{type(coeffs)}')
         self._style = 'harmonic'
-        self.k = coeffs['k']
-        self.r0 = coeffs['r0']
-        # self.cutoff = coeffs['cutoff']
+        self.k = coeffs[0]
+        self.r0 = coeffs[1]
 
     @property
     def style(self):

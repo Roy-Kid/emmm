@@ -21,7 +21,6 @@ class Topo:
         self.impropers = list()
 
     def search_topo(self,
-                    item,
                     isBond=True,
                     isAngle=True,
                     isDihedral=True,
@@ -36,12 +35,13 @@ class Topo:
             isDihedral (bool, optional): 是否搜索dihedral. Defaults to True
             isAbinitio (bool, optional): 是否从头搜索. Defaults to True
         """
+        self.atoms = self.world.atoms
         self.isAbinitio = True
         # 将item展开成atom的列表
-        if item.itemType == 'Molecule':
-            self.atoms = item.flatten()  # <-molecule._flatten()
-        elif item.itemType == 'Atom':
-            self.atoms = [item]
+        # if item.itemType == 'Molecule':
+        #     self.atoms = item.flatten()  # <-molecule._flatten()
+        # elif item.itemType == 'Atom':
+        #     self.atoms = [item]
         if isBond:
             self.bonds.extend(self.search_bond(self.atoms))
         if isAngle:
@@ -60,8 +60,6 @@ class Topo:
         Returns:
             list: [[atom1, atom2], ...]
         """
-        # 在search_topo中的isAbinitio级别高于局部
-        isAbinitio = self.isAbinitio
 
         # bond_id -> bond_id
         bonds_id = list()
@@ -100,7 +98,7 @@ class Topo:
                         bp = self.world.forcefield.get_bond(*bond_type)
                         if bp:
                             # 把bond 添加到bonds
-                            bonds.append(Bond(atom, ato, bp))
+                            bonds.append(Bond(atom, ato, bp=bp))
                             # 记录这个bond 的id
                             bonds_id.append(sorted_bond_id)
                         else:
@@ -125,7 +123,6 @@ class Topo:
         Returns:
             list: [[atom1, atom2, atom3], ...] 
         """
-        isAbinitio = self.isAbinitio
 
         # angle_id -> angle_id
         angles_id = list()
@@ -163,7 +160,7 @@ class Topo:
                                         *angle_type)
                                 if ap:
 
-                                    angles.append(Angle(atom, ato, at, ap))
+                                    angles.append(Angle(atom, ato, at, ap=ap))
 
                                     angles_id.append(sorted_angle_id)
 
@@ -181,8 +178,6 @@ class Topo:
         return angles
 
     def search_dihedral(self, atoms):
-
-        isAbinitio = self.isAbinitio
 
         dihedrals_id = list()
         dihedrals = list()
@@ -215,16 +210,16 @@ class Topo:
                                     dihedral_type = [
                                         atom.type for atom in dihedral
                                     ]
-                                    if isAbinitio:
-                                        if self.world.forcefield.get_dihedral(
-                                                *dihedral_type):
-                                            dihedrals.append(tuple(dihedral))
-                                            dihedrals_id.append(
-                                                sorted_dihedral_id)
-                                        else:
-                                            # raise TypeError(f'dihedral:{dihedral_type} 没有匹配的力场')
-                                            print(
-                                                f'dihedral:{dihedral_type} 没有匹配的力场'
+
+                                    if self.world.forcefield.get_dihedral(
+                                            *dihedral_type):
+                                        dihedrals.append(tuple(dihedral))
+                                        dihedrals_id.append(
+                                            sorted_dihedral_id)
+                                    else:
+                                        # raise TypeError(f'dihedral:{dihedral_type} 没有匹配的力场')
+                                        print(
+                                            f'dihedral:{dihedral_type} 没有匹配的力场'
                                             )
 
                                 dihedral_id.pop()
@@ -244,7 +239,6 @@ class Topo:
     def search_improper(self, atoms):
         # defination of improper can refer to the manual of LAMMPS
         # in the section of improper style
-        isAbinitio = self.isAbinitio
 
         impropers_id = list()
         impropers = list()
@@ -260,11 +254,10 @@ class Topo:
 
                 if sorted_improper_id not in impropers_id:
                     improper_type = [atom.type for atom in improper]
-                    if isAbinitio:
-                        if self.world.get_improper(*improper_type):
-                            impropers.append(tuple(improper))
-                            impropers_id.append(sorted_improper_id)
-                        else:
-                            print(f'improper:{improper_type} 没有匹配力场')
+                    if self.world.forcefield.get_improper(*improper_type):
+                        impropers.append(tuple(improper))
+                        impropers_id.append(sorted_improper_id)
+                    else:
+                        print(f'improper:{improper_type} 没有匹配力场')
 
         return impropers

@@ -20,8 +20,24 @@ class Atom(Item):
     __repr__ = __str__
 
     @property
+    def uuid(self):
+        return id(self)
+
+    @property
+    def id(self):
+        return self._id
+
+    @property
     def style(self):
-        return self.style
+        return self._style
+
+    @property
+    def mass(self):
+        return self._mass
+
+    @mass.setter
+    def mass(self, m):
+        self._mass = float(m)
 
     @property
     def neighbors(self):
@@ -172,16 +188,19 @@ class Atom(Item):
 
 
 class fullAtom(Atom):
-    def __init__(self, atomId, molId, typeId, q, x, y, z):
+    def __init__(self, atomId, molId, type, q, x, y, z):
 
         super().__init__('full')
         self.atomId = atomId
         self.molId = molId
-        self.typeId = typeId
+        self.type = type
         self.q =  float(q)
         self._x = float(x)
         self._y = float(y)
         self._z = float(z)
+
+        self._id = self.atomId
+        self._type = self.type
 
 
 
@@ -190,10 +209,12 @@ class molecularAtom(Atom):
         super().__init__('molecular')
         self.atomId = atomId
         self.molId = molId
-        self.typeId = typeId
+        self.type = type
         self._x = float(x)
         self._y = float(y)
         self._z = float(z)
+
+        self._id = self.atomId
 
 
 class pdbAtom(Atom):
@@ -213,3 +234,5 @@ class pdbAtom(Atom):
         self.tempFactor = tempFactor
         self.element = element
         self.charge = charge
+
+        self._id = self.serial
