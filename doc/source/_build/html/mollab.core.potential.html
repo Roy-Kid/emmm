@@ -1,0 +1,505 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mollab.core.potential package &#8212; mollab  文档</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/katex-math.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/translations.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+    <script src="_static/katex_autorenderer.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="mollab.i18n package" href="mollab.i18n.html" />
+    <link rel="prev" title="mollab.core package" href="mollab.core.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="mollab-core-potential-package">
+<h1>mollab.core.potential package<a class="headerlink" href="#mollab-core-potential-package" title="永久链接至标题">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-mollab.core.potential.angle_harmonic">
+<span id="mollab-core-potential-angle-harmonic-module"></span><h2>mollab.core.potential.angle_harmonic module<a class="headerlink" href="#module-mollab.core.potential.angle_harmonic" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.potential.angle_harmonic.AngleHarmonic">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.potential.angle_harmonic.</span></code><code class="sig-name descname"><span class="pre">AngleHarmonic</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.angle_harmonic.AngleHarmonic" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.potential.potential_base.AngleBase" title="mollab.core.potential.potential_base.AngleBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.potential.potential_base.AngleBase</span></code></a></p>
+<dl class="py method">
+<dt id="mollab.core.potential.angle_harmonic.AngleHarmonic.energy">
+<code class="sig-name descname"><span class="pre">energy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.angle_harmonic.AngleHarmonic.energy" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.angle_harmonic.AngleHarmonic.force">
+<code class="sig-name descname"><span class="pre">force</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.angle_harmonic.AngleHarmonic.force" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.angle_harmonic.AngleHarmonic.k">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">k</span></code><a class="headerlink" href="#mollab.core.potential.angle_harmonic.AngleHarmonic.k" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.angle_harmonic.AngleHarmonic.lmp_format">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">lmp_format</span></code><a class="headerlink" href="#mollab.core.potential.angle_harmonic.AngleHarmonic.lmp_format" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.angle_harmonic.AngleHarmonic.theta0">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">theta0</span></code><a class="headerlink" href="#mollab.core.potential.angle_harmonic.AngleHarmonic.theta0" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.potential.bond_harmonic">
+<span id="mollab-core-potential-bond-harmonic-module"></span><h2>mollab.core.potential.bond_harmonic module<a class="headerlink" href="#module-mollab.core.potential.bond_harmonic" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.potential.bond_harmonic.BondHarmonic">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.potential.bond_harmonic.</span></code><code class="sig-name descname"><span class="pre">BondHarmonic</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.bond_harmonic.BondHarmonic" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.potential.potential_base.BondBase" title="mollab.core.potential.potential_base.BondBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.potential.potential_base.BondBase</span></code></a></p>
+<dl class="py method">
+<dt id="mollab.core.potential.bond_harmonic.BondHarmonic.energy">
+<code class="sig-name descname"><span class="pre">energy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.bond_harmonic.BondHarmonic.energy" title="永久链接至目标">¶</a></dt>
+<dd><p>get the energy when bond length=r</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>r</strong> (<em>float</em>) – bond length</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>bond energy</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>energy</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.bond_harmonic.BondHarmonic.force">
+<code class="sig-name descname"><span class="pre">force</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.bond_harmonic.BondHarmonic.force" title="永久链接至目标">¶</a></dt>
+<dd><p>get the force when bond length=r</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>r</strong> (<em>float</em>) – bond length</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>bond force</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>force</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.bond_harmonic.BondHarmonic.k">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">k</span></code><a class="headerlink" href="#mollab.core.potential.bond_harmonic.BondHarmonic.k" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.bond_harmonic.BondHarmonic.lmp_format">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">lmp_format</span></code><a class="headerlink" href="#mollab.core.potential.bond_harmonic.BondHarmonic.lmp_format" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.bond_harmonic.BondHarmonic.r0">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">r0</span></code><a class="headerlink" href="#mollab.core.potential.bond_harmonic.BondHarmonic.r0" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.bond_harmonic.BondHarmonic.style">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">style</span></code><a class="headerlink" href="#mollab.core.potential.bond_harmonic.BondHarmonic.style" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.potential.dihedral_opls">
+<span id="mollab-core-potential-dihedral-opls-module"></span><h2>mollab.core.potential.dihedral_opls module<a class="headerlink" href="#module-mollab.core.potential.dihedral_opls" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.potential.dihedral_opls.DihedralOpls">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.potential.dihedral_opls.</span></code><code class="sig-name descname"><span class="pre">DihedralOpls</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.dihedral_opls.DihedralOpls" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.potential.potential_base.DihedralBase" title="mollab.core.potential.potential_base.DihedralBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.potential.potential_base.DihedralBase</span></code></a></p>
+<dl class="py method">
+<dt id="mollab.core.potential.dihedral_opls.DihedralOpls.energy">
+<code class="sig-name descname"><span class="pre">energy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.dihedral_opls.DihedralOpls.energy" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.dihedral_opls.DihedralOpls.force">
+<code class="sig-name descname"><span class="pre">force</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.dihedral_opls.DihedralOpls.force" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.dihedral_opls.DihedralOpls.k1">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">k1</span></code><a class="headerlink" href="#mollab.core.potential.dihedral_opls.DihedralOpls.k1" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.dihedral_opls.DihedralOpls.k2">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">k2</span></code><a class="headerlink" href="#mollab.core.potential.dihedral_opls.DihedralOpls.k2" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.dihedral_opls.DihedralOpls.k3">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">k3</span></code><a class="headerlink" href="#mollab.core.potential.dihedral_opls.DihedralOpls.k3" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.dihedral_opls.DihedralOpls.k4">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">k4</span></code><a class="headerlink" href="#mollab.core.potential.dihedral_opls.DihedralOpls.k4" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.dihedral_opls.DihedralOpls.lmp_format">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">lmp_format</span></code><a class="headerlink" href="#mollab.core.potential.dihedral_opls.DihedralOpls.lmp_format" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.potential.improper_cvff">
+<span id="mollab-core-potential-improper-cvff-module"></span><h2>mollab.core.potential.improper_cvff module<a class="headerlink" href="#module-mollab.core.potential.improper_cvff" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.potential.improper_cvff.ImproperCvff">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.potential.improper_cvff.</span></code><code class="sig-name descname"><span class="pre">ImproperCvff</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.improper_cvff.ImproperCvff" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.potential.potential_base.ImproperBase" title="mollab.core.potential.potential_base.ImproperBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.potential.potential_base.ImproperBase</span></code></a></p>
+<dl class="py method">
+<dt id="mollab.core.potential.improper_cvff.ImproperCvff.d">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">d</span></code><a class="headerlink" href="#mollab.core.potential.improper_cvff.ImproperCvff.d" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.improper_cvff.ImproperCvff.energy">
+<code class="sig-name descname"><span class="pre">energy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.improper_cvff.ImproperCvff.energy" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.improper_cvff.ImproperCvff.force">
+<code class="sig-name descname"><span class="pre">force</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.improper_cvff.ImproperCvff.force" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.improper_cvff.ImproperCvff.k">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">k</span></code><a class="headerlink" href="#mollab.core.potential.improper_cvff.ImproperCvff.k" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.improper_cvff.ImproperCvff.lmp_format">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">lmp_format</span></code><a class="headerlink" href="#mollab.core.potential.improper_cvff.ImproperCvff.lmp_format" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.improper_cvff.ImproperCvff.n">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">n</span></code><a class="headerlink" href="#mollab.core.potential.improper_cvff.ImproperCvff.n" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.potential.improper_harmonic">
+<span id="mollab-core-potential-improper-harmonic-module"></span><h2>mollab.core.potential.improper_harmonic module<a class="headerlink" href="#module-mollab.core.potential.improper_harmonic" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.potential.improper_harmonic.ImproperHarmonic">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.potential.improper_harmonic.</span></code><code class="sig-name descname"><span class="pre">ImproperHarmonic</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.improper_harmonic.ImproperHarmonic" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.potential.potential_base.ImproperBase" title="mollab.core.potential.potential_base.ImproperBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.potential.potential_base.ImproperBase</span></code></a></p>
+<dl class="py method">
+<dt id="mollab.core.potential.improper_harmonic.ImproperHarmonic.chi">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">chi</span></code><a class="headerlink" href="#mollab.core.potential.improper_harmonic.ImproperHarmonic.chi" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.improper_harmonic.ImproperHarmonic.energy">
+<code class="sig-name descname"><span class="pre">energy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.improper_harmonic.ImproperHarmonic.energy" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.improper_harmonic.ImproperHarmonic.force">
+<code class="sig-name descname"><span class="pre">force</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chi</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.improper_harmonic.ImproperHarmonic.force" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.improper_harmonic.ImproperHarmonic.k">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">k</span></code><a class="headerlink" href="#mollab.core.potential.improper_harmonic.ImproperHarmonic.k" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.improper_harmonic.ImproperHarmonic.lmp_format">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">lmp_format</span></code><a class="headerlink" href="#mollab.core.potential.improper_harmonic.ImproperHarmonic.lmp_format" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.potential.pair_lj126">
+<span id="mollab-core-potential-pair-lj126-module"></span><h2>mollab.core.potential.pair_lj126 module<a class="headerlink" href="#module-mollab.core.potential.pair_lj126" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.potential.pair_lj126.PairLj126">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.potential.pair_lj126.</span></code><code class="sig-name descname"><span class="pre">PairLj126</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.pair_lj126.PairLj126" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.potential.potential_base.PairBase" title="mollab.core.potential.potential_base.PairBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.potential.potential_base.PairBase</span></code></a></p>
+<dl class="py method">
+<dt id="mollab.core.potential.pair_lj126.PairLj126.energy">
+<code class="sig-name descname"><span class="pre">energy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.pair_lj126.PairLj126.energy" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.pair_lj126.PairLj126.epsilon">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">epsilon</span></code><a class="headerlink" href="#mollab.core.potential.pair_lj126.PairLj126.epsilon" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.pair_lj126.PairLj126.force">
+<code class="sig-name descname"><span class="pre">force</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.pair_lj126.PairLj126.force" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.pair_lj126.PairLj126.lmp_format">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">lmp_format</span></code><a class="headerlink" href="#mollab.core.potential.pair_lj126.PairLj126.lmp_format" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.pair_lj126.PairLj126.sigma">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">sigma</span></code><a class="headerlink" href="#mollab.core.potential.pair_lj126.PairLj126.sigma" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.potential.potential_base">
+<span id="mollab-core-potential-potential-base-module"></span><h2>mollab.core.potential.potential_base module<a class="headerlink" href="#module-mollab.core.potential.potential_base" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.potential.potential_base.AngleBase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.potential.potential_base.</span></code><code class="sig-name descname"><span class="pre">AngleBase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.AngleBase" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="mollab.core.potential.potential_base.AngleBase.compare">
+<code class="sig-name descname"><span class="pre">compare</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.AngleBase.compare" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="mollab.core.potential.potential_base.BondBase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.potential.potential_base.</span></code><code class="sig-name descname"><span class="pre">BondBase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.BondBase" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.potential.potential_base.PotentialBase" title="mollab.core.potential.potential_base.PotentialBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.potential.potential_base.PotentialBase</span></code></a></p>
+<dl class="py method">
+<dt id="mollab.core.potential.potential_base.BondBase.compare">
+<code class="sig-name descname"><span class="pre">compare</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.BondBase.compare" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="mollab.core.potential.potential_base.DihedralBase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.potential.potential_base.</span></code><code class="sig-name descname"><span class="pre">DihedralBase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.DihedralBase" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="mollab.core.potential.potential_base.DihedralBase.compare">
+<code class="sig-name descname"><span class="pre">compare</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.DihedralBase.compare" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="mollab.core.potential.potential_base.ImproperBase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.potential.potential_base.</span></code><code class="sig-name descname"><span class="pre">ImproperBase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.ImproperBase" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.potential.potential_base.PotentialBase" title="mollab.core.potential.potential_base.PotentialBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.potential.potential_base.PotentialBase</span></code></a></p>
+<dl class="py method">
+<dt id="mollab.core.potential.potential_base.ImproperBase.compare">
+<code class="sig-name descname"><span class="pre">compare</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.ImproperBase.compare" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="mollab.core.potential.potential_base.PairBase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.potential.potential_base.</span></code><code class="sig-name descname"><span class="pre">PairBase</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.PairBase" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.potential.potential_base.PotentialBase" title="mollab.core.potential.potential_base.PotentialBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.potential.potential_base.PotentialBase</span></code></a></p>
+<dl class="py method">
+<dt id="mollab.core.potential.potential_base.PairBase.compare">
+<code class="sig-name descname"><span class="pre">compare</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">t1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.PairBase.compare" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="mollab.core.potential.potential_base.PotentialBase">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.potential.potential_base.</span></code><code class="sig-name descname"><span class="pre">PotentialBase</span></code><a class="headerlink" href="#mollab.core.potential.potential_base.PotentialBase" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="mollab.core.potential.potential_base.PotentialBase.compair">
+<code class="sig-name descname"><span class="pre">compair</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#mollab.core.potential.potential_base.PotentialBase.compair" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.potential_base.PotentialBase.energy">
+<code class="sig-name descname"><span class="pre">energy</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.PotentialBase.energy" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.potential_base.PotentialBase.force">
+<code class="sig-name descname"><span class="pre">force</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.PotentialBase.force" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.potential_base.PotentialBase.plot_energy">
+<code class="sig-name descname"><span class="pre">plot_energy</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.PotentialBase.plot_energy" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.potential_base.PotentialBase.plot_force">
+<code class="sig-name descname"><span class="pre">plot_force</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.potential_base.PotentialBase.plot_force" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.potential.potential_base.PotentialBase.style">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">style</span></code><a class="headerlink" href="#mollab.core.potential.potential_base.PotentialBase.style" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.potential">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mollab.core.potential" title="永久链接至标题">¶</a></h2>
+<p>This module is used to link core and potential file.
+The reason that why i dont put these modules in the plugin is that:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>they are invoked by the core not users;</p></li>
+<li><p>they are the essential part of core running.</p></li>
+</ol>
+</div></blockquote>
+<dl class="py function">
+<dt id="mollab.core.potential.angle_potential_interface">
+<code class="sig-prename descclassname"><span class="pre">mollab.core.potential.</span></code><code class="sig-name descname"><span class="pre">angle_potential_interface</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.angle_potential_interface" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="mollab.core.potential.bond_potential_interface">
+<code class="sig-prename descclassname"><span class="pre">mollab.core.potential.</span></code><code class="sig-name descname"><span class="pre">bond_potential_interface</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.bond_potential_interface" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="mollab.core.potential.dihedral_potential_interface">
+<code class="sig-prename descclassname"><span class="pre">mollab.core.potential.</span></code><code class="sig-name descname"><span class="pre">dihedral_potential_interface</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.dihedral_potential_interface" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="mollab.core.potential.improper_potential_interface">
+<code class="sig-prename descclassname"><span class="pre">mollab.core.potential.</span></code><code class="sig-name descname"><span class="pre">improper_potential_interface</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.improper_potential_interface" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="mollab.core.potential.pair_potential_interface">
+<code class="sig-prename descclassname"><span class="pre">mollab.core.potential.</span></code><code class="sig-name descname"><span class="pre">pair_potential_interface</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.potential.pair_potential_interface" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">mollab</a></h1>
+
+
+
+
+
+
+
+
+<h3>导航</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">mollab</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="mollab.html">mollab package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">mollab</a><ul>
+  <li><a href="mollab.html">mollab package</a><ul>
+  <li><a href="mollab.core.html">mollab.core package</a><ul>
+      <li>Previous: <a href="mollab.core.html" title="上一章">mollab.core package</a></li>
+      <li>Next: <a href="mollab.i18n.html" title="下一章">mollab.i18n package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">快速搜索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="转向" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Roy Kid.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/mollab.core.potential.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

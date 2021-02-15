@@ -1,16 +1,18 @@
 # author: Roy Kid
 # contact: lijichen365@126.com
-# date: 2021-02-13
-# version: 0.0.1
+# date: 2021-02-15
+# version: 0.0.2
 
 import numpy as np
 import copy
 
 
 class Item:
+    """Item 是几乎所有可操作实体的基类, 包括且不限于Atom, Molecule, World, Universe, Bond, Angle, Dihedral, Improper. 
+    """
     def __init__(self, itemType):
 
-        self._id = ''
+        self._id = str()
         self._label = str()
         self._parent = str()
         self._path = str()
@@ -26,8 +28,6 @@ class Item:
         self.__pos = 0
         self._itemType = itemType
 
-        # in the Atom, _coords = _position
-        # in the mol, _coords contains all the atoms' coordinates, _position is the barycenter of the moleule
     @property
     def itemType(self):
         return self._itemType
@@ -130,14 +130,37 @@ class Item:
         self._z = z
 
     def _move(self, original, x, y, z):
+        """move()的抽象方法, 只关心数学层面的移动向量计算
+
+        Args:
+            original (np.array): 初始位置向量
+            x (float): 在x方向的移动
+            y (float): 在y方向的移动
+            z (float): 在z方向的移动
+
+        Returns:
+            np.array: 移动后的位置向量
+        """
         vec = np.array([x, y, z], dtype=float)
         return original + vec
 
-    def randmove(self, length):
+    def randmove(self):
         pass
 
     def _rotate(self, o, theta, x, y, z):
+        """rotate()的抽象方法, 只关心数学层面的旋转计算
 
+        Args:
+            o (np.array): 初始位置向量
+            theta (deg): 旋转角度
+            x (float): 旋转轴指向的x分量
+            y (float): 旋转轴指向的x分量
+            z (float): 旋转轴指向的x分量
+
+        Returns:
+            np.array: 旋转后的位置向量
+        """
+        theta = np.deg2rad(theta)
         rotm = self._quaternion2rotmatrix(theta, x, y, z)
 
         newpos = np.dot(rotm, o)
@@ -145,6 +168,20 @@ class Item:
         return newpos
 
     def _quaternion2rotmatrix(self, theta, x, y, z):
+        """将四元数转换为旋转矩阵的数学方法
+
+        Args:
+            theta (deg): 旋转角度
+            x (float): 旋转轴指向的x分量
+            y (float): 旋转轴指向的x分量
+            z (float): 旋转轴指向的x分量
+
+        Raises:
+            ValueError: xyz全为零时无法确定旋转轴
+
+        Returns:
+            np.array: 旋转矩阵(3x3)
+        """
 
         # rotation axis
         x = float(x)
