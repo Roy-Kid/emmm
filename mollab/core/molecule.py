@@ -22,7 +22,10 @@ class Molecule(Item):
     __str__ = __repr__
 
     def add_items(self, *items):
-        """ 向molecule中添加item
+        """向Molecule中添加item
+
+        Raises:
+            TypeError: 如果不是Atom或者Molecule则报错
         """
         for item in items:
             if item.itemType == 'Molecule' or item.itemType == 'Atom':
@@ -48,6 +51,15 @@ class Molecule(Item):
             raise TypeError(_('暂不支持切片调用'))
 
     def flatten(self, dir=None, isMol=False):
+        """将Molecule中储存的item压平, 换言之就是提取出所有的atom
+
+        Args:
+            dir (str, optional): 压平时需要传递的路径. Defaults to None.
+            isMol (bool, optional): 压平时是否将Molecule也添加到列表中. Defaults to False.
+
+        Returns:
+            list: 由atoms组成的列表
+        """
 
         if dir is None:
             dir = [self.label]
@@ -57,9 +69,7 @@ class Molecule(Item):
         atoms = list()
         for item in self:
 
-
             item.root = self.root
-
 
             if item.itemType == 'Atom':
                 dir.append(item.label)
@@ -78,6 +88,8 @@ class Molecule(Item):
         return atoms
 
     def calc_centroid(self):
+        """计算Molecule的质心
+        """
         atoms = self.flatten()
         vec = np.array([0, 0, 0], dtype=float)
         for atom in atoms:
@@ -87,6 +99,8 @@ class Molecule(Item):
         setattr(self, '_position', centroid)
 
     def toDict(self):
+        """输出到字典格式
+        """
         m = dict()
         m['label'] = self.label
         m['type'] = self.type
@@ -97,19 +111,6 @@ class Molecule(Item):
             m['items'].append(i.toDict())
 
         return m
-
-    # def get_replica(self, newLabal):
-
-    #     newMol = Molecule(newLabal)
-    #     for k, v in self.__dict__.items():
-    #         if k != "_Item__id" and k != "container":
-
-    #             setattr(newMol, str(k), v)
-
-    #     for item in self:
-    #         newMol.add_items(item.get_replica(item.label))
-
-    #     return newMol
 
     @property
     def position(self):
@@ -125,6 +126,16 @@ class Molecule(Item):
         return np.array(coords)
 
     def move(self, x, y, z):
+        """[summary]
+
+        Args:
+            x ([type]): [description]
+            y ([type]): [description]
+            z ([type]): [description]
+
+        Returns:
+            [type]: [description]
+        """
 
         for atom in self:
             atom.move(x, y, z)
@@ -134,6 +145,8 @@ class Molecule(Item):
         return self
 
     def update(self):
+        """手动更新Molecule的状态
+        """
         self.calc_centroid()
 
     def distance_to(self, item):
@@ -223,4 +236,3 @@ class lmpMolecule(Molecule):
 class pdbMolecule(Molecule):
     def __init__(self, molId):
         super().__init__('pdbMolecule')
-        

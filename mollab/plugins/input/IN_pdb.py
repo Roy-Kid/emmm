@@ -51,8 +51,8 @@ class INpdb(InputBase):
             execute = getattr(self, status, self.status_error)
             execute(line)
 
-        # if xml:
-        #     inxml = INxml().read_data(xml)
+        if xml:
+            inxml = INxml().read(xml)
 
         self._post_process()
 

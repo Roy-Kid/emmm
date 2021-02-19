@@ -8,6 +8,11 @@ import mollab as ml
 
 @pytest.fixture(scope='module')
 def xmlWorld():
-    reader = ml.active_plugin('INxml')
+    reader = ml.plugins.INxml()
 
     return reader.read('test/benezen/xml')
+
+class TestINxml:
+
+    def test_AtomType(self, xmlWorld):
+        assert len(xmlWorld.AtomTypes) == 12

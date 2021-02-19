@@ -87,10 +87,16 @@
 <dt id="mollab.core.atom.Atom">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.atom.</span></code><code class="sig-name descname"><span class="pre">Atom</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom" title="永久链接至目标">¶</a></dt>
 <dd><p>基类：<a class="reference internal" href="#mollab.core.item.Item" title="mollab.core.item.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.item.Item</span></code></a></p>
+<p>Atom 是所有粒子的基类, 提供了所有粒子共有的方法. 在这个基础上可以派生出各种具有不同属性的Atom类</p>
 <dl class="py method">
 <dt id="mollab.core.atom.Atom.add_neighbors">
 <code class="sig-name descname"><span class="pre">add_neighbors</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">atoms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.add_neighbors" title="永久链接至目标">¶</a></dt>
-<dd><p>给atom添加相键接的atom</p>
+<dd><p>添加键接的Atom. TODO: 将键接Atom和临近Atom区分开</p>
+<dl class="field-list simple">
+<dt class="field-odd">引发</dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – 添加了错误种类的对象而不是Atom</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -107,7 +113,18 @@
 <dl class="py method">
 <dt id="mollab.core.atom.Atom.duplicate">
 <code class="sig-name descname"><span class="pre">duplicate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.duplicate" title="永久链接至目标">¶</a></dt>
-<dd></dd></dl>
+<dd><p>沿着一个方向边移动边复制</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>) – 复制个数</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – 每移动距离复制一次</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – 每移动距离复制一次</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – 每移动距离复制一次</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="mollab.core.atom.Atom.id">
@@ -122,13 +139,37 @@
 <dl class="py method">
 <dt id="mollab.core.atom.Atom.move">
 <code class="sig-name descname"><span class="pre">move</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.move" title="永久链接至目标">¶</a></dt>
-<dd><p>move by (x, y, z)</p>
+<dd><p>将Atom向一个方向移动</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – 在x方向的移动</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – 在y方向的移动</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – 在z方向的移动</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>返回自身, 以供链式操作</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#mollab.core.atom.Atom" title="mollab.core.atom.Atom">Atom</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="mollab.core.atom.Atom.move_to">
 <code class="sig-name descname"><span class="pre">move_to</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.move_to" title="永久链接至目标">¶</a></dt>
-<dd><p>move to (x, y, z)</p>
+<dd><p>将Atom移动到</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – 目标x坐标</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – 目标y坐标</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – 目标z坐标</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -139,27 +180,59 @@
 <dl class="py method">
 <dt id="mollab.core.atom.Atom.randmove">
 <code class="sig-name descname"><span class="pre">randmove</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.randmove" title="永久链接至目标">¶</a></dt>
-<dd><p>以当前位置为球心, length为半径随机方向移动
-:param length: 移动距离
-:type length: Float</p>
+<dd><p>以当前位置为球心, length为半径随机方向移动</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>length</strong> (<em>float</em>) – 移动距离</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="mollab.core.atom.Atom.rotate">
 <code class="sig-name descname"><span class="pre">rotate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.rotate" title="永久链接至目标">¶</a></dt>
-<dd><p>以四元数的方式旋转atom. (x,y,z)是空间指向, (xo,yo,zo)是中心点, 即旋转轴为(x-xo,y-yo,z-zo). theta则是围绕旋转轴逆时针旋转的弧度(多少个π).</p>
+<dd><p>以四元数的方式旋转atom. (x,y,z)是旋转轴空间指向, (x0,y0,z0)是旋转轴起始点(默认原点), 即旋转轴为(x-xo,y-yo,z-zo). theta则是围绕旋转轴逆时针旋转的弧度(多少个π).</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>x</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>y</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>z</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>x0</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 0.</p></li>
+<li><p><strong>y0</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 0.</p></li>
+<li><p><strong>z0</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>[type]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt id="mollab.core.atom.Atom.rotate_orth">
 <code class="sig-name descname"><span class="pre">rotate_orth</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xAxis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yAxis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zAxis</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.rotate_orth" title="永久链接至目标">¶</a></dt>
-<dd><p>围绕(x,y,z)点的x/y/z轴旋转theta角</p>
-<p>Raises:        self.x = pos[0]
-self.y = pos[1]
-self.z = pos[2]</p>
-<blockquote>
-<div><p>SyntaxError: [description]</p>
-</div></blockquote>
+<dd><p>围绕在(x,y,z)点的x/y/z轴旋转theta</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<em>deg</em>) – 旋转角</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – 旋转参考点</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – 旋转参考点</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – 旋转参考点</p></li>
+<li><p><strong>xAxis</strong> (<em>bool</em>) – 旋转轴指向</p></li>
+<li><p><strong>yAxis</strong> (<em>bool</em>) – 旋转轴指向</p></li>
+<li><p><strong>zAxis</strong> (<em>bool</em>) – 旋转轴指向</p></li>
+</ul>
+</dd>
+<dt class="field-even">引发</dt>
+<dd class="field-even"><p><strong>SyntaxError</strong> – 只能有一个方向被设置成True来代表旋转轴指向</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -185,7 +258,16 @@ self.z = pos[2]</p>
 <dl class="py method">
 <dt id="mollab.core.atom.Atom.toDict">
 <code class="sig-name descname"><span class="pre">toDict</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.toDict" title="永久链接至目标">¶</a></dt>
-<dd></dd></dl>
+<dd><p>将Atom转化为dict类型</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回</dt>
+<dd class="field-odd"><p>键值对</p>
+</dd>
+<dt class="field-even">返回类型</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="mollab.core.atom.Atom.uuid">
@@ -322,6 +404,7 @@ self.z = pos[2]</p>
 <dt id="mollab.core.item.Item">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.item.</span></code><code class="sig-name descname"><span class="pre">Item</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itemType</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.item.Item" title="永久链接至目标">¶</a></dt>
 <dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Item 是几乎所有可操作实体的基类, 包括且不限于Atom, Molecule, World, Universe, Bond, Angle, Dihedral, Improper.</p>
 <dl class="py method">
 <dt id="mollab.core.item.Item.compute_bounding_box">
 <code class="sig-name descname"><span class="pre">compute_bounding_box</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.item.Item.compute_bounding_box" title="永久链接至目标">¶</a></dt>
@@ -374,7 +457,7 @@ self.z = pos[2]</p>
 
 <dl class="py method">
 <dt id="mollab.core.item.Item.randmove">
-<code class="sig-name descname"><span class="pre">randmove</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.item.Item.randmove" title="永久链接至目标">¶</a></dt>
+<code class="sig-name descname"><span class="pre">randmove</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.item.Item.randmove" title="永久链接至目标">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">

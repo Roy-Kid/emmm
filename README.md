@@ -1,2 +1,4 @@
 # mollab
-mollab makes molecule manipulated. It is a framework to build and process data for molecule dynamics
+mollab是一个可扩展的分子建模与可视化工具, 维护了一个通用的数据结构, 可以兼容各种类型的分子动力学文件, 提供了友好的API, 因此可以通过插件的方式来实现任何你想要的功能. 换言之, 通过这个软件包, 你不需要在去操心如何读取和整理`lammps data`或者`pdb`或者`xyz`, 只需要根据软件提供的各种接口就可以读取和操作系统内的原子和分子. 因此, 任何人都可以直接上手写关于分子动力学的插件, 比如: `input`和`output`负责文件的读入和读出, `precast`是预制件插件可以实现晶体/石墨烯等等的建模, `analysis`对静态系统的分析. 换而言之, 只要能人性化地获取每一个原子和分子的信息, 你就能计算和分析所有的东西, 再也不用看着几千行的文本文件头疼了. 
+
+这个软件正在缓慢而坚定地开发当中. 软件的后端完全是使用Python完成, 前端采用的是three.js和electron(TODO). 如果你有兴趣加入开发, 请联系我. 我相信早晚有一天, 这个软件可以成为MD计算的必用工具. 

@@ -3,26 +3,17 @@
 # date: 2021-02-10
 # version: 0.0.1
 
-from mollab.core.world import World
 import pytest
-
-
-@pytest.fixture(scope='module')
-def world():
-    return World()
+import mollab as ml
 
 @pytest.fixture(scope='module')
-def reader(world):
-    reader = world.active_plugin('INpdb')
-    reader = reader.read_data('test/benezen/pdb', xml='test/benezen/xml')
+def pdbWorld():
+    reader = ml.plugins.INpdb()
+    world = reader.read('test/benezen/pdb', 'test/benezen/xml')
 
-    world.add_items(reader.molecules)
-
-    yield reader
+    world.topo.search_topo()
+    return world
 
 class TestINpdb:
 
-    def test_system(self, reader):
-        assert len(reader.atomRaw) == 12
-        assert len(reader.bondRaw) == 12
-        assert len(reader.atoms) == 12
+    def test_
