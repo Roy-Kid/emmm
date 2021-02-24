@@ -89,8 +89,8 @@
 <dd><p>基类：<a class="reference internal" href="#mollab.core.item.Item" title="mollab.core.item.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.item.Item</span></code></a></p>
 <p>Atom 是所有粒子的基类, 提供了所有粒子共有的方法. 在这个基础上可以派生出各种具有不同属性的Atom类</p>
 <dl class="py method">
-<dt id="mollab.core.atom.Atom.add_neighbors">
-<code class="sig-name descname"><span class="pre">add_neighbors</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">atoms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.add_neighbors" title="永久链接至目标">¶</a></dt>
+<dt id="mollab.core.atom.Atom.add_linkedAtoms">
+<code class="sig-name descname"><span class="pre">add_linkedAtoms</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">atoms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.add_linkedAtoms" title="永久链接至目标">¶</a></dt>
 <dd><p>添加键接的Atom. TODO: 将键接Atom和临近Atom区分开</p>
 <dl class="field-list simple">
 <dt class="field-odd">引发</dt>
@@ -173,8 +173,8 @@
 </dd></dl>
 
 <dl class="py method">
-<dt id="mollab.core.atom.Atom.neighbors">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">neighbors</span></code><a class="headerlink" href="#mollab.core.atom.Atom.neighbors" title="永久链接至目标">¶</a></dt>
+<dt id="mollab.core.atom.Atom.linkedAtoms">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">linkedAtoms</span></code><a class="headerlink" href="#mollab.core.atom.Atom.linkedAtoms" title="永久链接至目标">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -744,7 +744,7 @@ self.z = pos[2]</p>
 <dd><p>生成bond的函数. 生成的时候会经过力场比对, 如果bond类型没有出现在已设定的力场中, 则会报错并终止程序运行.</p>
 <dl class="field-list simple">
 <dt class="field-odd">参数</dt>
-<dd class="field-odd"><p><strong>atoms</strong> (<em>list</em>) – atom列表, 逐个搜索其neighbors</p>
+<dd class="field-odd"><p><strong>atoms</strong> (<em>list</em>) – atom列表, 逐个搜索其linkedAtoms</p>
 </dd>
 <dt class="field-even">返回</dt>
 <dd class="field-even"><p>[[atom1, atom2], …]</p>

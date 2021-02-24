@@ -1,50 +1,88 @@
 # author: Roy Kid
+# contact: lijichen365@126.com
+# date: 2021-02-24
+# version: 0.0.2
 
+from mollab.core.neighbor_list import NeighborList
 from mollab.core.item import Item
 import numpy as np
-from mollab.i18n.i18n import _
 
 
 class Atom(Item):
     """Atom 是所有粒子的基类, 提供了所有粒子共有的方法. 在这个基础上可以派生出各种具有不同属性的Atom类
     """
-    def __init__(self, style):
+    def __init__(self, loadAtom=None, **kwarg):
 
         super().__init__('Atom')
-        self._style = style
+
+        self.registe_properties(style=kwarg.get('style', 'Atom'),
+                                mass=0,
+                                type='',
+                                label='',
+                                parent='',
+                                root=''
+                                )
+        # 自复制的列表
         self._duplicate = [self]
-        self._neighbors = list()
+        # 键接原子的列表
+        self._linkedAtoms = list()
+        # 临近原子
+        self._neighbors = NeighborList()
 
     def __str__(self) -> str:
-        return f' < Atom: {self.label} in {self.parent} at {self.position} > '
+        return f' < Atom > '
+
+    @property
+    def type(self):
+        return self.properties['type']
+
+    @type.setter
+    def type(self, t):
+        self.properties['type'] = t
+
+    @property
+    def label(self):
+        return self.properties['label']
+
+    @label.setter
+    def label(self, v):
+        self.properties['label'] = v
+
+    @property
+    def parent(self):
+        return self.properties['parent']
+
+    @parent.setter
+    def parent(self, p):
+        self.properties['parent'] = p
+
+    @property
+    def root(self):
+        return self.properties['root']
+
+    @root.setter
+    def root(self, r):
+        self.properties['root'] = r
 
     __repr__ = __str__
 
     @property
-    def uuid(self):
-        return id(self)
-
-    @property
-    def id(self):
-        return self._id
-
-    @property
     def style(self):
-        return self._style
+        return self.properties['style']
 
     @property
     def mass(self):
-        return self._mass
+        return self.properties['mass']
 
     @mass.setter
     def mass(self, m):
-        self._mass = float(m)
+        self.properties['mass'] = float(m)
 
     @property
-    def neighbors(self):
-        return self._neighbors
+    def linkedAtoms(self):
+        return self._linkedAtoms
 
-    def add_neighbors(self, *atoms):
+    def add_linkedAtoms(self, *atoms):
         """添加键接的Atom. TODO: 将键接Atom和临近Atom区分开
 
         Raises:
@@ -53,12 +91,12 @@ class Atom(Item):
         for atom in atoms:
             if isinstance(atom, Atom):
                 if atom not in self:
-                    self._neighbors.append(atom)
+                    self._linkedAtoms.append(atom)
                 if self not in atom:
-                    atom._neighbors.append(self)
+                    atom._linkedAtoms.append(self)
 
             else:
-                raise TypeError(_('相邻的atom应该是 ATOM类 而不是 %s' % (type(atom))))
+                raise TypeError('相邻的atom应该是 ATOM类 而不是 %s' % (type(atom)))
 
     # _move()方法输入的是np.array和float
     # 输出的是np.array, 所以测试的时候仅需要测试这个函数即可
@@ -220,70 +258,93 @@ class Atom(Item):
 
         return self
 
-    def toDict(self):
-        """将Atom转化为dict类型
+    def save_dict(self, fname=None):
 
-        Returns:
-            dict: 键值对
-        """
-
-        return {
-            'item': self.itemType,
-            'id': self.id,
-            'label': self.label,
-            'type': self.type,
-            'parent': self.parent,
-            'x': self.x,
-            'y': self.y,
-            'z': self.z,
-        }
+        if not fname:
+            return self.properties
 
 
 class fullAtom(Atom):
     def __init__(self, atomId, molId, type, q, x, y, z):
 
         super().__init__('full')
-        self.atomId = atomId
-        self.molId = molId
-        self.type = type
-        self.q = float(q)
-        self._x = float(x)
-        self._y = float(y)
-        self._z = float(z)
+        q = float(q)
+        x = float(x)
+        y = float(y)
+        z = float(z)
 
-        self._id = self.atomId
-        self._type = self.type
+        self.registe_properties(atomId=atomId,
+                                molId=molId,
+                                type=type,
+                                q=q,
+                                x=x,
+                                y=y,
+                                z=z)
+
+        self.type = type
+        self.label = atomId
+
+    @property
+    def atomId(self):
+        return self.properties['atomId']
+
+    @property
+    def molId(self):
+        return self.properties['molId']
+
+    @property
+    def q(self):
+        return self.properties['q']
+
+    def __str__(self) -> str:
+        return f'< Atom {self.type}: {self.atomId} in {self.molId} at ({self.x},{self.y},{self.z})>'
 
 
 class molecularAtom(Atom):
-    def __init__(self, atomId, molId, typeId, x, y, z):
+    def __init__(self, atomId, molId, type, x, y, z):
         super().__init__('molecular')
-        self.atomId = atomId
-        self.molId = molId
+        x = float(x)
+        y = float(y)
+        z = float(z)
+        self.registe_properties(atomId=atomId,
+                                molId=molId,
+                                type=type,
+                                x=x,
+                                y=y,
+                                z=z)
         self.type = type
-        self._x = float(x)
-        self._y = float(y)
-        self._z = float(z)
 
-        self._id = self.atomId
+    @property
+    def atomId(self):
+        return self.properties['atomId']
+
+    @property
+    def molId(self):
+        return self.properties['molId']
+
+    def __str__(self) -> str:
+        return f'< Atom {self.type}: {self.atomId} in {self.molId} at ({self.x},{self.y},{self.z})>'
 
 
 class pdbAtom(Atom):
     def __init__(self, serial, name, altLoc, resName, chainID, resSeq, x, y, z,
                  occupancy, tempFactor, element, charge):
         super().__init__('pdb')
-        self.serial = serial
-        self.name = name
-        self.altLoc = altLoc
-        self.resName = resName
-        self.resSeq = resSeq
-        self.chainID = chainID
-        self._x = x
-        self._y = y
-        self._z = z
-        self.occupancy = occupancy
-        self.tempFactor = tempFactor
-        self.element = element
-        self.charge = charge
+        x = float(x)
+        y = float(y)
+        z = float(z)
+        self.registe_properties(serial=serial,
+                                name=name,
+                                altLoc=altLoc,
+                                resName=resName,
+                                resSeq=resSeq,
+                                chainID=chainID,
+                                x=x,
+                                y=y,
+                                z=z,
+                                occupancy=occupancy,
+                                tempFactor=tempFactor,
+                                element=element,
+                                charge=charge)
 
-        self._id = self.serial
+        self.type = resName

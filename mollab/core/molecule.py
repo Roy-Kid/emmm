@@ -9,17 +9,55 @@ from mollab.i18n.i18n import _
 
 
 class Molecule(Item):
-    def __init__(self, moleculeStyle):
+    def __init__(self, loadAtom=None, **kwarg):
 
         super().__init__('Molecule')
-        self.moleculeStyle = moleculeStyle
+
+        self.registe_properties(style=kwarg.get('style', 'Molecule'),
+                                mass=0,
+                                type='',
+                                parent='',
+                                label='',
+                                root='')
 
         self._duplicate = [self]
 
-    def __repr__(self) -> str:
-        return f'< molecule: {self.label} in {self.parent}>'
+    def __str__(self) -> str:
+        return f'< Molecule >'
 
-    __str__ = __repr__
+    @property
+    def type(self):
+        return self.properties['type']
+
+    @type.setter
+    def type(self, t):
+        self.properties['type'] = t
+
+    @property
+    def label(self):
+        return self.properties['label']
+
+    @label.setter
+    def label(self, v):
+        self.properties['label'] = v
+
+    @property
+    def parent(self):
+        return self.properties['parent']
+
+    @parent.setter
+    def parent(self, p):
+        self.properties['parent'] = p
+
+    @property
+    def root(self):
+        return self.properties['root']
+
+    @root.setter
+    def root(self, r):
+        self.properties['root'] = r
+
+    __repr__ = __str__
 
     def add_items(self, *items):
         """向Molecule中添加item

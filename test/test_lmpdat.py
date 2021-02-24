@@ -23,13 +23,12 @@ def lmpWorld():
 
     return world
 
+
 @pytest.fixture(scope='module')
 def lmpOut(lmpWorld):
-    writer = ml.plugins.OUTlmpdat()
-    writer.world = lmpWorld
+    writer = ml.plugins.OUTlmpdat(lmpWorld)
 
     return writer
-
 
 
 class TestINlmpdat:
@@ -102,7 +101,8 @@ class TestINlmpdat:
 
     def test_set_angle(self, lmpWorld):
         for a in lmpWorld.topo.angles:
-            assert a.ap.lmp_format == [63.0, 120] or a.ap.lmp_format == [35.0, 120.0]
+            assert a.ap.lmp_format == [63.0, 120
+                                       ] or a.ap.lmp_format == [35.0, 120.0]
 
     # def test_set_dihedral(self, lmpWorld):
     #     for d in lmpWorld.topo.dihedrals:

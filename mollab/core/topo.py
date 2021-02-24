@@ -55,7 +55,7 @@ class Topo:
         """ 生成bond的函数. 生成的时候会经过力场比对, 如果bond类型没有出现在已设定的力场中, 则会报错并终止程序运行.
 
         Args:
-            atoms (list): atom列表, 逐个搜索其neighbors
+            atoms (list): atom列表, 逐个搜索其linkedAtoms
 
         Returns:
             list: [[atom1, atom2], ...]
@@ -74,7 +74,7 @@ class Topo:
             bond_id = [atom.id]
 
             # 外层的atoms传入的已经是atom列表了
-            for ato in atom.neighbors:
+            for ato in atom.linkedAtoms:
                 if ato.id in bond_id:
                     # warning: 似乎不太可能出现这种情况
                     # 如果自己和自己相连, 跳过
@@ -139,14 +139,14 @@ class Topo:
             # angle -> [atom, atom, atom]
             angle = [atom]
 
-            for ato in atom.neighbors:
+            for ato in atom.linkedAtoms:
 
                 if ato.id not in angle_id:
 
                     angle.append(ato)
                     angle_id.append(ato.id)
 
-                    for at in ato.neighbors:
+                    for at in ato.linkedAtoms:
 
                         if at.id not in angle_id:
                             angle.append(at)
@@ -187,18 +187,18 @@ class Topo:
             dihedral_id = [atom.id]
             dihedral = [atom]
 
-            for ato in atom.neighbors:
+            for ato in atom.linkedAtoms:
 
                 dihedral_id.append(ato.id)
                 dihedral.append(ato)
 
-                for at in ato.neighbors:
+                for at in ato.linkedAtoms:
 
                     if at.id not in dihedral_id:
                         dihedral.append(at)
                         dihedral_id.append(at.id)
 
-                        for a in at.neighbors:
+                        for a in at.linkedAtoms:
 
                             if a.id not in dihedral_id:
                                 dihedral.append(a)
@@ -246,7 +246,7 @@ class Topo:
         # I-atom
         for atom in atoms:
 
-            all_improper = combinations(atom.neighbors, 3)
+            all_improper = combinations(atom.linkedAtoms, 3)
             for improper in all_improper:
                 improper = [atom] + list(improper)
                 improper_id = [atom.id for atom in improper]

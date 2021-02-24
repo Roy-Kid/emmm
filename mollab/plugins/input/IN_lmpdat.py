@@ -117,7 +117,7 @@ class INlmpdat(InputBase):
 
     def post_process(self):
 
-        # section 1: add neighbors to atom
+        # section 1: add linkedAtoms to atom
         for b in self.bonds:
             cid = b[2]
             pid = b[3]
@@ -136,7 +136,7 @@ class INlmpdat(InputBase):
             if catom is None or patom is None:
                 raise ValueError('No atom matches topo')
 
-            catom.add_neighbors(patom)
+            catom.add_linkedAtoms(patom)
 
         # section 2: group atoms to the molecules
         molecules = list()

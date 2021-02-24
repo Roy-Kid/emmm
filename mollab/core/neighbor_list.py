@@ -3,3 +3,7 @@
 # date: 2021-02-24
 # version: 0.0.1
 
+class NeighborList:
+
+    def __init__(self) -> None:
+        pass

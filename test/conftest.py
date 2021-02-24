@@ -59,7 +59,7 @@ def a010():
 #     h1 = create('h1', 'parent','h', -1, 1, 0)
 #     o = create('o', 'parent','o', 0, 0, 0)
 #     h2 = create('h2', 'parent','h', 1, 1, 0)
-#     o.add_neighbors(h1, h2)
+#     o.add_linkedAtoms(h1, h2)
 #     create = CreateMolecule.lmpMolecule
 #     h2o = create('h2o', 'h2o', h1, o, h2)
 
@@ -92,7 +92,7 @@ def a010():
 #     h3 = create('h3', 'parent', 'h', 0,-1, 0)
 #     h4 = create('h4', 'parent', 'h', 1, 0, 0)
 #     c  = create('h1', 'parent', 'c', 0, 0, 0)
-#     c.add_neighbors(h1, h2, h3, h4)
+#     c.add_linkedAtoms(h1, h2, h3, h4)
 
 #     create = CreateMolecule.lmpMolecule
 #     ch4 = create('ch4', 'ch4', c, h1, h2, h3, h4)
@@ -124,12 +124,12 @@ def a010():
 #     ch3h2 = create('ch3h2', 'parent','h', -1, 0, 0)
 #     ch3h3 = create('ch3h3', 'parent','h', 0, -1, 0)
 #     ch3c = create('ch3c', 'parent','c', 0, 0, 0)
-#     ch3c.add_neighbors(ch3h1, ch3h2, ch3h3)
+#     ch3c.add_linkedAtoms(ch3h1, ch3h2, ch3h3)
 
 #     ch2h1 = create('ch2h1', 'parent','h', 1, 1, 0)
 #     ch2h2 = create('ch2h2', 'parent','h', 1, -1, 0)
 #     ch2c = create('ch2c', 'parent','c', 1, 0, 0)
-#     ch2c.add_neighbors(ch2h1, ch2h2)
+#     ch2c.add_linkedAtoms(ch2h1, ch2h2)
 
 #     create = CreateMolecule.lmpMolecule
 #     ch3head = create('ch3head', 'ch3', ch3h1, ch3h2, ch3h3, ch3c)
@@ -138,9 +138,9 @@ def a010():
 #     ch3end = ch3head.get_replica('ch3end').rotate(1, 0,0,1).move(3,0, 0)
 #     ch22 = ch21.get_replica('ch22').move(1,0,0)
 
-#     ch3head['ch3c'].add_neighbors(ch21['ch2c'])
-#     ch21['ch2c'].add_neighbors(ch22['ch2c'])
-#     ch22['ch2c'].add_neighbors(ch3end['ch3c'])
+#     ch3head['ch3c'].add_linkedAtoms(ch21['ch2c'])
+#     ch21['ch2c'].add_linkedAtoms(ch22['ch2c'])
+#     ch22['ch2c'].add_linkedAtoms(ch3end['ch3c'])
 
 #     ch3ch2ch2ch3 = create('ch3ch2ch2ch3', 'pe', ch3head, ch21, ch22, ch3end)
 

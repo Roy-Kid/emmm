@@ -115,7 +115,7 @@ class INpdb(InputBase):
 
     def _post_process(self):
 
-        # section 1: add neighbors to atom
+        # section 1: add linkedAtoms to atom
         grouped_atoms = defaultdict(list)
         for b in self.bonds:
             cid = b[0]
@@ -131,7 +131,7 @@ class INpdb(InputBase):
 
                 if catom is None or patom is None:
                     raise ValueError('拓扑结构没有匹配到相应的Atom')
-                catom.add_neighbors(patom)
+                catom.add_linkedAtoms(patom)
 
         # section 2
         molecules = list()
