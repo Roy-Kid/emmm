@@ -6,5 +6,11 @@
 from mollab.core.item import Item
 
 class Universe(Item):
-    pass
+    def __init__(self):
         
+        super().__init__('Universe')
+
+        self.worlds = list()
+
+    def add_world(self, world):
+        self.worlds.append(world)

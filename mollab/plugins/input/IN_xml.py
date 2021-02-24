@@ -102,7 +102,10 @@ class INxml(InputBase):
                                  ac['class3'], ac['angle'], ac['k'])
 
     def PeriodicTorsionForce(self, root):
-        pass
+        for pt in root:
+            pt = pt.attrib
+            for p in pt.items():
+                pass
 
     def NonbondedForce(self, root):
         pass
