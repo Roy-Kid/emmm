@@ -267,7 +267,7 @@ class Atom(Item):
 class fullAtom(Atom):
     def __init__(self, atomId, molId, type, q, x, y, z):
 
-        super().__init__('full')
+        super().__init__(style='full')
         q = float(q)
         x = float(x)
         y = float(y)
@@ -302,7 +302,7 @@ class fullAtom(Atom):
 
 class molecularAtom(Atom):
     def __init__(self, atomId, molId, type, x, y, z):
-        super().__init__('molecular')
+        super().__init__(style='molecular')
         x = float(x)
         y = float(y)
         z = float(z)
@@ -329,7 +329,7 @@ class molecularAtom(Atom):
 class pdbAtom(Atom):
     def __init__(self, serial, name, altLoc, resName, chainID, resSeq, x, y, z,
                  occupancy, tempFactor, element, charge):
-        super().__init__('pdb')
+        super().__init__(style='pdb')
         x = float(x)
         y = float(y)
         z = float(z)

@@ -3,9 +3,9 @@
 # date: 2021-01-31
 # version: 0.0.1
 
-from mollab.core.topo import Topo
 from mollab.core.forcefield import ForceField
 from mollab.core.item import Item
+from mollab.core.topo import Topo
 
 
 class World(Item):
@@ -17,39 +17,51 @@ class World(Item):
 
         self.topo = Topo(self)
 
-    #     self.get_bond = self.forcefield.get_bond
-
-    #     self.get_improper = self.forcefield.get_improper
-
-    #     # track atom type
-
     def add_items(self, items):
         for item in items:
             item.parent = self.label
         self.container.extend(items)
 
-    # def update(self):
-    #     self._atom = self.molecules.flatten()
-    #     self.topo.search_topo(self.molecules)
+    def flatten(self, dir=None, isMol=False):
+        """将world中储存的item压平, 换言之就是提取出所有的atom
+
+        Args:
+            dir (str, optional): 压平时需要传递的路径. Defaults to None.
+            isMol (bool, optional): 压平时是否将Molecule也添加到列表中. Defaults to False.
+
+        Returns:
+            list: 由atoms组成的列表
+        """
+
+        if dir is None:
+            dir = [self.label]
+
+        else:
+            dir.append(self.label)
+        atoms = list()
+        for item in self:
+
+            item.root = self.root
+
+            if item.itemType == 'Atom':
+                dir.append(item.label)
+                item.path = '/'.join(dir)
+                atoms.append(item)
+                dir.pop()
+
+            elif item.itemType == 'Molecule':
+
+                atoms.extend(item.flatten(dir))
+
+                if isMol:
+                    atoms.append(item)
+
+        dir.pop()
+        return atoms
 
     @property
     def atoms(self):
-        if not getattr(self, '_atom', 0):
-            self._atom = list()
-            for item in self.container:
-                if item.itemType == 'Molecule':
-                    self._atom.extend(item.flatten())
-                elif item.itemType == 'Atom':
-                    self._atom.append(item)
-        return self._atom
-
-    # @property
-    # def molecules(self):
-    #     return self._molecules
-
-    # @property
-    # def items(self):
-    #     return self._molecules
+        return self.flatten()
 
     @property
     def atomCount(self):

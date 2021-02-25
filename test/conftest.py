@@ -9,7 +9,7 @@ import mollab as ml
 
 @pytest.fixture()
 def a000():
-    atom = ml.Atom('Atom')
+    atom = ml.Atom()
     atom.position = (0, 0, 0)
 
     return atom
@@ -17,14 +17,14 @@ def a000():
 
 @pytest.fixture()
 def a100():
-    atom = ml.Atom('Atom')
+    atom = ml.Atom()
     atom.position = (1, 0, 0)
 
     return atom
 
 @pytest.fixture()
 def a010():
-    atom = ml.Atom('Atom')
+    atom = ml.Atom()
     atom.position = (0, 1, 0)
     return atom
 

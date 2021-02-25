@@ -1,11 +1,12 @@
 # author: Roy Kid
 # contact: lijichen365@126.com
-# date: 2021-02-07
-# version: 0.0.1
+# date: 2021-02-25
+# version: 0.0.2
 
 from mollab.core.item import Item
 import numpy as np
 from mollab.i18n.i18n import _
+from mollab.core.topo import Topo
 
 
 class Molecule(Item):
@@ -21,6 +22,7 @@ class Molecule(Item):
                                 root='')
 
         self._duplicate = [self]
+
 
     def __str__(self) -> str:
         return f'< Molecule >'
@@ -56,6 +58,10 @@ class Molecule(Item):
     @root.setter
     def root(self, r):
         self.properties['root'] = r
+
+    @property
+    def atoms(self):
+        return self.flatten()
 
     __repr__ = __str__
 
@@ -136,19 +142,18 @@ class Molecule(Item):
         centroid = vec / len(atoms)
         setattr(self, '_position', centroid)
 
-    def toDict(self):
-        """输出到字典格式
-        """
+    def save_dict(self):
         m = dict()
-        m['label'] = self.label
-        m['type'] = self.type
-        m['parent'] = self.parent
-        m['path'] = self.path
-        m['items'] = list()
-        for i in self.container:
-            m['items'].append(i.toDict())
-
+        m.update(self.properties)
+        i = list()
+        for item in self.container:
+            if item.itemType == 'Atom':
+                i.append(item.save_dict())
+            elif item.itemType == 'Molecule':
+                i.append(item.save_dict())
+        m.update({'item': i})
         return m
+
 
     @property
     def position(self):
