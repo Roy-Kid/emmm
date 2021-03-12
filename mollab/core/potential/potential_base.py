@@ -12,7 +12,7 @@ class PotentialBase:
     def style(self):
         return self._style
 
-    def compair(self) -> bool:
+    def compare(self) -> bool:
         pass
 
     def energy(self):

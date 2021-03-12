@@ -19,6 +19,9 @@ class Bond(Item):
 
         self._bp = bp
 
+    def __str__(self) -> str:
+        return f'< Bond: {self.atom1}-{self.atom2} >'
+
     @property
     def bp(self):
         return self._bp
@@ -27,6 +30,11 @@ class Bond(Item):
     def type(self):
         self._type = self.bp.type
         return self._type
+
+    @property
+    def typeId(self):
+        self._typeId = self.bp.typeId
+        return self._typeId
 
     def _calc_length(self):
         self._bond_vec = self.atom1.position - self.atom2.position
@@ -46,3 +54,8 @@ class Bond(Item):
     def orient_vec(self):
         return self._orient_vec
 
+    def __contains__(self, atom):
+        if atom in [self.atom1, self.atom2]:
+            return True
+        else:
+            return False

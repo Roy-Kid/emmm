@@ -146,6 +146,6 @@ class Item:
         newMol.label = newLabal
         return newMol
 
-    def registe_properties(self, **kwargs):
+    def register_properties(self, **kwargs):
         self.properties.update(kwargs)
         

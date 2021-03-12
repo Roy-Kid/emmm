@@ -21,6 +21,16 @@ class Angle(Item):
     def ap(self):
         return self._ap
 
+    @property
+    def type(self):
+        self._type = self.ap.type
+        return self._type
+
+    @property
+    def typeId(self):
+        self._typeId = self.ap.typeId
+        return self._typeId
+
     def _calc_angle(self):
         vec1 = self.atom1.position - self.atom2.position
         vec2 = self.atom3.position - self.atom2.position
@@ -30,3 +40,9 @@ class Angle(Item):
     @property
     def angle(self):
         return np.rad2deg(self._angle)
+
+    def __contains__(self, atom):
+        if atom in [self.atom1, self.atom2, self.atom3]:
+            return True
+        else:
+            return False

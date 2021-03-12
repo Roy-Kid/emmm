@@ -7,257 +7,250 @@ from mollab.plugins.output.output_base import Mapper, OutputBase
 
 
 class OUTlmpdat(OutputBase):
-
-    def __init__(self, item) -> None:
+    def __init__(self, world) -> None:
         super().__init__()
-        self.item = item
+        self.item = world
         self.atomIdMapper = Mapper('atomId')
         for atom in self.item.atoms:
             self.atomIdMapper.add(atom.id)
 
-
-    def write_data(self, fname, item):
-
-        if not getattr(self, 'item', None):
-            raise KeyError('assign a universe/world first')
+    def write_data(self, fname, item=None):
+        if not item:
+            # if not assign a specific item,
+            item = self.item
 
         self.file = open(fname, 'w')
 
-        self.comment()
-        self.atomCount()
-        self.bondCount()
-        self.angleCount()
-        self.dihedralCount()
-        self.improperCount()
-        self.atomTypeCount()
-        self.bondTypeCount()
-        self.angleTypeCount()
-        self.dihedralTypeCount()
-        self.improperTypeCount()
-        self.boundary()
-        self.masses()
-        self.pair_coeffs()
-        self.bond_coeffs()
-        self.angle_coeffs()
-        self.dihedral_coeffs()
-        self.improper_coeffs()
-        self.Atoms()
-        self.Bonds()
-        self.Angles()
-        self.Dihedrals()
-        self.Impropers()
+        write_order = [
+            # item is a world or a molecule
+            self.comment(item),
+            self.atomCount(item),
+            self.bondCount(item),
+            self.angleCount(item),
+            self.dihedralCount(item),
+            # self.improperCount(item),
+            self.atomTypeCount(item),
+            self.bondTypeCount(item),
+            self.angleTypeCount(item),
+            self.dihedralTypeCount(item),
+            # self.improperTypeCount(item),
+            self.boundary(item),
+            self.masses(item),
+            self.pair_coeffs(item),
+            self.bond_coeffs(item),
+            self.angle_coeffs(item),
+            self.dihedral_coeffs(item),
+            # self.improper_coeffs(item),
+            self.Atoms(item),
+            self.Bonds(item),
+            self.Angles(item),
+            self.Dihedrals(item),
+            # self.Impropers(item)
+        ]
+
+        for o in write_order:
+            self.file.writelines(o)
+
+        # write types.txt
+        with open('types.txt', 'w') as f:
+            f.write('atom types\n')
+            for type, id in self.item.atomTypeMapper.items():
+                f.write(f'{id}  {type.replace("-", ",")}\n')
+
+            f.write('bond types\n')
+            for type, id in self.item.bondTypeMapper.items():
+                f.write(f'{id}  {type.replace("-", ",")}\n')
+
+            f.write('angle types\n')
+            for type, id in self.item.angleTypeMapper.items():
+                f.write(f'{id}  {type.replace("-", ",")}\n')
+
+            f.write('dihedral types\n')
+            for type, id in self.item.dihedralTypeMapper.items():
+                f.write(f'{id}  {type.replace("-", ",")}\n')
+
+            # f.write('improper types\n')
+            # for type, id in self.item.improperTypeMapper.items():
+            #     f.write(f'{id} {type.replace("-", ",")}\n')
 
         self.file.close()
 
-        self.file.writelines
+    def comment(self, item):
+        return f'LAMMPS data from { getattr(item, "comment", "label") } Created by Mollab\n\n'
 
+    def atomCount(self, item):
 
-    def comment(self):
-        return f'LAMMPS data from {self.item.comment} Created by \n\n'
+        return f'\t  {item.atomCount }  atoms\n'
 
-    def atomCount(self):
-        return f'\t  {self.item.atomCount}  atoms\n'
+    def bondCount(self, item):
 
-    def bondCount(self):
-        return f'\t  {self.item.bondCount}  bonds\n'
+        return f'\t  {item.bondCount}  bonds\n'
 
-    def angleCount(self):
-        return f'\t  {self.item.angleCount}  angles\n'
+    def angleCount(self, item):
 
-    def dihedralCount(self):
-        return f'\t  {self.item.dihedralCount}  dihedrals\n\n'
+        return f'\t  {item.angleCount}  angles\n'
 
-    def improperCount(self):
-        return f'\t  {self.item.improperCount}  impropers\n\n'
+    def dihedralCount(self, item):
 
-    def atomTypeCount(self):
+        return f'\t  {item.dihedralCount}  dihedrals\n'
+
+    def improperCount(self, item):
+
+        return f'\t  {item.improperCount}  impropers\n\n'
+
+    def atomTypeCount(self, item):
+
         return f'\t  {self.item.atomTypeCount}  atom types\n'
 
-    def bondTypeCount(self):
+    def bondTypeCount(self, item):
         return f'\t  {self.item.bondTypeCount}  bond types\n'
 
-    def angleTypeCount(self):
+    def angleTypeCount(self, item):
         return f'\t  {self.item.angleTypeCount}  angle types\n'
 
-    def dihedralTypeCount(self):
+    def dihedralTypeCount(self, item):
         return f'\t  {self.item.dihedralTypeCount}  dihedral types\n'
 
-    def improperTypeCount(self):
+    def improperTypeCount(self, item):
         return f'\t  {self.item.improperTypeCount}  improper types\n\n'
 
-    def boundary(self):
+    def boundary(self, item):
         return [
             f'\t  {self.item.xlo}\t{self.item.xhi}\txlo\txhi\n',
             f'\t  {self.item.ylo}\t{self.item.yhi}\tylo\tyhi\n',
             f'\t  {self.item.zlo}\t{self.item.zhi}\tzlo\tzhi\n\n'
         ]
 
-    def masses(self):
-
+    def masses(self, item):
 
         lines = list()
         lines.append('Masses\n\n')
 
-        for atom in self.item.atoms:
-
-            lines.append(f'\t{self.atomIdMapper.retrieve(atom.id)}\t{atom.mass}\n')
-
+        for k, v in self.item.massMapper.items():
+            lines.append(f'\t{self.item.atomTypeMapper.retrieve(k)}\t{v}\n')
+        lines.append('\n')
         return lines
 
-    def pair_coeffs(self):
+    def pair_coeffs(self, item):
         lines = list()
         lines.append('Pair Coeffs\n\n')
         for pp in self.item.forcefield.pairPotentialList:
-            coeffs = [pp.type, *pp.lmp_format]
+            coeffs = [pp.typeId, *pp.lmp_format]
             coeffs = [str(i) for i in coeffs]
             pc = '\t'.join(coeffs)
             lines.append(f'\t\t{ pc }\n')
-
+        lines.append('\n')
         return lines
 
-    def bond_coeffs(self):
+    def bond_coeffs(self, item):
         lines = list()
         lines.append('Bond Coeffs\n\n')
         for bp in self.item.forcefield.bondPotentialList:
 
-            coeffs = [bp.type, *bp.lmp_format]
+            coeffs = [bp.typeId, *bp.lmp_format]
             coeffs = [str(i) for i in coeffs]
             bc = '\t'.join(coeffs)
             lines.append(f'\t\t{bc}\n')
-
+        lines.append('\n')
         return lines
 
-    def angle_coeffs(self):
+    def angle_coeffs(self, item):
         lines = list()
         lines.append('Angle Coeffs\n\n')
         for ap in self.item.forcefield.anglePotentialList:
-            coeffs = [ap.type, *ap.lmp_format]
+            coeffs = [ap.typeId, *ap.lmp_format]
             coeffs = [str(i) for i in coeffs]
             ac = '\t'.join(coeffs)
             lines.append(f'\t\t{ac}\n')
-
+        lines.append('\n')
         return lines
 
-    def dihedral_coeffs(self):
+    def dihedral_coeffs(self, item):
         lines = list()
         lines.append('Dihedral Coeffs\n\n')
         for dp in self.item.forcefield.dihedralPotentialList:
-            coeffs = [dp.type, *dp.lmp_format]
+            coeffs = [dp.typeId, *dp.lmp_format]
             coeffs = [str(i) for i in coeffs]
             dc = '\t'.join(coeffs)
             lines.append(f'\t\t{dc}\n')
-
+        lines.append('\n')
         return lines
 
-    def improper_coeffs(self):
+    def improper_coeffs(self, item):
         lines = list()
         lines.append('Improper Coeffs\n\n')
 
         for ip in self.item.forcefield.improperPotentialList:
-            coeffs = [ip.type, *ip.lmp_format]
+            coeffs = [ip.typeId, *ip.lmp_format]
             coeffs = [str(i) for i in coeffs]
             ip = '\t'.join(coeffs)
             lines.append(f'\t\t{ip}\n')
-
+        lines.append('\n')
         return lines
 
-    def Atoms(self):
+    def Atoms(self, item):
         lines = list()
         lines.append('Atoms\n\n')
 
-        for atom in self.item.atoms:
+        for atom in item.atoms:
             lines.append(
-                f'\t{self.atomIdMapper.retrieve(atom.id)}\t{atom.molId}\t{atom.type}\t{atom.q}\t{atom.x}\t{atom.y}\t{atom.z}\n'
+                f'\t{atom.atomId}\t{atom.molId}\t{atom.typeId}\t{atom.q}\t{atom.x}\t{atom.y}\t{atom.z}  # {atom.type}\n'
             )
 
         lines.append('\n')
         return lines
 
-    def Bonds(self):
+    def Bonds(self, item):
         lines = list()
         lines.append(f'Bonds\n\n')
 
-        for id, bond in enumerate(self.item.topo.bonds, 1):
+        for id, bond in enumerate(item.bonds, 1):
 
             lines.append(
-                f'\t{id}\t{bond.type}\t{self.atomIdMapper.retrieve(bond.atom1.id)}\t{self.atomIdMapper.retrieve(bond.atom2.id)}\n'
+                f'\t{id}\t{bond.typeId}\t{bond.atom1.atomId}\t{bond.atom2.atomId}\n'
             )
 
         lines.append(f'\n')
         return lines
 
-    def Angles(self):
+    def Angles(self, item):
         lines = list()
         lines.append(f'Angles\n\n')
 
         self.angleTypeMap = list()
 
-        for id, angle in enumerate(self.item.topo.topoAngles, 1):
-
-            angleType = [
-                self.atomTypeMap.index(angle[0].type),
-                self.atomTypeMap.index(angle[1].type),
-                self.atomTypeMap.index(angle[2].type)
-            ]
-
-            sorted(angleType)
-            if angleType not in self.angleTypeMap:
-                self.angleTypeMap.append(angleType)
-            type = self.angleTypeMap.index(angleType)
+        for id, angle in enumerate(item.angles, 1):
 
             lines.append(
-                f'\t{id}\t{type}\t{self.atomIdMap[angle[0].id]}\t{self.atomIdMap[angle[1].id]}\t{self.atomIdMap[angle[2].id]}\n'
+                f'\t{id}\t{angle.typeId}\t{angle.atom1.atomId}\t{angle.atom2.atomId}\t{angle.atom3.atomId}\n'
             )
 
         lines.append(f'\n')
         return lines
 
-    def Dihedrals(self):
+    def Dihedrals(self, item):
         lines = list()
         lines.append(f'Dihedrals\n\n')
 
         self.dihedralTypeMap = list()
 
-        for id, dihedral in enumerate(self.item.topo.topoDihedrals, 1):
-            dihedralType = [
-                self.atomTypeMap.index(dihedral[0].type),
-                self.atomTypeMap.index(dihedral[1].type),
-                self.atomTypeMap.index(dihedral[2].type),
-                self.atomTypeMap.index(dihedral[3].type),
-            ]
-            sorted(dihedralType)
-
-            if dihedralType not in self.dihedralTypeMap:
-                self.dihedralTypeMap.append(dihedralType)
-            type = self.dihedralTypeMap.index(dihedralType)
+        for id, dihedral in enumerate(item.dihedrals, 1):
 
             lines.append(
-                f'\t{id}\t{type}\t{self.atomIdMap[dihedral[0].id]}\t{self.atomIdMap[dihedral[1].id]}\t{self.atomIdMap[dihedral[2].id]}\t{self.atomIdMap[dihedral[3].id]}'
+                f'\t{id}\t{dihedral.typeId}\t{dihedral.atom1.atomId}\t{dihedral.atom2.atomId}\t{dihedral.atom3.atomId}\t{dihedral.atom4.atomId}  #{dihedral.atom1.type}-{dihedral.atom2.type}-{dihedral.atom3.type}-{dihedral.atom4.type}\n'
             )
         lines.append(f'\n')
         return lines
 
-    def Impropers(self):
+    def Impropers(self, item):
         lines = list()
         lines.append(f'Impropers\n\n')
 
         self.ImproperTypeMap = list()
 
-        for id, improper in enumerate(self.item.topo.topoImpropers, 1):
-            improperType = [
-                self.atomTypeMap.index(improper[0].type),
-                self.atomTypeMap.index(improper[1].type),
-                self.atomTypeMap.index(improper[2].type),
-                self.atomTypeMap.index(improper[3].type),
-            ]
-            sorted(improperType)
-
-            if improperType not in self.improperTypeMap:
-                self.improperTypeMap.append(improperType)
-            type = self.improperTypeMap.index(improperType)
-
+        for id, improper in enumerate(item.impropers, 1):
             lines.append(
-                f'\t{id}\t{type}\t{self.atomIdMap[improper[0].id]}\t{self.atomIdMap[improper[1].id]}\t{self.atomIdMap[improper[2].id]}\t{self.atomIdMap[improper[3].id]}'
+                f'\t{id}\t{improper.typeId}\t{improper.atom1.atomId}\t{improper.atom2.atomId}\t{improper.atom3.atomId}\t{improper.atom4.atomId}\n'
             )
         lines.append(f'\n')
         return lines

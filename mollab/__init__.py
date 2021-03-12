@@ -3,5 +3,5 @@
 # date: 2021-02-13
 # version: 0.0.1
 
-from .core import Atom, World, Bond, Angle
+from .core import Atom, World, Bond, Angle, fullAtom, Molecule
 from .plugins import *

@@ -10,10 +10,10 @@ class DihedralOpls(DihedralBase):
     def __init__(self, typeName1, typeName2, typeName3, typeName4, coeffs) -> None:
         super().__init__(typeName1, typeName2, typeName3, typeName4)
         self._style = 'opls'
-        self.k1 = coeffs[0]
-        self.k2 = coeffs[1]
-        self.k3 = coeffs[2]
-        self.k4 = coeffs[3]
+        self.k1 = coeffs['k1']
+        self.k2 = coeffs['k2']
+        self.k3 = coeffs['k3']
+        self.k4 = coeffs['k4']
 
     @property
     def k1(self):

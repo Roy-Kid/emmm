@@ -3,7 +3,7 @@
 # date: 2021-02-24
 # version: 0.0.2
 
-from mollab.core.neighbor_list import NeighborList
+from mollab.core.neighborlist import NeighborList
 from mollab.core.item import Item
 import numpy as np
 
@@ -15,13 +15,12 @@ class Atom(Item):
 
         super().__init__('Atom')
 
-        self.registe_properties(style=kwarg.get('style', 'Atom'),
-                                mass=0,
-                                type='',
-                                label='',
-                                parent='',
-                                root=''
-                                )
+        self.register_properties(style=kwarg.get('style', 'Atom'),
+                                 mass=0,
+                                 type='',
+                                 label='',
+                                 parent='',
+                                 root='')
         # 自复制的列表
         self._duplicate = [self]
         # 键接原子的列表
@@ -265,7 +264,7 @@ class Atom(Item):
 
 
 class fullAtom(Atom):
-    def __init__(self, atomId, molId, type, q, x, y, z):
+    def __init__(self, atomId, molId, type, q, x, y, z, mass=None):
 
         super().__init__(style='full')
         q = float(q)
@@ -273,13 +272,14 @@ class fullAtom(Atom):
         y = float(y)
         z = float(z)
 
-        self.registe_properties(atomId=atomId,
-                                molId=molId,
-                                type=type,
-                                q=q,
-                                x=x,
-                                y=y,
-                                z=z)
+        self.register_properties(atomId=atomId,
+                                 molId=molId,
+                                 type=type,
+                                 q=q,
+                                 x=x,
+                                 y=y,
+                                 z=z, 
+                                 mass=mass)
 
         self.type = type
         self.label = atomId
@@ -287,6 +287,10 @@ class fullAtom(Atom):
     @property
     def atomId(self):
         return self.properties['atomId']
+
+    @atomId.setter
+    def atomId(self, v):
+        self.properties['atomId'] = v
 
     @property
     def molId(self):
@@ -306,17 +310,21 @@ class molecularAtom(Atom):
         x = float(x)
         y = float(y)
         z = float(z)
-        self.registe_properties(atomId=atomId,
-                                molId=molId,
-                                type=type,
-                                x=x,
-                                y=y,
-                                z=z)
+        self.register_properties(atomId=atomId,
+                                 molId=molId,
+                                 type=type,
+                                 x=x,
+                                 y=y,
+                                 z=z)
         self.type = type
 
     @property
     def atomId(self):
         return self.properties['atomId']
+
+    @atomId.setter
+    def atomId(self, v):
+        self.properties['atomId'] = v
 
     @property
     def molId(self):
@@ -333,18 +341,18 @@ class pdbAtom(Atom):
         x = float(x)
         y = float(y)
         z = float(z)
-        self.registe_properties(serial=serial,
-                                name=name,
-                                altLoc=altLoc,
-                                resName=resName,
-                                resSeq=resSeq,
-                                chainID=chainID,
-                                x=x,
-                                y=y,
-                                z=z,
-                                occupancy=occupancy,
-                                tempFactor=tempFactor,
-                                element=element,
-                                charge=charge)
+        self.register_properties(serial=serial,
+                                 name=name,
+                                 altLoc=altLoc,
+                                 resName=resName,
+                                 resSeq=resSeq,
+                                 chainID=chainID,
+                                 x=x,
+                                 y=y,
+                                 z=z,
+                                 occupancy=occupancy,
+                                 tempFactor=tempFactor,
+                                 element=element,
+                                 charge=charge)
 
         self.type = resName

@@ -11,9 +11,9 @@ class ImproperCvff(ImproperBase):
     def __init__(self, typeName1, typeName2, typeName3, typeName4, coeffs) -> None:
         super().__init__(typeName1, typeName2, typeName3, typeName4)
         self._style = 'cvff'
-        self.k = coeffs[0]
-        self.d = coeffs[1]
-        self.n = coeffs[2]
+        self.k = coeffs['k']
+        self.d = coeffs['d']
+        self.n = coeffs['n']
 
     @property
     def k(self):

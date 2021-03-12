@@ -4,6 +4,8 @@
 # version: 0.0.2
 
 from itertools import combinations
+from mollab.core.improper import Improper
+from mollab.core.dihedral import Dihedral
 from mollab.core.bond import Bond
 from mollab.core.angle import Angle
 
@@ -12,19 +14,18 @@ class Topo:
     """ Topo类负责搜索拓扑结构, 包括bond, angle, dihedral和improper
 
     """
-    def __init__(self, world) -> None:
-        self.world = world
-
+    def __init__(self) -> None:
         self.bonds = list()
         self.angles = list()
         self.dihedrals = list()
         self.impropers = list()
 
-    def search_topo(self,
+
+    def search_topo(self, world,
                     isBond=True,
                     isAngle=True,
                     isDihedral=True,
-                    isImproper=True,
+                    isImproper=False,
                     isAbinitio=True):
         """ Topo类的主调方法, 开始搜索拓扑结构
 
@@ -35,21 +36,22 @@ class Topo:
             isDihedral (bool, optional): 是否搜索dihedral. Defaults to True
             isAbinitio (bool, optional): 是否从头搜索. Defaults to True
         """
-        self.atoms = self.world.atoms
+        self.world = world
+        atoms = self.world.atoms
         self.isAbinitio = True
-        # 将item展开成atom的列表
-        # if item.itemType == 'Molecule':
-        #     self.atoms = item.flatten()  # <-molecule._flatten()
-        # elif item.itemType == 'Atom':
-        #     self.atoms = [item]
+        # TODO: replace re-search topo with update search topo 
+        self.bonds = list()
+        self.angles = list()
+        self.dihedrals = list()
+        self.impropers = list()
         if isBond:
-            self.bonds.extend(self.search_bond(self.atoms))
+            self.bonds.extend(self.search_bond(atoms))
         if isAngle:
-            self.angles.extend(self.search_angle(self.atoms))
+            self.angles.extend(self.search_angle(atoms))
         if isDihedral:
-            self.dihedrals.extend(self.search_dihedral(self.atoms))
+            self.dihedrals.extend(self.search_dihedral(atoms))
         if isImproper:
-            self.impropers.extend(self.search_improper(self.atoms))
+            self.impropers.extend(self.search_improper(atoms))
 
     def search_bond(self, atoms):
         """ 生成bond的函数. 生成的时候会经过力场比对, 如果bond类型没有出现在已设定的力场中, 则会报错并终止程序运行.
@@ -79,7 +81,7 @@ class Topo:
                     # warning: 似乎不太可能出现这种情况
                     # 如果自己和自己相连, 跳过
                     continue
-                elif ato.id not in bond_id:
+                else:
 
                     # 实际键接关系
                     bond.append(ato)
@@ -210,10 +212,10 @@ class Topo:
                                     dihedral_type = [
                                         atom.type for atom in dihedral
                                     ]
+                                    dp = self.world.forcefield.get_dihedral(*dihedral_type)
 
-                                    if self.world.forcefield.get_dihedral(
-                                            *dihedral_type):
-                                        dihedrals.append(tuple(dihedral))
+                                    if dp:
+                                        dihedrals.append((Dihedral(atom, ato, at, a, dp=dp)))
                                         dihedrals_id.append(
                                             sorted_dihedral_id)
                                     else:
@@ -254,8 +256,9 @@ class Topo:
 
                 if sorted_improper_id not in impropers_id:
                     improper_type = [atom.type for atom in improper]
-                    if self.world.forcefield.get_improper(*improper_type):
-                        impropers.append(tuple(improper))
+                    ip = self.world.forcefield.get_improper(*improper_type)
+                    if ip:
+                        impropers.append(Improper(*improper, ip))
                         impropers_id.append(sorted_improper_id)
                     else:
                         print(f'improper:{improper_type} 没有匹配力场')

@@ -10,8 +10,8 @@ class PairLj126(PairBase):
     def __init__(self, typeName1, typeName2, coeffs) -> None:
         super().__init__(typeName1, typeName2)
         self._style = 'lj126'
-        self.epsilon = coeffs[0]
-        self.sigma = coeffs[1]
+        self.epsilon = coeffs['epsilon']
+        self.sigma = coeffs['sigma']
         if len(coeffs) == 3:
             self.cutoff = coeffs[2]
 
