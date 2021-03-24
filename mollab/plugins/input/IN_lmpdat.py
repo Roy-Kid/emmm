@@ -1,366 +1,306 @@
 # author: Roy Kid
 # contact: lijichen365@126.com
-# date: 2021-01-24
-# version: 0.0.2
+# date: 2021-03-16
+# version: 0.0.3
 
-from mollab.core.molecule import lmpMolecule
-from mollab.plugins.input.input_base import InputBase
-from mollab.core.atom import fullAtom, molecularAtom
-from mollab.core.world import World
 from collections import defaultdict
+from mollab.core.atom import fullAtom
+from mollab.plugins.input import InputBase
+from mollab.core.world import World
+from mollab.core.pbc import PBC
+from mollab.core.bond import Bond
+from mollab.core.angle import Angle
+from mollab.core.dihedral import Dihedral
+from mollab.core.improper import Improper
+from mollab.core.molecule import Molecule
+from tqdm import tqdm
+
 
 
 class INlmpdat(InputBase):
     def __init__(self) -> None:
         super().__init__()
 
-    def skipblank(self, line):
-        # while line.isspace() or line.strip().startswith('#'):
-        while self.isblank(line):
-            line = self.readline()
+    def skipBlank(self, line, lines):
+        while self.isBlank(line):
+            line = next(lines)
         return line
 
-    def readline(self):
-        return self.f.readline()
+    def isBlank(self, line):
+        # line: str -> bool(line.strip())
+        return not line.strip()
 
-    def isblank(self, line: str):
-        return not bool(line.strip())
+    def read(self, fname, option: dict = {}):
 
-    def read(self, fname):
+        raw = option
 
-        self.world = World()
+        atomStyle = option.get('atomStyle', None)
+        bondStyle = option.get('bondStyle', None)
+        angleStyle = option.get('angleStyle', None)
+        dihedralStyle = option.get('dihedralStyle', None)
+        improperStyle = option.get('improperStyle', None)
+        pairStyle = option.get('pairStyle', None)
 
-        status = 'COMMENT'
+        pairCoeffs = dict()
+        bondCoeffs = dict()
+        angleCoeffs = dict()
+        dihedralCoeffs = dict()
+        improperCoeffs = dict()
+        
+        isTopoBond = option.get('isTopoBond', None)
+        isTopoAngle = option.get('isTopoAngle', None)
+        isTopoDihedral = option.get('isTopoDihedral', None)
+        isTopoImproper = option.get('isTopoImproper', None)
 
-        self.f = open(fname, 'r')
-        self.world.label = fname
-        line = self.readline()
-        self.world.comment = line
-        line = self.readline()
+        world = World(fname)
+        f = open(fname, 'r')
 
-        while True:
-            line = self.readline()
-            if not line:
-                # read EOF
-                break
-            line = self.skipblank(line)
+        lines = f.readlines()
 
-            status = self.status_checker(line)
-            self.status_executor(status, line)
+        world.comment = lines[0]
 
-        self.post_process()
+        lines = iter(lines[1:])
 
-        return self.world
+        for line in tqdm(lines):
+            line = line.split()
+            if 'atoms' in line:
+                raw['atomCount'] = int(line[0])
+                world.atomCount = int(line[0])
 
-    def status_checker(self, line):
-        if 'atoms' in line:
-            status = 'atomCount'
-        elif 'bonds' in line:
-            status = 'bondCount'
-        elif 'angles' in line:
-            status = 'angleCount'
-        elif 'dihedrals' in line:
-            status = 'dihedralCount'
-        elif 'impropers' in line:
-            status = 'improperCount'
-        elif 'atom types' in line:
-            status = 'atomTypeCount'
-        elif 'bond types' in line:
-            status = 'bondTypeCount'
-        elif 'angle types' in line:
-            status = 'angleTypeCount'
-        elif 'dihedral types' in line:
-            status = 'dihedralTypeCount'
-        elif 'improper types' in line:
-            status = 'improperTypeCount'
-        elif 'xlo' in line:
-            status = 'xBoundary'
-        elif 'ylo' in line:
-            status = 'yBoundary'
-        elif 'zlo' in line:
-            status = 'zBoundary'
-        elif 'Masses' in line:
-            status = 'Masses'
-        elif 'Pair Coeffs' in line:
-            status = 'pairCoeffs'
-        elif 'Bond Coeffs' in line:
-            status = 'bondCoeffs'
-        elif 'Angle Coeffs' in line:
-            status = 'angleCoeffs'
-        elif 'Dihedral Coeffs' in line:
-            status = 'dihedralCoeffs'
-        elif 'Improper Coeffs' in line:
-            status = 'improperCoeffs'
-        elif 'Atoms' in line:
-            status = 'Atoms'
-        elif 'Bonds' in line:
-            status = 'Bonds'
-        elif 'Angles' in line:
-            status = 'Angles'
-        elif 'Dihedrals' in line:
-            status = 'Dihedrals'
-        elif 'Impropers' in line:
-            status = 'Impropers'
-        else:
-            status = 'ERROR'
+            elif 'bonds' in line:
+                raw['bondCount'] = int(line[0])
+                world.bondCount = int(line[0])
 
-        self._status = status
-        return status
+            elif 'angles' in line:
+                raw['angleCount'] = int(line[0])
+                world.angleCount = int(line[0])
 
-    def status_executor(self, status, line):
+            elif 'dihedrals' in line:
+                raw['dihedralCount'] = int(line[0])
+                world.dihedralCount = int(line[0])
 
-        execute = getattr(self, status, self.status_error)
-        execute(line)
+            elif 'impropers' in line:
+                raw['improperCount'] = int(line[0])
+                world.improperCount = int(line[0])
 
-    def status_error(self, line):
-        raise Exception(f'read error at "{line}"')
+            elif 'atom' in line and 'types' in line:
+                raw['atomTypeCount'] = int(line[0])
+                world.atomTypeCount = int(line[0])
 
-    def post_process(self):
+            elif 'bond' in line and 'types' in line:
+                raw['bondTypeCount'] = int(line[0])
+                world.bondTypeCount = int(line[0])
 
-        # section 1: add linkedAtoms to atom
-        for b in self.bonds:
-            cid = b[2]
-            pid = b[3]
-            catom = None
-            patom = None
-            for atom in self.atoms:
-                if atom.atomId == cid:
-                    catom = atom
-                if atom.atomId == pid:
-                    patom = atom
+            elif 'angle' in line and 'types' in line:
+                raw['angleTypeCount'] = int(line[0])
+                world.angleTypeCount = int(line[0])
 
-                # set mass
-                for m in self.masses:
-                    if m[0] == atom.atomId:
-                        atom.mass = m[1]
-            if catom is None or patom is None:
-                raise ValueError('No atom matches topo')
+            elif 'dihedral' in line and 'types' in line:
+                raw['dihedralTypeCount'] = int(line[0])
+                world.dihedralTypeCount = int(line[0])
 
-            catom.add_linkedAtoms(patom)
+            elif 'improper' in line and 'types' in line:
+                raw['improperTypeCount'] = int(line[0])
+                world.improperTypeCount = int(line[0])
 
-        # section 2: group atoms to the molecules
+            elif 'xlo' in line:
+                world.xlo, world.xhi = float(line[0]), float(line[1])
+
+            elif 'ylo' in line:
+                world.ylo, world.yhi = float(line[0]), float(line[1])
+
+            elif 'zlo' in line:
+                world.zlo, world.zhi = float(line[0]), float(line[1])
+
+            elif 'Masses' in line:
+                line = next(lines)
+                line = self.skipBlank(line, lines)
+                # {atomType: mass}
+                masses = dict()
+                for m in range(raw['atomTypeCount']):
+                    line = line.split()
+                    masses[line[0]] = line[1]
+                    line = next(lines)
+                raw['masses'] = masses
+
+            elif 'Coeffs' in line:
+                if 'Pair' in line:
+                    line = next(lines)
+                    line = self.skipBlank(line, lines)
+                    # {atomType: paircoeffs}
+                    for p in range(raw['atomTypeCount']):
+                        line = line.split()
+                        pairCoeffs[line[0]] = line[1:]
+                        line = next(lines)
+                    raw['pairCoeffs'] = pairCoeffs
+
+
+                elif 'Bond' in line:
+                    line = next(lines)
+                    line = self.skipBlank(line, lines)
+                    # {bondType: bondCoeff}
+
+                    for b in range(raw['bondTypeCount']):
+                        line = line.split()
+                        bondCoeffs[line[0]] = line[1:]
+                        line = next(lines)
+
+
+                elif 'Angle' in line:
+                    line = next(lines)
+                    line = self.skipBlank(line, lines)
+                    for a in range(raw['angleTypeCount']):
+                        line = line.split()
+                        angleCoeffs[line[0]] = line[1:]
+                        line = next(lines)
+
+
+                elif 'Dihedral' in line:
+                    line = next(lines)
+                    line = self.skipBlank(line, lines)
+
+                    for d in range(raw['dihedralTypeCount']):
+                        line = line.split()
+                        dihedralCoeffs[line[1]] = line[2:]
+                        line = next(lines)
+
+
+                elif 'Improper' in line:
+                    line = next(lines)
+                    line = self.skipBlank(line, lines)
+
+                    for i in range(raw['improperTypeCount']):
+                        line = line.split()
+                        improperCoeffs[line[1]] = line[2:] 
+                        line = next(lines)
+
+            elif 'Atoms' in line:
+                line = next(lines)
+                line = self.skipBlank(line, lines)
+                atoms = dict()
+                pbc = PBC(world.xlo, world.xhi, world.ylo, world.yhi, world.zlo, world.zhi)
+                if atomStyle == 'full':
+                    if len(line.split()) == 7:
+                    # atomId molId type q x y z
+                        for a in range(raw['atomCount']):
+                            l = line.split()
+                            atom = fullAtom(l[0], l[1], l[2], l[3], x=l[4], y=l[5], z=l[6])
+                            pbc.wrap(atom)
+                            atoms[l[0]] = atom
+                            line = next(lines)
+
+                    elif len(line.split()) == 10:
+                    # atomId molId type q wx wy wz ix iy iz
+                        for a in range(world.atomCount):
+                            l = line.split()
+                            atom = fullAtom(l[0], l[1], l[2], l[3], wx=l[4], wy=l[5], wz=l[6], ix=l[7], iy=l[8], iz=l[9])
+                            pbc.unwrap(atom)
+                            atoms[l[0]] = atom
+                            line = next(lines)
+
+            elif 'Bonds' in line:
+                line = next(lines)
+                line = self.skipBlank(line, lines)
+                bonds = defaultdict(list)
+                # bonds = {typeId: [atom1, atom2]}
+                for b in range(raw['bondCount']):
+                    line = line.split()
+                    bonds[line[1]].append([atoms[line[2]], atoms[line[3]]])
+                    atoms[line[2]].add_linkedAtoms(atoms[line[3]])
+                    line = next(lines)
+
+            elif 'Angles' in line:
+                line = next(lines)
+                line = self.skipBlank(line, lines)
+                angles = defaultdict(list)
+                for a in range(raw['angleCount']):
+                    line = line.split()
+                    angles[l[1]].append([atoms[line[2]], atoms[line[3]], atoms[line[4]]])
+                    line = next(lines)
+
+            elif 'Dihedrals' in line:
+                line = next(lines)
+                line = self.skipBlank(line, lines)
+                dihedrals = defaultdict(list)
+                for d in range(raw['dihedralCount']):
+                    line = line.split()
+                    dihedrals[line[1]].append([atoms[line[2]], atoms[line[3]], atoms[line[4]], atoms[line[5]]])
+                    line = next(lines)
+
+            elif 'Impropers' in line:
+                line = next(lines)
+                line = self.skipBlank(line, lines)
+                impropers = defaultdict(list)
+                for i in range(raw['improperCount']):
+                    line = line.split()
+                    impropers[l[1]].append([atoms[line[2]], atoms[line[3]], atoms[line[4]], atoms[line[5]]])
+                    line = next(lines)
+
+        # post-process
+        # group atoms to the molecules
         molecules = list()
         grouped_atoms = defaultdict(list)
-        for atom in self.atoms:
-            ref = getattr(atom, 'molId', 'UNDEFINED')  # sec 2
-            grouped_atoms[ref].append(atom)  # sec 2
+        for atom in atoms.values():
+            # set mass
+            atom.mass = raw['masses'][atom.type]
+
+            # 
+            ref = getattr(atom, 'molId', 'UNDEFINED')
+            grouped_atoms[ref].append(atom)
         for ref, gatom in grouped_atoms.items():
-            mol = lmpMolecule(ref)
+            mol = Molecule(label=ref)
             mol.add_items(*gatom)
             molecules.append(mol)
 
-        self.world.add_items(*molecules)
+        world.add_items(*molecules, isUpdate=False)
 
-        # section 3: set coeffs
-        # section 3.1: set pair coeffs
+        # set coeff
+        if pairCoeffs and pairStyle:
+            for pt, pc in pairCoeffs.items():
+                world.set_pair(pairStyle, pt, pt, *pc, type=pt)
 
-        for pc in self.pairCoeffs:
-            if len(pc) == 3:
-                self.world.set_pair(self.pairStyle, pc[0], pc[0], *pc[1:], type=pc[0])
+        bondPotential = dict()
+        if bondCoeffs and bondStyle:
+            for bt, bc in bondCoeffs.items():
+                bondAtom = bonds[bt]
+                atom1 = bondAtom[0]
+                atom2 = bondAtom[1]
+                bondPotential[bt] = world.set_bond(bondStyle, atom1.type, atom2.type, bc[1:], type=bc[0])
+            if not isTopoBond:
+                for btype, bond in bonds.items():
+                    for bon in bond:
+                        world.topo.bonds.append(Bond(bon[0], bon[1], bp=bondPotential[btype]))
 
-        for bc in self.bondCoeffs:
-            bondType = bc[0]
-            for b in self.bonds:
-                if bondType == b[1]:
-                    typeName1 = b[2]
-                    typeName2 = b[3]
-                    self.world.set_bond(self.bondStyle, typeName1, typeName2,
-                                        *bc[1:], type=bondType)
+        anglePotential = dict()
+        if angleCoeffs and angleStyle:
+            for at, ac in angleCoeffs.items():
+                angle = angles[at]
+                atom1 = angle[0]
+                atom2 = angle[1]
+                atom3 = angle[2]
+                anglePotential[at] = world.set_angle(angleStyle, atom1.type, atom2.type, atom3.type, ac, type=at)
+            if not isTopoAngle:
+                for atype, angle in angles.items():
 
-        for ac in self.angleCoeffs:
-            angleType = ac[0]
-            for a in self.angles:
-                if angleType == a[1]:
-                    typeName1 = a[2]
-                    typeName2 = a[3]
-                    typeName3 = a[4]
-                    self.world.set_angle(self.angleStyle, typeName1, typeName2,
-                                         typeName3, *ac[1:], type=angleType)
+                    world.topo.angles.append(Angle(angle[0], angle[1], angle[2], ap=anglePotential[atype]))
 
-        for dc in self.dihedralCoeffs:
-            dihedralType = dc[0]
-            for d in self.dihedrals:
-                if dihedralType == d[1]:
-                    typeName1 = d[2]
-                    typeName2 = d[3]
-                    typeName3 = d[4]
-                    typeName4 = d[5]
-                    self.world.set_dihedral(self.dihedralStyle, typeName1,
-                                            typeName2, typeName3, typeName4,
-                                            *dc[1:], type=dihedralType)
+        dihedralPotential = dict()
+        if dihedralCoeffs and dihedralStyle:
+            for dt, dc in dihedralCoeffs.items():
+                dihedral = dihedrals[dt]
+                dihedralPotential[dt] = world.set_dihedral(dihedralStyle, dihedral[0].type, dihedral[1].type, dihedral[2].type, dihedral[3].type, dc, type=dt)
+            if not isTopoDihedral:
+                for dtype, dihedral in dihedrals.items():
+                    world.topo.dihedrals.append(Dihedral(dihedral[0], dihedral[1], dihedral[2], dihedral[3], dp=dihedralPotential[dtype]))
 
-        for ic in self.improperCoeffs:
-            improperType = ic[0]
-            for i in self.impropers:
-                if improperType == i[1]:
-                    self.world.set_improper(self.improperStyle, i[2], i[3],
-                                            i[4], i[5], *ic[1:], type=improperType)
+        improperPotential = dict()
+        if improperCoeffs and improperStyle:
+            for it, ic in improperCoeffs.items():
+                improper = impropers[it]
+                improperPotential[it] = world.set_improper(improperStyle, improper[0].type, improper[2].type, improper[3].type, improper[4].type, ic, type=it)
+            if not isTopoImproper:
+                for itype, improper in impropers.items():
+                    world.topo.impropers.append(Improper(improper[0], improper[1], improper[2], improper[3], ip=improperPotential[itype]))
 
-        return self.world
-
-    def atomCount(self, line: str):
-        self.world.atomCount = line.split()[0]
-
-    def bondCount(self, line: str):
-        self.world.bondCount = line.split()[0]
-
-    def angleCount(self, line: str):
-        self.world.angleCount = line.split()[0]
-
-    def dihedralCount(self, line: str):
-        self.world.dihedralCount = line.split()[0]
-
-    def improperCount(self, line: str):
-        self.world.improperCount = line.split()[0]
-
-    def atomTypeCount(self, line: str):
-        self.world.atomTypeCount = line.split()[0]
-
-    def bondTypeCount(self, line: str):
-        self.world.bondTypeCount = line.split()[0]
-
-    def angleTypeCount(self, line: str):
-        self.world.angleTypeCount = line.split()[0]
-
-    def dihedralTypeCount(self, line: str):
-        self.world.dihedralTypeCount = line.split()[0]
-
-    def improperTypeCount(self, line: str):
-        self.world.improperTypeCount = line.split()[0]
-
-    def xBoundary(self, line: str):
-        self.world.xlo, self.world.xhi, *_ = line.split()
-
-    def yBoundary(self, line: str):
-        self.world.ylo, self.world.yhi, *_ = line.split()
-
-    def zBoundary(self, line: str):
-        self.world.zlo, self.world.zhi, *_ = line.split()
-
-    def Masses(self, line: str):
-
-        line = self.readline()
-        line = self.skipblank(line)
-
-        self.masses = list()
-
-        while not self.isblank(line):
-            # self.world.topo.set_mass(line[0], line[1])
-            self.masses.append(line.split())
-            line = self.readline()
-
-        assert len(self.masses) == 12
-
-    def pairCoeffs(self, line: str):
-
-        line = self.readline()
-        line = self.skipblank(line)
-
-        self.pairCoeffs = list()
-        while not self.isblank(line):
-            self.pairCoeffs.append(line.split())
-            line = self.readline()
-        assert len(self.pairCoeffs) == 12
-
-    def bondCoeffs(self, line: str):
-
-        line = self.readline()
-        line = self.skipblank(line)
-
-        self.bondCoeffs = list()
-        while not self.isblank(line):
-            self.bondCoeffs.append(line.split())
-            line = self.readline()
-        assert len(self.bondCoeffs) == 12
-
-    def angleCoeffs(self, line: str):
-
-        line = self.readline()
-        line = self.skipblank(line)
-
-        self.angleCoeffs = list()
-        while not self.isblank(line):
-            self.angleCoeffs.append(line.split())
-            line = self.readline()
-        assert len(self.angleCoeffs) == 18
-
-    def dihedralCoeffs(self, line: str):
-
-        line = self.readline()
-        line = self.skipblank(line)
-
-        self.dihedralCoeffs = list()
-        while not self.isblank(line):
-            self.dihedralCoeffs.append(line.split())
-            line = self.readline()
-        assert len(self.dihedralCoeffs) == 24
-
-    def improperCoeffs(self, line: str):
-
-        line = self.readline()
-        line = self.skipblank(line)
-
-        self.improperCoeffs = list()
-        while not self.isblank(line):
-            self.improperCoeffs.append(line.split())
-            line = self.readline()
-        assert len(self.improperCoeffs) == 6
-
-    def Atoms(self, line: str):
-
-        line = self.readline()
-        line = self.skipblank(line)
-
-        self.atoms = list()
-        if self.atomStyle == 'full':
-            Atom = fullAtom
-        elif self.atomStyle == 'molecular':
-            Atom = molecularAtom
-        while not self.isblank(line):
-            atom = Atom(*line.split())
-            self.atoms.append(atom)
-            line = self.readline()
-
-    def Bonds(self, line: str):
-
-        line = self.readline()
-        line = self.skipblank(line)
-
-        self.bonds = list()
-
-        while not self.isblank(line):
-            self.bonds.append(line.split())
-            line = self.readline()
-
-    def Angles(self, line: str):
-
-        line = self.readline()
-        line = self.skipblank(line)
-
-        self.angles = list()
-
-        while not self.isblank(line):
-            self.angles.append(line.split())
-            line = self.readline()
-
-    def Dihedrals(self, line: str):
-
-        line = self.readline()
-        line = self.skipblank(line)
-
-        self.dihedrals = list()
-
-        while not self.isblank(line):
-            self.dihedrals.append(line.split())
-            line = self.readline()
-
-    def Impropers(self, line: str):
-
-        line = self.readline()
-        line = self.skipblank(line)
-
-        self.impropers = list()
-
-        while not self.isblank(line):
-            self.impropers.append(line.split())
-            line = self.readline()
+        world.update(isTopoBond, isTopoAngle, isTopoDihedral, isTopoImproper)
+        return world

@@ -8,6 +8,7 @@ from mollab.core.item import Item
 import numpy as np
 from mollab.i18n.i18n import _
 from mollab.core.topo import Topo
+from tqdm import tqdm
 
 
 class Molecule(Item):
@@ -210,11 +211,10 @@ class Molecule(Item):
         return atoms
 
     def adopt(self, topo, mappers, forcefield, remap=False):
-        print(f'start: {self.label}')
         for atom in self.atoms:
-            print(f'atomId: {atom.atomId}')
             self.atomTypeMapper.update({atom.type: mappers[0][atom.type]})
 
+        if mappers[1]:
             for bond in topo.bonds:
                 if atom in bond and bond not in self.topo.bonds:
                     self.topo.bonds.append(bond)
@@ -247,18 +247,25 @@ class Molecule(Item):
             for atom in self.atoms:
                 self.atomIdMapper.map(atom.atomId)
                 atom.atomId = self.atomIdMapper.retrieve(atom.atomId)
-        print('end -------')
 
-    def calc_centroid(self):
+    def calc_centroid(self, mode='zhixin'):
         """计算Molecule的质心
         """
         atoms = self.flatten()
-        vec = np.array([0, 0, 0], dtype=float)
+        masses = list()
+        vecs = list()
         for atom in atoms:
-            vec += atom.position
 
-        centroid = vec / len(atoms)
-        setattr(self, '_position', centroid)
+            if mode == 'zhixin':
+                masses.append(atom.mass)
+            vecs.append(atom.position)
+
+        vec = np.array(vecs)
+        if mode == 'zhixin':
+            masses = np.array(masses)
+            return (masses@vec) / masses.sum()
+        else:
+            return vec.sum(axis=0)
 
     def save_dict(self):
         m = dict()
@@ -276,7 +283,7 @@ class Molecule(Item):
     @property
     def position(self):
         if not hasattr(self, '_position'):
-            self.calc_centroid()
+            self._position = self.calc_centroid()
         return self._position
 
     @property

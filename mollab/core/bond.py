@@ -28,7 +28,10 @@ class Bond(Item):
 
     @property
     def type(self):
-        self._type = self.bp.type
+        if self.bp is not None:
+            self._type = self.bp.type
+        else:
+            self._type = 'UNDEFINED'
         return self._type
 
     @property

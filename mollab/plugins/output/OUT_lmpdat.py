@@ -4,20 +4,18 @@
 # version: 0.0.1
 
 from mollab.plugins.output.output_base import Mapper, OutputBase
-
+from jinja2 import Template
 
 class OUTlmpdat(OutputBase):
-    def __init__(self, world) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self.item = world
+
+
+    def write_data(self, fname, item):
+        self.item = item
         self.atomIdMapper = Mapper('atomId')
         for atom in self.item.atoms:
             self.atomIdMapper.add(atom.id)
-
-    def write_data(self, fname, item=None):
-        if not item:
-            # if not assign a specific item,
-            item = self.item
 
         self.file = open(fname, 'w')
 
@@ -51,27 +49,27 @@ class OUTlmpdat(OutputBase):
         for o in write_order:
             self.file.writelines(o)
 
-        # write types.txt
-        with open('types.txt', 'w') as f:
-            f.write('atom types\n')
-            for type, id in self.item.atomTypeMapper.items():
-                f.write(f'{id}  {type.replace("-", ",")}\n')
+        # # write types.txt
+        # with open('types.txt', 'w') as f:
+        #     f.write('atom types\n')
+        #     for type, id in self.item.atomTypeMapper.items():
+        #         f.write(f'{id}  {type.replace("-", ",")}\n')
 
-            f.write('bond types\n')
-            for type, id in self.item.bondTypeMapper.items():
-                f.write(f'{id}  {type.replace("-", ",")}\n')
+        #     f.write('bond types\n')
+        #     for type, id in self.item.bondTypeMapper.items():
+        #         f.write(f'{id}  {type.replace("-", ",")}\n')
 
-            f.write('angle types\n')
-            for type, id in self.item.angleTypeMapper.items():
-                f.write(f'{id}  {type.replace("-", ",")}\n')
+        #     f.write('angle types\n')
+        #     for type, id in self.item.angleTypeMapper.items():
+        #         f.write(f'{id}  {type.replace("-", ",")}\n')
 
-            f.write('dihedral types\n')
-            for type, id in self.item.dihedralTypeMapper.items():
-                f.write(f'{id}  {type.replace("-", ",")}\n')
+        #     f.write('dihedral types\n')
+        #     for type, id in self.item.dihedralTypeMapper.items():
+        #         f.write(f'{id}  {type.replace("-", ",")}\n')
 
-            # f.write('improper types\n')
-            # for type, id in self.item.improperTypeMapper.items():
-            #     f.write(f'{id} {type.replace("-", ",")}\n')
+        #     # f.write('improper types\n')
+        #     # for type, id in self.item.improperTypeMapper.items():
+        #     #     f.write(f'{id} {type.replace("-", ",")}\n')
 
         self.file.close()
 

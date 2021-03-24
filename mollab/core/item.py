@@ -17,6 +17,12 @@ class Item:
             'x': 0,
             'y': 0,
             'z': 0,
+            'ix': 0,
+            'iy': 0,
+            'iz': 0,
+            'wx': 0,
+            'wy': 0,
+            'wz': 0,
             'pos': 0
         }
 
@@ -62,7 +68,7 @@ class Item:
 
     @property
     def x(self):
-        return self.properties['x']
+        return float(self.properties['x'])
 
     @x.setter
     def x(self, x):
@@ -70,7 +76,7 @@ class Item:
 
     @property
     def y(self):
-        return self.properties['y']
+        return float(self.properties['y'])
 
     @y.setter
     def y(self, y):
@@ -78,11 +84,58 @@ class Item:
 
     @property
     def z(self):
-        return self.properties['z']
-
+        return float(self.properties['z'])
     @z.setter
     def z(self, z):
         self.properties['z'] = float(z)
+    
+    @property
+    def ix(self):
+        return float(self.properties['ix'])
+
+    @property
+    def iy(self):
+        return float(self.properties['iy'])
+
+    @property
+    def iz(self):
+        return float(self.properties['iz'])
+
+    @ix.setter
+    def ix(self, v):
+        self.properties['ix'] = float(v)
+    
+    @iy.setter
+    def iy(self, v):
+        self.properties['iy'] = float(v)
+
+    @iz.setter
+    def iz(self, v):
+        self.properties['iz'] = float(v)
+
+    @property
+    def wx(self):
+        return float(self.properties['wx'])
+
+    @property
+    def wy(self):
+        return float(self.properties['wy'])
+
+    @property
+    def wz(self):
+        return float(self.properties['wz'])
+
+    @wx.setter
+    def wx(self, v):
+        self.properties['wx'] = float(v)
+    
+    @wy.setter
+    def wy(self, v):
+        self.properties['wy'] = float(v)
+
+    @wz.setter
+    def wz(self, v):
+        self.properties['wz'] = float(v)
 
     def _move(self, original, x, y, z):
         """move 的抽象数学方法

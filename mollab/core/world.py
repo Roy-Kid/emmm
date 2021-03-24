@@ -12,7 +12,7 @@ from mollab.core.topo import Topo
 
 
 class World(Item):
-    def __init__(self, label):
+    def __init__(self, label=None):
 
         super().__init__('World')
 
@@ -40,17 +40,17 @@ class World(Item):
                     atom.typeId = self.atomTypeMapper.retrieve(atom.type)
                     self.massMapper.update({atom.type: atom.mass})
 
-            self.container.extend(items)
+        self.container.extend(items)
         if isUpdate:
             self.update()
 
-    def update(self):
+    def update(self, isTopoBond=True, isTopoAngle=True, isTopoDihedral=True, isTopoImproper=True):
 
         self.atomCount = len(self.flatten())
 
         self.atomTypeCount = len(self.atomTypeMapper)
 
-        self.topo.search_topo(self)
+        self.topo.search_topo(self, isTopoBond, isTopoAngle, isTopoDihedral, isTopoImproper)
         mappers = [
             self.atomTypeMapper, self.bondTypeMapper, self.angleTypeMapper,
             self.dihedralTypeMapper, self.improperTypeMapper,
@@ -123,6 +123,10 @@ class World(Item):
     def label(self):
         return self.properties['label']
 
+    @label.setter
+    def label(self, l):
+        self.properties['label'] = l
+
     @property
     def root(self):
         return self.properties['root']
@@ -131,9 +135,17 @@ class World(Item):
     def comment(self):
         return self.properties['comment']
 
+    @comment.setter
+    def comment(self, c):
+        self.properties['comment'] = c
+
     @property
     def atoms(self):
         return self.flatten()
+
+    @property
+    def molecules(self):
+        return self.container
 
     @property
     def bonds(self):
@@ -284,9 +296,9 @@ class World(Item):
         style,
         typeName1,
         typeName2,
+        *coeffs,
         id=None,
         type=None,
-        **coeffs,
     ):
 
         pp = self.forcefield.set_pair(style, typeName1, typeName2, coeffs, id,
@@ -294,25 +306,27 @@ class World(Item):
         self.pairTypeMapper.map(pp.type)
         pp.typeId = self.pairTypeMapper.retrieve(pp.type)
 
-    def set_bond(self, style, typeName1, typeName2, type, id=None, **coeff):
+    def set_bond(self, style, typeName1, typeName2, *coeff, type=None, id=None):
         bp = self.forcefield.set_bond(style, typeName1, typeName2, coeff, id,
                                       type)
         self.bondTypeMapper.map(type)
         bp.typeId = self.bondTypeMapper.retrieve(type)
+        return bp
 
     def set_angle(self,
                   style,
                   typeName1,
                   typeName2,
                   typeName3,
-                  type,
-                  id=None,
-                  **coeffs):
+                  *coeffs,
+                  type=None,
+                  id=None):
 
         ap = self.forcefield.set_angle(style, typeName1, typeName2, typeName3,
                                        coeffs, id, type)
         self.angleTypeMapper.map(type)
         ap.typeId = self.angleTypeMapper.retrieve(type)
+        return ap
 
     def set_dihedral(self,
                      style,
@@ -320,15 +334,16 @@ class World(Item):
                      typeName2,
                      typeName3,
                      typeName4,
+                     *coeffs,
                      id=None,
-                     type=None,
-                     **coeffs):
+                     type=None):
 
         dp = self.forcefield.set_dihedral(style, typeName1, typeName2,
                                           typeName3, typeName4, coeffs, id,
                                           type)
         self.dihedralTypeMapper.map(type)
         dp.typeId = self.dihedralTypeMapper.retrieve(type)
+        return dp
 
     def set_improper(self,
                      style,
@@ -336,11 +351,12 @@ class World(Item):
                      typeName2,
                      typeName3,
                      typeName4,
+                     *coeffs,
                      id=None,
-                     type=None,
-                     **coeffs):
+                     type=None):
         ip = self.forcefield.set_improper(style, typeName1, typeName2,
                                           typeName3, typeName4, coeffs, id,
                                           type)
         self.improperTypeMapper.map(type)
         ip.typeId = self.improperTypeMapper.retrieve(type)
+        return ip

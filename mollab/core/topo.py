@@ -26,7 +26,7 @@ class Topo:
                     isAngle=True,
                     isDihedral=True,
                     isImproper=False,
-                    isAbinitio=True):
+                    isFF=True):
         """ Topo类的主调方法, 开始搜索拓扑结构
 
         Args:
@@ -39,11 +39,6 @@ class Topo:
         self.world = world
         atoms = self.world.atoms
         self.isAbinitio = True
-        # TODO: replace re-search topo with update search topo 
-        self.bonds = list()
-        self.angles = list()
-        self.dihedrals = list()
-        self.impropers = list()
         if isBond:
             self.bonds.extend(self.search_bond(atoms))
         if isAngle:

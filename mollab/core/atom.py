@@ -3,7 +3,7 @@
 # date: 2021-02-24
 # version: 0.0.2
 
-from mollab.core.neighborlist import NeighborList
+# from mollab.core.neighborlist import NeighborList
 from mollab.core.item import Item
 import numpy as np
 
@@ -26,7 +26,7 @@ class Atom(Item):
         # 键接原子的列表
         self._linkedAtoms = list()
         # 临近原子
-        self._neighbors = NeighborList()
+        # self._neighbors = NeighborList()
 
     def __str__(self) -> str:
         return f' < Atom > '
@@ -264,25 +264,43 @@ class Atom(Item):
 
 
 class fullAtom(Atom):
-    def __init__(self, atomId, molId, type, q, x, y, z, mass=None):
+    def __init__(self, atomId, molId, type, q, **kwargs):
 
         super().__init__(style='full')
-        q = float(q)
-        x = float(x)
-        y = float(y)
-        z = float(z)
 
-        self.register_properties(atomId=atomId,
-                                 molId=molId,
-                                 type=type,
-                                 q=q,
-                                 x=x,
-                                 y=y,
-                                 z=z, 
-                                 mass=mass)
+        x = kwargs.get('x', None)
+        y = kwargs.get('y', None)
+        z = kwargs.get('z', None)
 
-        self.type = type
-        self.label = atomId
+        ix = kwargs.get('ix', None)
+        iy = kwargs.get('iy', None)
+        iz = kwargs.get('iz', None)
+        # wrapped coordinate
+        wx = kwargs.get('wx', None)
+        wy = kwargs.get('wy', None)
+        wz = kwargs.get('wz', None)
+
+        mass = kwargs.get('mass', None)
+
+        if (x and y and z) or (ix and iy and iz and wx and wy and wz):
+            
+            self.register_properties(atomId=atomId,
+                                    molId=molId,
+                                    type=type,
+                                    q=q,
+                                    x=x,
+                                    y=y,
+                                    z=z,
+                                    ix=ix,
+                                    iy=iy,
+                                    iz=iz,
+                                    wx=wx,
+                                    wy=wy,
+                                    wz=wz,
+                                    mass=mass)
+
+            self.type = type
+            self.label = atomId
 
     @property
     def atomId(self):
