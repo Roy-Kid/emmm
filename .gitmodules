@@ -1,0 +1,3 @@
+[submodule "mollab/plugins/output/molvis"]
+	path = mollab/plugins/output/molvis
+	url = https://github.com/Roy-Kid/molvis.git

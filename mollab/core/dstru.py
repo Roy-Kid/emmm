@@ -2,6 +2,8 @@
 # contact: lijichen365@126.com
 # date: 2021-02-13
 # version: 0.0.1
+import numpy as np
 
-from .core import Atom, World, Bond, Angle
-from .plugins import *
+
+class ndarray:
+    pass

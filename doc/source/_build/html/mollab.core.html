@@ -1,0 +1,1003 @@
+
+<!DOCTYPE html>
+
+<html lang="zh_CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mollab.core package &#8212; mollab  文档</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" />
+    <link rel="stylesheet" type="text/css" href="_static/katex-math.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/translations.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"></script>
+    <script src="_static/katex_autorenderer.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="mollab.core.potential package" href="mollab.core.potential.html" />
+    <link rel="prev" title="mollab package" href="mollab.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="mollab-core-package">
+<h1>mollab.core package<a class="headerlink" href="#mollab-core-package" title="永久链接至标题">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="永久链接至标题">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mollab.core.potential.html">mollab.core.potential package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mollab.core.potential.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mollab.core.potential.html#module-mollab.core.potential.angle_harmonic">mollab.core.potential.angle_harmonic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mollab.core.potential.html#module-mollab.core.potential.bond_harmonic">mollab.core.potential.bond_harmonic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mollab.core.potential.html#module-mollab.core.potential.dihedral_opls">mollab.core.potential.dihedral_opls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mollab.core.potential.html#module-mollab.core.potential.improper_cvff">mollab.core.potential.improper_cvff module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mollab.core.potential.html#module-mollab.core.potential.improper_harmonic">mollab.core.potential.improper_harmonic module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mollab.core.potential.html#module-mollab.core.potential.pair_lj126">mollab.core.potential.pair_lj126 module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mollab.core.potential.html#module-mollab.core.potential.potential_base">mollab.core.potential.potential_base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mollab.core.potential.html#module-mollab.core.potential">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-mollab.core.angle">
+<span id="mollab-core-angle-module"></span><h2>mollab.core.angle module<a class="headerlink" href="#module-mollab.core.angle" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.angle.Angle">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.angle.</span></code><code class="sig-name descname"><span class="pre">Angle</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.angle.Angle" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.item.Item" title="mollab.core.item.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.item.Item</span></code></a></p>
+<dl class="py method">
+<dt id="mollab.core.angle.Angle.angle">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">angle</span></code><a class="headerlink" href="#mollab.core.angle.Angle.angle" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.angle.Angle.ap">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">ap</span></code><a class="headerlink" href="#mollab.core.angle.Angle.ap" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.atom">
+<span id="mollab-core-atom-module"></span><h2>mollab.core.atom module<a class="headerlink" href="#module-mollab.core.atom" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.atom.Atom">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.atom.</span></code><code class="sig-name descname"><span class="pre">Atom</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.item.Item" title="mollab.core.item.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.item.Item</span></code></a></p>
+<p>Atom 是所有粒子的基类, 提供了所有粒子共有的方法. 在这个基础上可以派生出各种具有不同属性的Atom类</p>
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.add_neighbors">
+<code class="sig-name descname"><span class="pre">add_neighbors</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">atoms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.add_neighbors" title="永久链接至目标">¶</a></dt>
+<dd><p>添加键接的Atom. TODO: 将键接Atom和临近Atom区分开</p>
+<dl class="field-list simple">
+<dt class="field-odd">引发</dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – 添加了错误种类的对象而不是Atom</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.distance_to">
+<code class="sig-name descname"><span class="pre">distance_to</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targetItem</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.distance_to" title="永久链接至目标">¶</a></dt>
+<dd><p>[Bioperate] return the distance to a target item</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>targetItem</strong> (<a class="reference internal" href="#mollab.core.item.Item" title="mollab.core.item.Item"><em>Item</em></a>) – Atom|Molecule</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.duplicate">
+<code class="sig-name descname"><span class="pre">duplicate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.duplicate" title="永久链接至目标">¶</a></dt>
+<dd><p>沿着一个方向边移动边复制</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n</strong> (<em>int</em>) – 复制个数</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – 每移动距离复制一次</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – 每移动距离复制一次</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – 每移动距离复制一次</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.id">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">id</span></code><a class="headerlink" href="#mollab.core.atom.Atom.id" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.mass">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">mass</span></code><a class="headerlink" href="#mollab.core.atom.Atom.mass" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.move">
+<code class="sig-name descname"><span class="pre">move</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.move" title="永久链接至目标">¶</a></dt>
+<dd><p>将Atom向一个方向移动</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – 在x方向的移动</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – 在y方向的移动</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – 在z方向的移动</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>返回自身, 以供链式操作</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#mollab.core.atom.Atom" title="mollab.core.atom.Atom">Atom</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.move_to">
+<code class="sig-name descname"><span class="pre">move_to</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.move_to" title="永久链接至目标">¶</a></dt>
+<dd><p>将Atom移动到</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – 目标x坐标</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – 目标y坐标</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – 目标z坐标</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.neighbors">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">neighbors</span></code><a class="headerlink" href="#mollab.core.atom.Atom.neighbors" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.randmove">
+<code class="sig-name descname"><span class="pre">randmove</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.randmove" title="永久链接至目标">¶</a></dt>
+<dd><p>以当前位置为球心, length为半径随机方向移动</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>length</strong> (<em>float</em>) – 移动距离</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.rotate">
+<code class="sig-name descname"><span class="pre">rotate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z0</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.rotate" title="永久链接至目标">¶</a></dt>
+<dd><p>以四元数的方式旋转atom. (x,y,z)是旋转轴空间指向, (x0,y0,z0)是旋转轴起始点(默认原点), 即旋转轴为(x-xo,y-yo,z-zo). theta则是围绕旋转轴逆时针旋转的弧度(多少个π).</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>x</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>y</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>z</strong> (<em>[</em><em>type</em><em>]</em>) – [description]</p></li>
+<li><p><strong>x0</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 0.</p></li>
+<li><p><strong>y0</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 0.</p></li>
+<li><p><strong>z0</strong> (<em>int</em><em>, </em><em>optional</em>) – [description]. Defaults to 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>[type]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.rotate_orth">
+<code class="sig-name descname"><span class="pre">rotate_orth</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xAxis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yAxis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zAxis</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.rotate_orth" title="永久链接至目标">¶</a></dt>
+<dd><p>围绕在(x,y,z)点的x/y/z轴旋转theta</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>theta</strong> (<em>deg</em>) – 旋转角</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – 旋转参考点</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – 旋转参考点</p></li>
+<li><p><strong>z</strong> (<em>float</em>) – 旋转参考点</p></li>
+<li><p><strong>xAxis</strong> (<em>bool</em>) – 旋转轴指向</p></li>
+<li><p><strong>yAxis</strong> (<em>bool</em>) – 旋转轴指向</p></li>
+<li><p><strong>zAxis</strong> (<em>bool</em>) – 旋转轴指向</p></li>
+</ul>
+</dd>
+<dt class="field-even">引发</dt>
+<dd class="field-even"><p><strong>SyntaxError</strong> – 只能有一个方向被设置成True来代表旋转轴指向</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.seperate_with">
+<code class="sig-name descname"><span class="pre">seperate_with</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targetItem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.seperate_with" title="永久链接至目标">¶</a></dt>
+<dd><p>[Bioperate] to seperate two items in opposite direction: (rel)ative distance is move EACH item in a distance under system unit; (abs)olute distance is the time of current distance of two items, e.g.: item+=unit_orientation_vector*rel; item+=orientation_vector*abs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>targetItem</strong> (<a class="reference internal" href="#mollab.core.item.Item" title="mollab.core.item.Item"><em>Item</em></a>) – Atom|Molecule</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – rel|abs</p></li>
+<li><p><strong>value</strong> (<em>Float</em>) – distance</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.style">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">style</span></code><a class="headerlink" href="#mollab.core.atom.Atom.style" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.toDict">
+<code class="sig-name descname"><span class="pre">toDict</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.Atom.toDict" title="永久链接至目标">¶</a></dt>
+<dd><p>将Atom转化为dict类型</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回</dt>
+<dd class="field-odd"><p>键值对</p>
+</dd>
+<dt class="field-even">返回类型</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.atom.Atom.uuid">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">uuid</span></code><a class="headerlink" href="#mollab.core.atom.Atom.uuid" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="mollab.core.atom.fullAtom">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.atom.</span></code><code class="sig-name descname"><span class="pre">fullAtom</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atomId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">molId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.fullAtom" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.atom.Atom" title="mollab.core.atom.Atom"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.atom.Atom</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="mollab.core.atom.molecularAtom">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.atom.</span></code><code class="sig-name descname"><span class="pre">molecularAtom</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atomId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">molId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeId</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.molecularAtom" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.atom.Atom" title="mollab.core.atom.Atom"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.atom.Atom</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="mollab.core.atom.pdbAtom">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.atom.</span></code><code class="sig-name descname"><span class="pre">pdbAtom</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">serial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">altLoc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resName</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chainID</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resSeq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">occupancy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tempFactor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.atom.pdbAtom" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.atom.Atom" title="mollab.core.atom.Atom"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.atom.Atom</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.bond">
+<span id="mollab-core-bond-module"></span><h2>mollab.core.bond module<a class="headerlink" href="#module-mollab.core.bond" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.bond.Bond">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.bond.</span></code><code class="sig-name descname"><span class="pre">Bond</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#mollab.core.atom.Atom" title="mollab.core.atom.Atom"><span class="pre">mollab.core.atom.Atom</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">atom2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#mollab.core.atom.Atom" title="mollab.core.atom.Atom"><span class="pre">mollab.core.atom.Atom</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">bp</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.bond.Bond" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.item.Item" title="mollab.core.item.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.item.Item</span></code></a></p>
+<dl class="py method">
+<dt id="mollab.core.bond.Bond.bp">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">bp</span></code><a class="headerlink" href="#mollab.core.bond.Bond.bp" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.bond.Bond.length">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">length</span></code><a class="headerlink" href="#mollab.core.bond.Bond.length" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.bond.Bond.orient_vec">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">orient_vec</span></code><a class="headerlink" href="#mollab.core.bond.Bond.orient_vec" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.bond.Bond.type">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">type</span></code><a class="headerlink" href="#mollab.core.bond.Bond.type" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.dihedral">
+<span id="mollab-core-dihedral-module"></span><h2>mollab.core.dihedral module<a class="headerlink" href="#module-mollab.core.dihedral" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-mollab.core.dstru">
+<span id="mollab-core-dstru-module"></span><h2>mollab.core.dstru module<a class="headerlink" href="#module-mollab.core.dstru" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.dstru.ndarray">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.dstru.</span></code><code class="sig-name descname"><span class="pre">ndarray</span></code><a class="headerlink" href="#mollab.core.dstru.ndarray" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.forcefield">
+<span id="mollab-core-forcefield-module"></span><h2>mollab.core.forcefield module<a class="headerlink" href="#module-mollab.core.forcefield" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.forcefield.ForceField">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.forcefield.</span></code><code class="sig-name descname"><span class="pre">ForceField</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.forcefield.ForceField" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="mollab.core.forcefield.ForceField.get_angle">
+<code class="sig-name descname"><span class="pre">get_angle</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.forcefield.ForceField.get_angle" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.forcefield.ForceField.get_bond">
+<code class="sig-name descname"><span class="pre">get_bond</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.forcefield.ForceField.get_bond" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.forcefield.ForceField.get_dihedral">
+<code class="sig-name descname"><span class="pre">get_dihedral</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.forcefield.ForceField.get_dihedral" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.forcefield.ForceField.get_improper">
+<code class="sig-name descname"><span class="pre">get_improper</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.forcefield.ForceField.get_improper" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.forcefield.ForceField.get_pair">
+<code class="sig-name descname"><span class="pre">get_pair</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.forcefield.ForceField.get_pair" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.forcefield.ForceField.set_angle">
+<code class="sig-name descname"><span class="pre">set_angle</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.forcefield.ForceField.set_angle" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.forcefield.ForceField.set_bond">
+<code class="sig-name descname"><span class="pre">set_bond</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.forcefield.ForceField.set_bond" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.forcefield.ForceField.set_dihedral">
+<code class="sig-name descname"><span class="pre">set_dihedral</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.forcefield.ForceField.set_dihedral" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.forcefield.ForceField.set_improper">
+<code class="sig-name descname"><span class="pre">set_improper</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.forcefield.ForceField.set_improper" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.forcefield.ForceField.set_pair">
+<code class="sig-name descname"><span class="pre">set_pair</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.forcefield.ForceField.set_pair" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.improper">
+<span id="mollab-core-improper-module"></span><h2>mollab.core.improper module<a class="headerlink" href="#module-mollab.core.improper" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-mollab.core.item">
+<span id="mollab-core-item-module"></span><h2>mollab.core.item module<a class="headerlink" href="#module-mollab.core.item" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.item.Item">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.item.</span></code><code class="sig-name descname"><span class="pre">Item</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itemType</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.item.Item" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Item 是几乎所有可操作实体的基类, 包括且不限于Atom, Molecule, World, Universe, Bond, Angle, Dihedral, Improper.</p>
+<dl class="py method">
+<dt id="mollab.core.item.Item.compute_bounding_box">
+<code class="sig-name descname"><span class="pre">compute_bounding_box</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.item.Item.compute_bounding_box" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.compute_bounding_sphere">
+<code class="sig-name descname"><span class="pre">compute_bounding_sphere</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.item.Item.compute_bounding_sphere" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.distance_to">
+<code class="sig-name descname"><span class="pre">distance_to</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targetItem</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.item.Item.distance_to" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.get_replica">
+<code class="sig-name descname"><span class="pre">get_replica</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">newLabal</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.item.Item.get_replica" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.id">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">id</span></code><a class="headerlink" href="#mollab.core.item.Item.id" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.itemType">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">itemType</span></code><a class="headerlink" href="#mollab.core.item.Item.itemType" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.label">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">label</span></code><a class="headerlink" href="#mollab.core.item.Item.label" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.parent">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">parent</span></code><a class="headerlink" href="#mollab.core.item.Item.parent" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.path">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">path</span></code><a class="headerlink" href="#mollab.core.item.Item.path" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.position">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">position</span></code><a class="headerlink" href="#mollab.core.item.Item.position" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.randmove">
+<code class="sig-name descname"><span class="pre">randmove</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.item.Item.randmove" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.root">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">root</span></code><a class="headerlink" href="#mollab.core.item.Item.root" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.rotate_orth">
+<code class="sig-name descname"><span class="pre">rotate_orth</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xAxis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yAxis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zAxis</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.item.Item.rotate_orth" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.seperate_with">
+<code class="sig-name descname"><span class="pre">seperate_with</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targetItem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.item.Item.seperate_with" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.type">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">type</span></code><a class="headerlink" href="#mollab.core.item.Item.type" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.x">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">x</span></code><a class="headerlink" href="#mollab.core.item.Item.x" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.y">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">y</span></code><a class="headerlink" href="#mollab.core.item.Item.y" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.item.Item.z">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">z</span></code><a class="headerlink" href="#mollab.core.item.Item.z" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.mapper">
+<span id="mollab-core-mapper-module"></span><h2>mollab.core.mapper module<a class="headerlink" href="#module-mollab.core.mapper" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.mapper.Mapper">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.mapper.</span></code><code class="sig-name descname"><span class="pre">Mapper</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.get_angleID">
+<code class="sig-name descname"><span class="pre">get_angleID</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.get_angleID" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.get_angleP">
+<code class="sig-name descname"><span class="pre">get_angleP</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.get_angleP" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.get_bondID">
+<code class="sig-name descname"><span class="pre">get_bondID</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.get_bondID" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.get_bondP">
+<code class="sig-name descname"><span class="pre">get_bondP</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.get_bondP" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.get_dihedralID">
+<code class="sig-name descname"><span class="pre">get_dihedralID</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.get_dihedralID" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.get_dihedralP">
+<code class="sig-name descname"><span class="pre">get_dihedralP</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.get_dihedralP" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.get_improperID">
+<code class="sig-name descname"><span class="pre">get_improperID</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.get_improperID" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.get_improperP">
+<code class="sig-name descname"><span class="pre">get_improperP</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.get_improperP" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.get_pairID">
+<code class="sig-name descname"><span class="pre">get_pairID</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.get_pairID" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.get_pairP">
+<code class="sig-name descname"><span class="pre">get_pairP</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.get_pairP" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.get_typeID">
+<code class="sig-name descname"><span class="pre">get_typeID</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.get_typeID" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.set_angle">
+<code class="sig-name descname"><span class="pre">set_angle</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ap</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.set_angle" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.set_bond">
+<code class="sig-name descname"><span class="pre">set_bond</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.set_bond" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.set_dihedral">
+<code class="sig-name descname"><span class="pre">set_dihedral</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.set_dihedral" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.set_improper">
+<code class="sig-name descname"><span class="pre">set_improper</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.set_improper" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.set_pair">
+<code class="sig-name descname"><span class="pre">set_pair</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pp</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.set_pair" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.set_type">
+<code class="sig-name descname"><span class="pre">set_type</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atom</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.set_type" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.mapper.Mapper.set_types">
+<code class="sig-name descname"><span class="pre">set_types</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.mapper.Mapper.set_types" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.molecule">
+<span id="mollab-core-molecule-module"></span><h2>mollab.core.molecule module<a class="headerlink" href="#module-mollab.core.molecule" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.molecule.Molecule">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.molecule.</span></code><code class="sig-name descname"><span class="pre">Molecule</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">moleculeStyle</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.Molecule" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.item.Item" title="mollab.core.item.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.item.Item</span></code></a></p>
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.add_items">
+<code class="sig-name descname"><span class="pre">add_items</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.Molecule.add_items" title="永久链接至目标">¶</a></dt>
+<dd><p>向molecule中添加item</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.calc_centroid">
+<code class="sig-name descname"><span class="pre">calc_centroid</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.Molecule.calc_centroid" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.coords">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">coords</span></code><a class="headerlink" href="#mollab.core.molecule.Molecule.coords" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.distance_to">
+<code class="sig-name descname"><span class="pre">distance_to</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.Molecule.distance_to" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.duplicate">
+<code class="sig-name descname"><span class="pre">duplicate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.Molecule.duplicate" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.flatten">
+<code class="sig-name descname"><span class="pre">flatten</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isMol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.Molecule.flatten" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.move">
+<code class="sig-name descname"><span class="pre">move</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.Molecule.move" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.position">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">position</span></code><a class="headerlink" href="#mollab.core.molecule.Molecule.position" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.randmove">
+<code class="sig-name descname"><span class="pre">randmove</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.Molecule.randmove" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.rotate">
+<code class="sig-name descname"><span class="pre">rotate</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.Molecule.rotate" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.rotate_orth">
+<code class="sig-name descname"><span class="pre">rotate_orth</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">theta</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xAxis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yAxis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zAxis</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.Molecule.rotate_orth" title="永久链接至目标">¶</a></dt>
+<dd><p>围绕(x,y,z)点的x/y/z轴旋转theta角</p>
+<p>Raises:        self.x = pos[0]
+self.y = pos[1]
+self.z = pos[2]</p>
+<blockquote>
+<div><p>SyntaxError: [description]</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.seperate_with">
+<code class="sig-name descname"><span class="pre">seperate_with</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">targetItem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.Molecule.seperate_with" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.toDict">
+<code class="sig-name descname"><span class="pre">toDict</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.Molecule.toDict" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.molecule.Molecule.update">
+<code class="sig-name descname"><span class="pre">update</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.Molecule.update" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="mollab.core.molecule.lmpMolecule">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.molecule.</span></code><code class="sig-name descname"><span class="pre">lmpMolecule</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molId</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.lmpMolecule" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.molecule.Molecule" title="mollab.core.molecule.Molecule"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.molecule.Molecule</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="mollab.core.molecule.pdbMolecule">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.molecule.</span></code><code class="sig-name descname"><span class="pre">pdbMolecule</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molId</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.molecule.pdbMolecule" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.molecule.Molecule" title="mollab.core.molecule.Molecule"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.molecule.Molecule</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.report">
+<span id="mollab-core-report-module"></span><h2>mollab.core.report module<a class="headerlink" href="#module-mollab.core.report" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.report.Report">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.report.</span></code><code class="sig-name descname"><span class="pre">Report</span></code><a class="headerlink" href="#mollab.core.report.Report" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.select">
+<span id="mollab-core-select-module"></span><h2>mollab.core.select module<a class="headerlink" href="#module-mollab.core.select" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.select.Select">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.select.</span></code><code class="sig-name descname"><span class="pre">Select</span></code><a class="headerlink" href="#mollab.core.select.Select" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.topo">
+<span id="mollab-core-topo-module"></span><h2>mollab.core.topo module<a class="headerlink" href="#module-mollab.core.topo" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.topo.Topo">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.topo.</span></code><code class="sig-name descname"><span class="pre">Topo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">world</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.topo.Topo" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Topo类负责搜索拓扑结构, 包括bond, angle, dihedral和improper</p>
+<dl class="py method">
+<dt id="mollab.core.topo.Topo.search_angle">
+<code class="sig-name descname"><span class="pre">search_angle</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.topo.Topo.search_angle" title="永久链接至目标">¶</a></dt>
+<dd><p>生成angle的函数. 生成的时候会经过力场比对, 如果angle类型没有出现在已设定的forcefield中, 则会警告.</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>atoms</strong> (<em>list</em>) – atom的列表, 向下搜索两层neighbor</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>[[atom1, atom2, atom3], …]</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.topo.Topo.search_bond">
+<code class="sig-name descname"><span class="pre">search_bond</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.topo.Topo.search_bond" title="永久链接至目标">¶</a></dt>
+<dd><p>生成bond的函数. 生成的时候会经过力场比对, 如果bond类型没有出现在已设定的力场中, 则会报错并终止程序运行.</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><p><strong>atoms</strong> (<em>list</em>) – atom列表, 逐个搜索其neighbors</p>
+</dd>
+<dt class="field-even">返回</dt>
+<dd class="field-even"><p>[[atom1, atom2], …]</p>
+</dd>
+<dt class="field-odd">返回类型</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.topo.Topo.search_dihedral">
+<code class="sig-name descname"><span class="pre">search_dihedral</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.topo.Topo.search_dihedral" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.topo.Topo.search_improper">
+<code class="sig-name descname"><span class="pre">search_improper</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">atoms</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.topo.Topo.search_improper" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.topo.Topo.search_topo">
+<code class="sig-name descname"><span class="pre">search_topo</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">isBond</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isAngle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isDihedral</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isImproper</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isAbinitio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.topo.Topo.search_topo" title="永久链接至目标">¶</a></dt>
+<dd><p>Topo类的主调方法, 开始搜索拓扑结构</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>item</strong> (<em>Molecule|Atom</em>) – 待搜索的item</p></li>
+<li><p><strong>isBond</strong> (<em>bool</em><em>, </em><em>optional</em>) – 是否搜索bond. Defaults to True</p></li>
+<li><p><strong>isAngle</strong> (<em>bool</em><em>, </em><em>optional</em>) – 是否搜索angle. Defaults to True</p></li>
+<li><p><strong>isDihedral</strong> (<em>bool</em><em>, </em><em>optional</em>) – 是否搜索dihedral. Defaults to True</p></li>
+<li><p><strong>isAbinitio</strong> (<em>bool</em><em>, </em><em>optional</em>) – 是否从头搜索. Defaults to True</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.universe">
+<span id="mollab-core-universe-module"></span><h2>mollab.core.universe module<a class="headerlink" href="#module-mollab.core.universe" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.universe.Universe">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.universe.</span></code><code class="sig-name descname"><span class="pre">Universe</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">itemType</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.universe.Universe" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.item.Item" title="mollab.core.item.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.item.Item</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core.world">
+<span id="mollab-core-world-module"></span><h2>mollab.core.world module<a class="headerlink" href="#module-mollab.core.world" title="永久链接至标题">¶</a></h2>
+<dl class="py class">
+<dt id="mollab.core.world.World">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">mollab.core.world.</span></code><code class="sig-name descname"><span class="pre">World</span></code><a class="headerlink" href="#mollab.core.world.World" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#mollab.core.item.Item" title="mollab.core.item.Item"><code class="xref py py-class docutils literal notranslate"><span class="pre">mollab.core.item.Item</span></code></a></p>
+<dl class="py method">
+<dt id="mollab.core.world.World.add_items">
+<code class="sig-name descname"><span class="pre">add_items</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.world.World.add_items" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.angleCount">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">angleCount</span></code><a class="headerlink" href="#mollab.core.world.World.angleCount" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.angleTypeCount">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">angleTypeCount</span></code><a class="headerlink" href="#mollab.core.world.World.angleTypeCount" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.atomCount">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">atomCount</span></code><a class="headerlink" href="#mollab.core.world.World.atomCount" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.atomTypeCount">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">atomTypeCount</span></code><a class="headerlink" href="#mollab.core.world.World.atomTypeCount" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.atoms">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">atoms</span></code><a class="headerlink" href="#mollab.core.world.World.atoms" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.bondCount">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">bondCount</span></code><a class="headerlink" href="#mollab.core.world.World.bondCount" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.bondTypeCount">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">bondTypeCount</span></code><a class="headerlink" href="#mollab.core.world.World.bondTypeCount" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.dihedralCount">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">dihedralCount</span></code><a class="headerlink" href="#mollab.core.world.World.dihedralCount" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.dihedralTypeCount">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">dihedralTypeCount</span></code><a class="headerlink" href="#mollab.core.world.World.dihedralTypeCount" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.improperCount">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">improperCount</span></code><a class="headerlink" href="#mollab.core.world.World.improperCount" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.improperTypeCount">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">improperTypeCount</span></code><a class="headerlink" href="#mollab.core.world.World.improperTypeCount" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.set_angle">
+<code class="sig-name descname"><span class="pre">set_angle</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.world.World.set_angle" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.set_bond">
+<code class="sig-name descname"><span class="pre">set_bond</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">coeff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.world.World.set_bond" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.set_dihedral">
+<code class="sig-name descname"><span class="pre">set_dihedral</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.world.World.set_dihedral" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.set_improper">
+<code class="sig-name descname"><span class="pre">set_improper</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName4</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.world.World.set_improper" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.set_pair">
+<code class="sig-name descname"><span class="pre">set_pair</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">style</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">typeName2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">coeffs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#mollab.core.world.World.set_pair" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.xhi">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">xhi</span></code><a class="headerlink" href="#mollab.core.world.World.xhi" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.xlo">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">xlo</span></code><a class="headerlink" href="#mollab.core.world.World.xlo" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.yhi">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">yhi</span></code><a class="headerlink" href="#mollab.core.world.World.yhi" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.ylo">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">ylo</span></code><a class="headerlink" href="#mollab.core.world.World.ylo" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.zhi">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">zhi</span></code><a class="headerlink" href="#mollab.core.world.World.zhi" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="mollab.core.world.World.zlo">
+<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">zlo</span></code><a class="headerlink" href="#mollab.core.world.World.zlo" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mollab.core">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mollab.core" title="永久链接至标题">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">mollab</a></h1>
+
+
+
+
+
+
+
+
+<h3>导航</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">mollab</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="mollab.html">mollab package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="setup.html">setup module</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">mollab</a><ul>
+  <li><a href="mollab.html">mollab package</a><ul>
+      <li>Previous: <a href="mollab.html" title="上一章">mollab package</a></li>
+      <li>Next: <a href="mollab.core.potential.html" title="下一章">mollab.core.potential package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">快速搜索</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="转向" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Roy Kid.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/mollab.core.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
